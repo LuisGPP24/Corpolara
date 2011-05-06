@@ -29,7 +29,7 @@
         $this->descripcion = $valor;
     }
 
-    public function registrar_roles($cedula_bitacora,$modulo){
+    public function registrar_roles($cedula_bitacora,$id_modulo){
         try {
 
             if(
@@ -88,7 +88,7 @@
 
             $accion= "Ha registrado un nuevo permiso";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             $bd->commit();            
 
@@ -142,7 +142,7 @@
         
     }
 
-   public function modificar_rol($cedula_bitacora,$modulo){
+   public function modificar_rol($cedula_bitacora,$id_modulo){
         try {
 
             $bd = $this->conecta();
@@ -161,7 +161,7 @@
 
             $accion= "Ha modificado un permiso";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "Modificación con exito";
@@ -171,7 +171,7 @@
         }
     }
 
-    public function eliminar_rol($cedula_bitacora,$modulo){
+    public function eliminar_rol($cedula_bitacora,$id_modulo){
         try {
 
             $bd = $this->conecta();
@@ -187,7 +187,7 @@
 
             $accion= "Ha eliminado un permiso";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "eliminacion con exito";
@@ -261,7 +261,7 @@
         }
     }
 
-    public function guardar_permisos($cedula_bitacora,$modulo){
+    public function guardar_permisos($cedula_bitacora,$id_modulo){
         
         try{
             $bd = $this->conecta();
@@ -313,7 +313,7 @@
 
             $accion= "Ha actualizado los accesos de un permiso";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "permisos actualizados";

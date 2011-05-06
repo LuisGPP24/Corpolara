@@ -26,7 +26,7 @@
         $this->expediente = $valor;
     }
     
-    public function registrar_expediente($cedula_bitacora,$modulo) {
+    public function registrar_expediente($cedula_bitacora,$id_modulo) {
     try {
 
         if (!$this->evaluar_caracteres("/^[A-Za-z0-9áéíóúÁÉÍÓÚñÑs]{1,100}$/", $this->trabajador)) {
@@ -77,7 +77,7 @@
 
         $accion= "Ha registrado un nuevo expediente";
 
-        parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+        parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
         http_response_code(200);
         return "Registro exitoso";
@@ -110,7 +110,7 @@
         
     }
 
-    public function eliminar_registro($cedula_bitacora,$modulo){
+    public function eliminar_registro($cedula_bitacora,$id_modulo){
         try {
 
             $bd = $this->conecta();
@@ -126,7 +126,7 @@
 
             $accion= "Ha eliminado un expediente";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
             
         } catch (PDOException $e) {
             http_response_code(500);

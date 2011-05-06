@@ -30,7 +30,7 @@
         $this->fecha = $valor;
     }
 
-    public function registrar_insumo($cedula_bitacora,$modulo){
+    public function registrar_insumo($cedula_bitacora,$id_modulo){
         try {
 
             if($this->existe_insumo($this->codigo)){
@@ -54,7 +54,7 @@
 
             $accion= "Ha registrado un producto en inventario";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "registro exitoso";
@@ -86,7 +86,7 @@
         
     }
 
-    public function modificar_insumo($cedula_bitacora,$modulo){
+    public function modificar_insumo($cedula_bitacora,$id_modulo){
         try {
 
             if (!$this->existe_insumo($this->codigo)) {
@@ -110,7 +110,7 @@
 
             $accion= "Ha modificado un producto en inventario";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "Modificación con exito";
@@ -120,7 +120,7 @@
         }
     }
 
-    public function eliminar_insumo($cedula_bitacora,$modulo){
+    public function eliminar_insumo($cedula_bitacora,$id_modulo){
         try {
 
             $bd = $this->conecta();
@@ -136,7 +136,7 @@
 
             $accion= "Ha eliminado un producto en inventario";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "eliminacion con exito";

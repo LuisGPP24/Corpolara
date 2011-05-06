@@ -98,7 +98,7 @@
         $this->covid = $valor;
     }
 
-    public function registrar_trabajador($cedula_bitacora,$modulo){
+    public function registrar_trabajador($cedula_bitacora,$id_modulo){
         try {
 
             if(
@@ -165,7 +165,7 @@
 
             $accion= "Ha registrado un nuevo Trabajador";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "registro exitoso";
@@ -197,16 +197,8 @@
         
     }
 
-    public function modificar_trabajador($cedula_bitacora,$modulo){
+    public function modificar_trabajador($cedula_bitacora,$id_modulo){
         try {
-            /*if (
-                !$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula) ||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/", $this->nombre) ||
-                !$this->evaluar_caracteres("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", $this->correo)
-            ) {
-                http_response_code(400);
-                return "Caracteres inválidos";
-            }*/
 
             if (!$this->existe_trabajador($this->cedula)) {
                 http_response_code(400);
@@ -246,7 +238,7 @@
 
             $accion= "Ha modificado un Trabajador";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "Modificación con exito";
@@ -256,7 +248,7 @@
         }
     }
 
-    public function eliminar_trabajador($cedula_bitacora,$modulo){
+    public function eliminar_trabajador($cedula_bitacora,$id_modulo){
         try {
             if(!$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula)){
                 http_response_code(400);
@@ -281,7 +273,7 @@
 
             $accion= "Ha eliminado a un Trabajador";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "eliminacion con exito";
@@ -297,7 +289,6 @@
             		return $e->getMessage();
             		break;
             }
-            //return $e->getMessage();
         }
     }
 

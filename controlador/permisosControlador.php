@@ -1,4 +1,5 @@
 <?php
+
 $id_modulo = 18;
 
 $index_modulo = array_search($id_modulo, array_column($_SESSION["permisos"], "id_modulos"));
@@ -33,14 +34,6 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
     else{
         $cedula_bitacora = "";
     }
- 
-    if(isset($_SESSION['rol'])){
-        $rol_usuario = $_SESSION['rol'];
-    }else{
-        $rol_usuario = "";
-    }
-
-    $modulo = 18;
 
     if (isset($_POST['accion'])) {
 
@@ -53,7 +46,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_id_rol($idRol);
             $objeto->set_permisos($permisos);
 
-            echo $objeto->guardar_permisos($cedula_bitacora,$modulo);
+            echo $objeto->guardar_permisos($cedula_bitacora,$id_modulo);
             exit;
         }
         if($accion == "consulta_accesos"){
@@ -72,7 +65,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_nombre($nombre);
             $objeto->set_descripcion($descripcion);
             
-            echo $objeto->registrar_roles($cedula_bitacora,$modulo);
+            echo $objeto->registrar_roles($cedula_bitacora,$id_modulo);
             exit;
         }
 
@@ -86,7 +79,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_nombre($nombre);
             $objeto->set_descripcion($descripcion);
 
-            echo $objeto->modificar_rol($cedula_bitacora,$modulo);
+            echo $objeto->modificar_rol($cedula_bitacora,$id_modulo);
             exit;
         }
 
@@ -94,7 +87,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $id = $_POST['id'];
 
             $objeto->set_id($id);
-            echo $objeto->eliminar_rol($cedula_bitacora,$modulo);
+            echo $objeto->eliminar_rol($cedula_bitacora,$id_modulo);
             exit;
         }
     }

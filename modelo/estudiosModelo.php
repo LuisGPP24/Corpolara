@@ -30,7 +30,7 @@
         $this->patologia = $valor;
     }
     
-    public function registrar_estudios($cedula_bitacora,$modulo){
+    public function registrar_estudios($cedula_bitacora,$id_modulo){
         try {
                       
             if($this->existe_codigo($this->codigo_registro)){
@@ -56,7 +56,7 @@
 
             $accion= "Ha registrado una solicitud de Estudios médicos";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "registro exitoso";
@@ -88,7 +88,7 @@
         
     }
 
-   public function modificar_estudios($cedula_bitacora,$modulo){
+   public function modificar_estudios($cedula_bitacora,$id_modulo){
         try {
             
             $bd = $this->conecta();
@@ -107,7 +107,7 @@
 
             $accion= "Ha modificado una solicitud de Estudios médicos";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "Modificación con exito";
@@ -117,7 +117,7 @@
         }
     }
 
-    public function eliminar_registro($cedula_bitacora,$modulo){
+    public function eliminar_registro($cedula_bitacora,$id_modulo){
         try {
 
             $bd = $this->conecta();
@@ -133,7 +133,7 @@
 
             $accion= "Ha eliminado una solicitud de Estudios médicos";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "eliminacion con exito";

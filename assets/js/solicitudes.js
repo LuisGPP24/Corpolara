@@ -10,7 +10,94 @@ var Toast = Swal.mixin({
   },
 });
 
-$(document).ready(function () {
+$(document).ready(function () {   
+      
+  $("#btn_registrar").click(function (e) {       
+  $("#modalSolicitudesLabel").text('Registro de Solicitudes');       
+  $("#registrar").show();
+  $("#modificar").hide();        
+  $("#codigo").removeAttr("disabled");        
+  $("#numero_registro").removeAttr("disabled");        
+  $("#trabajador").removeAttr("disabled");        
+  borrarForm();    
+});     
+  
+$("#modalSolicitudes").submit(function (e) {        
+  e.preventDefault();
+
+// Obtener los valores de los montos   
+     
+const montoSolicitado = $("#monto_solicitado").val();        
+const montoAprobado = $("#monto_aprobado").val();  
+              
+// Expresión regular para validar el formato "600.00"
+        
+const regex = /^d+(.d{2})?$/;
+        // Validar los montos       
+if (!regex.test(montoSolicitado)) { 
+           
+alert("Por favor, ingrese un monto solicitado válido en el formato 600.00"); 
+           
+return; 
+
+// Detener el envío del formulario        
+}
+        if (!regex.test(montoAprobado)) {            
+alert("Por favor, ingrese un monto aprobado válido en el formato 600.00");            
+return; // Detener el envío del formulario      
+  }
+        const data = new FormData();
+        const btn_clicked = e.originalEvent.submitter.id;
+        data.append("accion", btn_clicked);
+        data.append("id", $("#id").val());        
+        data.append("codigo", $("#codigo").val());        
+        data.append("numero_registro", $("#numero_registro").val());        
+        data.append("trabajador", $("#trabajador").val());        
+        data.append("cedula", $("#cedula").val());        
+        data.append("nombre", $("#nombre").val());        
+        data.append("telefono", $("#telefono").val());        
+        data.append("tipo_solicitud", $("#tipo_solicitud").val());        
+        data.append("sub_tipo_solicitud", $("#sub_tipo_solicitud").val());        
+        data.append("estado_solicitud", $("#estado_solicitud").val());        
+        data.append("descripcion", $("#descripcion").val());        
+        data.append("financiado", $("#financiado").val());        
+        data.append("remitido", $("#remitido").val());        
+        data.append("monto_solicitado", montoSolicitado);        
+        data.append("monto_aprobado", montoAprobado);        
+        data.append("fecha_registro", $("#fecha_registro").val());        
+        data.append("condicion", $("#condicion").val());        
+        data.append("estatus", $("#estatus").val());        
+        data.append("observacion", $("#observacion").val());               
+        $.ajax({          
+          async: true,          
+          url: " ",          
+          type: "POST",          
+          contentType: false,          
+          data: data,          
+          processData: false,          
+          cache: false,          
+          success: function (response) {                           
+            Toast.fire({                
+              icon: "success",                
+              text: response,                
+              title: "Muy Bien!!",              
+            });          
+          },          
+          error: function ({ responseText }, status, error) {            
+            Toast.fire({              
+              icon: "error",              
+              title: responseText,            
+            });          
+          },          
+          complete: function () {                
+            $("#modalSolicitudes").modal("hide");                
+            borrarForm();            
+          },        
+        });    
+      });
+});
+
+/*$(document).ready(function () {
     
     $("#btn_registrar").click(function (e) {
         $("#modalSolicitudesLabel").text('Registro de Solicitudes');
@@ -23,8 +110,8 @@ $(document).ready(function () {
     });
     
     $("#modalSolicitudes").submit(function (e) { 
-        e.preventDefault();
-        
+        e.preventDefault(); 
+
         const data = new FormData();
 
         const btn_clicked = e.originalEvent.submitter.id;
@@ -79,7 +166,7 @@ $(document).ready(function () {
             },
         });
     });
-});
+});*/
 
 function borrarForm() {
 

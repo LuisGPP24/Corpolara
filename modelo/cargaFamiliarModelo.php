@@ -59,7 +59,7 @@ class cargaFamiliarModelo extends conexion{
         $this->fecha_ingreso = $valor;
     }
 
-    public function registrar_familiar($cedula_bitacora,$modulo){
+    public function registrar_familiar($cedula_bitacora,$id_modulo){
         try {
 
             if(
@@ -77,7 +77,7 @@ class cargaFamiliarModelo extends conexion{
 
             $accion= "Ha registrado una carga familiar";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             
             $bd = $this->conecta();
@@ -136,7 +136,7 @@ class cargaFamiliarModelo extends conexion{
         
     }
 
-   public function modificar_familiar($cedula_bitacora,$modulo){
+   public function modificar_familiar($cedula_bitacora,$id_modulo){
         try {
 
             $bd = $this->conecta();
@@ -164,7 +164,7 @@ class cargaFamiliarModelo extends conexion{
 
             $accion= "Ha modificado una carga familiar";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "Modificación con exito";
@@ -174,7 +174,7 @@ class cargaFamiliarModelo extends conexion{
         }
     }
 
-    public function eliminar_familiar($cedula_bitacora,$modulo){
+    public function eliminar_familiar($cedula_bitacora,$id_modulo){
         try {
 
             $bd = $this->conecta();
@@ -190,7 +190,7 @@ class cargaFamiliarModelo extends conexion{
 
             $accion= "Ha eliminado una carga familiar";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "eliminacion con exito";

@@ -35,14 +35,6 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
     else{
         $cedula_bitacora = "";
     }
- 
-    if(isset($_SESSION['rol'])){
-        $rol_usuario = $_SESSION['rol'];
-    }else{
-        $rol_usuario = "";
-    }
-
-    $modulo = 3;
 
     if (isset($_POST['accion'])) {
 
@@ -74,7 +66,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_correo($correo);
             $objeto->set_fecha_ingreso($fecha_ingreso);
             
-            echo $objeto->registrar_familiar($cedula_bitacora,$modulo);
+            echo $objeto->registrar_familiar($cedula_bitacora,$id_modulo);
             exit;
         }
 
@@ -106,7 +98,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_fecha_ingreso($fecha_ingreso);
             $objeto->set_id($id);
 
-            echo $objeto->modificar_familiar($cedula_bitacora,$modulo);
+            echo $objeto->modificar_familiar($cedula_bitacora,$id_modulo);
             exit;
         }
 
@@ -114,7 +106,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $id = $_POST['id'];
 
             $objeto->set_id($id);
-            echo $objeto->eliminar_familiar($cedula_bitacora,$modulo);
+            echo $objeto->eliminar_familiar($cedula_bitacora,$id_modulo);
             exit;
         }
     }

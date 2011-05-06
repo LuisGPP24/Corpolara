@@ -26,23 +26,15 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
     $objeto = new AntecedentesModelo();
 
     if(empty($_SESSION)){
-            session_start();
-        }
-        
-        if(isset($_SESSION['cedula'])){
-            $cedula_bitacora = $_SESSION['cedula'];
-        }
-        else{
-            $cedula_bitacora = "";
-        }
- 
-        if(isset($_SESSION['rol'])){
-            $rol_usuario = $_SESSION['rol'];
-        }else{
-            $rol_usuario = "";
+        session_start();
     }
-
-    $modulo = 2;
+        
+    if(isset($_SESSION['cedula'])){
+        $cedula_bitacora = $_SESSION['cedula'];
+    }
+    else{
+        $cedula_bitacora = "";
+    }
 
     if (isset($_POST['accion'])) {
 
@@ -92,7 +84,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_antecedentes_tabaquismo($antecedentes_tabaquismo);
             $objeto->set_antecedentes_alcoholismo($antecedentes_alcoholismo);
 
-            echo $objeto->registrar_antecedentes($cedula_bitacora,$modulo);
+            echo $objeto->registrar_antecedentes($cedula_bitacora,$id_modulo);
             exit;
         }
 
@@ -140,7 +132,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_antecedentes_tabaquismo($antecedentes_tabaquismo);
             $objeto->set_antecedentes_alcoholismo($antecedentes_alcoholismo);
 
-            echo $objeto->modificar_antecedentes($cedula_bitacora,$modulo);
+            echo $objeto->modificar_antecedentes($cedula_bitacora,$id_modulo);
             exit;
         }
 
@@ -148,7 +140,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $trabajador = $_POST['trabajador'];
 
             $objeto->set_trabajador($trabajador);
-            echo $objeto->eliminar_antecedente($cedula_bitacora,$modulo);
+            echo $objeto->eliminar_antecedente($cedula_bitacora,$id_modulo);
             exit;
         }
     }

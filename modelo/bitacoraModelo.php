@@ -29,7 +29,7 @@
         }        
     }
 
-    public function vaciar_bitacora($cedula_bitacora,$modulo){
+    public function vaciar_bitacora($cedula_bitacora,$id_modulo){
         
         try{
             $co = $this->conecta();
@@ -39,8 +39,7 @@
            $stmt = $co->prepare("TRUNCATE TABLE bitacora;");
 
             $stmt->execute();
-
-            // Verificar si la tabla se vació correctamente
+            
             $rowCount = $stmt->rowCount();
 
                 
@@ -50,7 +49,7 @@
                 
                 $accion= "Ha vaciado la tabla de bitácoras";
 
-                parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);    
+                parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);    
                 
                 http_response_code(200);
                 return 'Tabla vaciada correcctamente';

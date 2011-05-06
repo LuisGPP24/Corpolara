@@ -30,7 +30,7 @@
         $this->monto = $valor;
     }
     
-    public function registrar_factura($cedula_bitacora,$modulo){
+    public function registrar_factura($cedula_bitacora,$id_modulo){
         try {
 
             if(
@@ -65,7 +65,7 @@
 
             $accion= "Ha registrado una nueva Factura";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "Registro exitoso";
@@ -97,7 +97,7 @@
         
     }
 
-   public function modificar_factura($cedula_bitacora,$modulo){
+   public function modificar_factura($cedula_bitacora,$id_modulo){
         try {
             
             $bd = $this->conecta();
@@ -116,7 +116,7 @@
 
             $accion= "Ha modificado una Factura";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "Modificación con exito";
@@ -126,17 +126,8 @@
         }
     }
 
-    public function eliminar_factura($cedula_bitacora,$modulo){
+    public function eliminar_factura($cedula_bitacora,$id_modulo){
         try {
-            /*if(!$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula)){
-                http_response_code(400);
-                return "Caracteres inválidos";
-            }*/
-
-            /*if (!$this->existe_codigo($this->codigo_registro)){
-                http_response_code(400);
-                return "Este Registro No existe";
-            }*/
 
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -151,7 +142,7 @@
 
             $accion= "Ha eliminado una Factura";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "eliminacion con exito";

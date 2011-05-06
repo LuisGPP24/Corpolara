@@ -34,7 +34,7 @@
         $this->entregado = $valor;
     }
     
-    public function registrar_salida($cedula_bitacora,$modulo){
+    public function registrar_salida($cedula_bitacora,$id_modulo){
         try {
 
             if(
@@ -46,14 +46,23 @@
             ){
             	http_response_code(400);
                 return "Caraceteres inválidos";
-            }                    
+            }
+
+            $cantidad_insumo = $this->cantidad_insumo_disponible($this->insumo);
+
+            if ($this->cantidad > $cantidad_insumo){
+            	
+                http_response_code(400);
+                return "No hay suficiente cantidad de este insumo para descontar";
+            }                 
                         
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $bd->beginTransaction();
+            
 
             $sql = "INSERT INTO salida_insumos (id_trabajadores, id_inventario, fecha, cantidad, entregado_por) VALUES (:trabajadores,:inventario,:fecha,:cantidad,:entregado)";
+
+            $this->descontar_insumo();
 
             $stmt = $bd->prepare($sql);
             
@@ -65,26 +74,18 @@
                 ":cantidad" => $this->cantidad,
                 ":entregado" => $this->entregado
 
-            ));
-
-            if (!$this->descontar_insumo()) {
-                $bd->rollBack();
-                http_response_code(400);
-                return "No hay suficiente insumo";
-            }
+            ));            
 
             $accion= "Ha registrado una salida de insumo";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
-            $bd->commit();
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
+            
             
             http_response_code(200);
             return "registro exitoso";
             
         } catch (PDOException $e) {
-            if ($bd->inTransaction()) {
-                $bd->rollBack();
-            }
+            
 
             http_response_code(500);
             return $e->getMessage();
@@ -112,7 +113,7 @@
         
     }
 
-    public function eliminar_registro($cedula_bitacora,$modulo){
+    public function eliminar_registro($cedula_bitacora,$id_modulo){
         try {
 
             $bd = $this->conecta();
@@ -128,7 +129,7 @@
 
             $accion= "Ha eliminado una salida de insumo";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "eliminacion con exito";
@@ -205,27 +206,25 @@
     }
 
     public function descontar_insumo(){
+    try {
+        $bd = $this->conecta();
+        $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        try{
-            $bd = $this->conecta();
-            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $sql = "UPDATE inventario SET cantidad = (cantidad - :cantidad) where id = :inventario";
-
-            $stmt = $bd->prepare($sql);          
-
-            $stmt->execute(array(
-                ":inventario" => $this->insumo,
-                ":cantidad" => $this->cantidad
-            ));           
-
-            return true;
-
-        } catch (PDOException $e) {
-            http_response_code(500);
-            return false;
-        }        
-    }
+        $sql = "UPDATE inventario SET cantidad = (cantidad - :cantidad) WHERE id = :inventario";
+        $stmt = $bd->prepare($sql);        
+        
+        $stmt->execute(array(
+            ":inventario" => $this->insumo,
+            ":cantidad" => $this->cantidad
+        ));
+        
+        return true;       
+        
+    } catch (PDOException $e) {
+        http_response_code(500);
+        return false;
+    }        
+}
 
     public function cantidad_insumo_disponible($insumo){
 
@@ -242,6 +241,7 @@
             ));           
 
             $cantidad = $stmt->fetch(PDO::FETCH_ASSOC);
+
             http_response_code(200);
 
             return $cantidad ? $cantidad["cantidad"] : 0;

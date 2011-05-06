@@ -34,6 +34,10 @@
                                 </div>
                                 <div class="col-auto">
 
+                                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#" id=''>
+                                        Exportar
+                                    </button>
+
                                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalSolicitudes" id='btn_registrar'>
                                         Registrar
                                     </button>

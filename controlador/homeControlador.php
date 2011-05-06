@@ -17,7 +17,7 @@
 
             if($accion == "envio"){
                 
-                $saludar = "Hola Diego";
+                $saludar = "Hola";
                 http_response_code(200);
                 echo $saludar;
                 exit;

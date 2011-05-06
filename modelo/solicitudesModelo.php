@@ -85,7 +85,7 @@
         $this->observacion = $valor;
     }
 
-    public function registrar_solicitud($cedula_bitacora,$modulo){
+    public function registrar_solicitud($cedula_bitacora,$id_modulo){
         try {
 
             if(
@@ -143,7 +143,7 @@
 
             $accion= "Ha registrado una nueva Solicitud";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "registro exitoso";
@@ -179,7 +179,7 @@
         
     }
 
-   public function modificar_solicitud($cedula_bitacora,$modulo){
+   public function modificar_solicitud($cedula_bitacora,$id_modulo){
         try {
 
             $bd = $this->conecta();
@@ -210,7 +210,7 @@
 
             $accion= "Ha modificado una Solicitud";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "Modificación con exito";
@@ -220,7 +220,7 @@
         }
     }
 
-    public function eliminar_solicitud($cedula_bitacora,$modulo){
+    public function eliminar_solicitud($cedula_bitacora,$id_modulo){
         try {
 
             $bd = $this->conecta();
@@ -236,7 +236,7 @@
 
             $accion= "Ha eliminado una Solicitud";
 
-            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+            parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
 
             http_response_code(200);
             return "eliminacion con exito";

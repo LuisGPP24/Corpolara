@@ -102,6 +102,7 @@ function borrarForm() {
    $('#trabajador').val('');
    $('#cantidad').val('');
    $('#entregado').val('');
+   $('#cantidad_insumo').val('');
    
 }
 

@@ -10,8 +10,7 @@ if ($index_modulo !== false) {
     if ($permiso["acceso"] == 0) {
 
         echo "No tienes permisos para acceder a este módulo";
-        exit;
-        
+        exit;        
     }
 }
 
@@ -28,23 +27,16 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
     $objeto = new trabajadoresModelo();
 
     if(empty($_SESSION)){
-            session_start();
-        }
-        
-        if(isset($_SESSION['cedula'])){
-            $cedula_bitacora = $_SESSION['cedula'];
-        }
-        else{
-            $cedula_bitacora = "";
-        }
- 
-        if(isset($_SESSION['rol'])){
-            $rol_usuario = $_SESSION['rol'];
-        }else{
-            $rol_usuario = "";
+        session_start();
     }
+        
+    if(isset($_SESSION['cedula'])){
 
-    $modulo = 1;
+        $cedula_bitacora = $_SESSION['cedula'];
+
+    }else{
+        $cedula_bitacora = "";
+    }
 
     if (isset($_POST['accion'])) {
 
@@ -96,7 +88,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_vacunas($vacunas);
             $objeto->set_covid($covid);
 
-            echo $objeto->registrar_trabajador($cedula_bitacora,$modulo);
+            echo $objeto->registrar_trabajador($cedula_bitacora,$id_modulo);
             exit;
         }
 
@@ -146,7 +138,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_vacunas($vacunas);
             $objeto->set_covid($covid);
 
-            echo $objeto->modificar_trabajador($cedula_bitacora,$modulo);
+            echo $objeto->modificar_trabajador($cedula_bitacora,$id_modulo);
             exit;
         }
 
@@ -154,7 +146,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $cedula = $_POST['cedula'];
 
             $objeto->set_cedula($cedula);
-            echo $objeto->eliminar_trabajador($cedula_bitacora,$modulo);
+            echo $objeto->eliminar_trabajador($cedula_bitacora,$id_modulo);
             exit;
         }
     }

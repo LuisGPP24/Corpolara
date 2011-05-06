@@ -1,5 +1,19 @@
 <?php
 
+$id_modulo = 14;
+
+$index_modulo = array_search($id_modulo, array_column($_SESSION["permisos"], "id_modulos"));
+
+if ($index_modulo !== false) {
+    $permiso = $_SESSION["permisos"][$index_modulo];
+
+    if ($permiso["acceso"] == 0) {
+
+        echo "No tienes permisos para acceder a este módulo";
+        exit;        
+    }
+}
+
 if (!is_file("modelo/" . $pagina . "Modelo.php")) {
     echo "modelo no existe";
     exit;
@@ -21,14 +35,6 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
         else{
             $cedula_bitacora = "";
         }
- 
-        if(isset($_SESSION['rol'])){
-            $rol_usuario = $_SESSION['rol'];
-        }else{
-            $rol_usuario = "";
-    }
-
-    $modulo = 14;
 
     if (isset($_POST['accion'])) {
 
@@ -56,7 +62,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_especialidad($doctor);
             $objeto->set_observacion($observacion);
             
-            echo $objeto->registrar_morbilidad($cedula_bitacora,$modulo);
+            echo $objeto->registrar_morbilidad($cedula_bitacora,$id_modulo);
             exit;
         }
 
@@ -84,7 +90,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_observacion($observacion);
             $objeto->set_id($id);
 
-            echo $objeto->modificar_consulta($cedula_bitacora,$modulo);
+            echo $objeto->modificar_consulta($cedula_bitacora,$id_modulo);
             exit;
         }
 
@@ -92,7 +98,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $id = $_POST['id'];
 
             $objeto->set_id($id);
-            echo $objeto->eliminar_consulta($cedula_bitacora,$modulo);
+            echo $objeto->eliminar_consulta($cedula_bitacora,$id_modulo);
             exit;
         }
     }
