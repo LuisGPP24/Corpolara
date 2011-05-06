@@ -45,8 +45,7 @@ use Dompdf\Options;
         }
     }
 
-    public function consulta_trabajadores()
-    {
+    public function consulta_trabajadores(){
 
         try {
 
@@ -123,7 +122,7 @@ use Dompdf\Options;
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "SELECT SUM(monto_aprobado) as monto_total_bs, SUM(monto_divisas) as monto_total_divisa FROM solicitudes WHERE id_trabajadores = :id_trabajadores and cedula_solicitante = :solicitante";
+            $sql = "SELECT SUM(monto_aprobado) as monto_total_bs, SUM(monto_divisas) as monto_total_divisa FROM solicitudes WHERE id_trabajadores = :id_trabajadores and cedula_solicitante = :solicitante and estatus = 'aprobado'";
 
             $stmt = $bd->prepare($sql);
             $stmt->execute([":id_trabajadores" => $this->trabajador, ":solicitante" => $this->solicitante]);
@@ -140,6 +139,94 @@ use Dompdf\Options;
         }
     }
 
+    private function getMontos_farmacia(){
+        try{
+            $bd = $this->conecta();
+            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $sql = "SELECT SUM(monto_aprobado) as monto_total_bs_farmacia, SUM(monto_divisas) as monto_total_divisas_farmacia FROM solicitudes WHERE cedula_solicitante = :cedula and tipo_solicitud = 'farmacia' and estatus = 'aprobado'";
+
+            $stmt = $bd->prepare($sql);
+            $stmt->execute([":cedula" => $this->solicitante]);
+
+            $montos_farmacia = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$montos_farmacia) {
+                return null;
+            }
+
+            return $montos_farmacia;
+        } catch(PDOException $e){
+            return null;
+        }
+    }
+
+    private function getMontos_aps(){
+        try{
+            $bd = $this->conecta();
+            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $sql = "SELECT SUM(monto_aprobado) as monto_total_bs_aps, SUM(monto_divisas) as monto_total_divisas_aps FROM solicitudes WHERE cedula_solicitante = :cedula and tipo_solicitud in ('estudios', 'consultas', 'ecografias', 'examenes') and estatus = 'aprobado'";
+
+            $stmt = $bd->prepare($sql);
+            $stmt->execute([":cedula" => $this->solicitante]);
+
+            $montos_aps = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$montos_aps) {
+                return null;
+            }
+
+            return $montos_aps;
+        } catch(PDOException $e){
+            return null;
+        }
+    }
+
+    private function getMontos_reembolso(){
+        try{
+            $bd = $this->conecta();
+            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $sql = "SELECT SUM(monto_aprobado) as monto_total_bs_reembolso, SUM(monto_divisas) as monto_total_divisas_reembolso FROM solicitudes WHERE cedula_solicitante = :cedula and tipo_solicitud = 'reembolso' and estatus = 'aprobado'";
+
+            $stmt = $bd->prepare($sql);
+            $stmt->execute([":cedula" => $this->solicitante]);
+
+            $montos_reembolso = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$montos_reembolso) {
+                return null;
+            }
+
+            return $montos_reembolso;
+        } catch(PDOException $e){
+            return null;
+        }
+    }
+
+    private function getMontos_funeraria(){
+        try{
+            $bd = $this->conecta();
+            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $sql = "SELECT SUM(monto_aprobado) as monto_total_bs_funeraria, SUM(monto_divisas) as monto_total_divisas_funeraria FROM solicitudes WHERE cedula_solicitante = :cedula and tipo_solicitud = 'funeraria' and estatus = 'aprobado'";
+
+            $stmt = $bd->prepare($sql);
+            $stmt->execute([":cedula" => $this->solicitante]);
+
+            $montos_funeraria = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$montos_funeraria) {
+                return null;
+            }
+
+            return $montos_funeraria;
+        } catch(PDOException $e){
+            return null;
+        }
+    }
+
     public function generarReporte(){
 
         try {
@@ -150,16 +237,20 @@ use Dompdf\Options;
             $infoSolicitante = $this->getInfoSolicitante();
             $solicitudes = $this->listarSolicitudes();
             $getMontos = $this->getMontos();
+            $getMontosFarmacia = $this->getMontos_farmacia();
+            $getMontoAps = $this->getMontos_aps();
+            $getMontoReembolso = $this->getMontos_reembolso();
+            $getMontoFuneraria = $this->getMontos_funeraria();
 
             if (!$infoTrabajador) {
                 http_response_code(400);
-                echo json_encode(["error" => "No se encontró el trabajador"]);
+                echo json_encode(["error" => "No se encontro el trabajador"]);
                 return;
             }
             
             if (!$infoSolicitante) {
                 http_response_code(400);
-                echo json_encode(["error" => "No se encontró el solicitante"]);
+                echo json_encode(["error" => "No se encontro el solicitante"]);
                 return;
             }
             
@@ -172,6 +263,12 @@ use Dompdf\Options;
             if (!$getMontos) {
                 http_response_code(400);
                 echo json_encode(["error" => "No hay montos totales"]);
+                return;
+            }
+
+            if (!$getMontosFarmacia) {
+                http_response_code(400);
+                echo json_encode(["error" => "No hay montos totales de farmacia"]);
                 return;
             }
 
@@ -197,6 +294,58 @@ use Dompdf\Options;
             $monto_total_bs = $getMontos["monto_total_bs"];
             $monto_total_divisa = $getMontos["monto_total_divisa"];
 
+            $monto_total_Bs_farmacia = $getMontosFarmacia["monto_total_bs_farmacia"];
+            $monto_total_divisa_farmacia = $getMontosFarmacia["monto_total_divisas_farmacia"];
+
+            $monto_total_Bs_aps = $getMontoAps["monto_total_bs_aps"];
+            $monto_total_divisa_aps = $getMontoAps["monto_total_divisas_aps"];
+
+            $monto_total_Bs_reembolso = $getMontoReembolso["monto_total_bs_reembolso"];
+            $monto_total_divisa_reembolso = $getMontoReembolso["monto_total_divisas_reembolso"];
+
+            $monto_total_Bs_funeraria = $getMontoFuneraria["monto_total_bs_funeraria"];
+            $monto_total_divisa_funeraria = $getMontoFuneraria["monto_total_divisas_funeraria"];
+
+            //PARA EL PORCENTAJE DE POLIZAS
+
+            $poliza_farmacia = 600;
+
+            $porcentaje = ($monto_total_divisa_farmacia / $poliza_farmacia) * 100;
+
+            $porcentaje_formateado = number_format($porcentaje, 2);
+
+            //FIN DE CALCULO DE POLIZAS
+
+            //PARA EL PORCENTAJE DE POLIZAS APS
+
+            $poliza_aps = 600;
+
+            $porcentajeAPS = ($monto_total_divisa_aps / $poliza_aps) * 100;
+
+            $porcentaje_formateado_aps = number_format($porcentajeAPS, 2);
+
+            //FIN DE CALCULO DE POLIZAS APS
+
+            //PARA EL PORCENTAJE DE POLIZAS REEMBOLSO
+
+            $poliza_reembolso = 600;
+
+            $porcentajeReembolso = ($monto_total_divisa_reembolso / $poliza_reembolso) * 100;
+
+            $porcentaje_formateado_reembolso = number_format($porcentajeReembolso, 2);
+
+            //FIN DE CALCULO DE POLIZAS REEMBOLSO
+
+            //PARA EL PORCENTAJE DE POLIZAS REEMBOLSO
+
+            $poliza_funeraria = 600;
+
+            $porcentajeFuneraria = ($monto_total_divisa_funeraria / $poliza_funeraria) * 100;
+
+            $porcentaje_formateado_funeraria = number_format($porcentajeFuneraria, 2);
+
+            //FIN DE CALCULO DE POLIZAS REEMBOLSO
+
             $tabla_solicitudes = "";
             
             foreach($solicitudes as $solicitud){
@@ -208,8 +357,8 @@ use Dompdf\Options;
                 $tabla_solicitudes .= "<td style='border: 0.75pt solid #000; padding: 5px;text-align: center; font-family: Arial; font-size: 10pt;'>".$solicitud["descripcion_solicitud"]."</td>";
                 $tabla_solicitudes .= "<td style='border: 0.75pt solid #000; padding: 5px;text-align: center; font-family: Arial; font-size: 10pt;'>".$solicitud["remitido"]."</td>";
                 $tabla_solicitudes .= "<td style='border: 0.75pt solid #000; padding: 5px;text-align: center; font-family: Arial; font-size: 10pt;'>".$solicitud["estatus"]."</td>";
-                $tabla_solicitudes .= "<td style='border: 0.75pt solid #000; padding: 5px;text-align: center; font-family: Arial; font-size: 10pt;'>".$solicitud["monto_aprobado"]."bs</td>";
-                $tabla_solicitudes .= "<td style='border: 0.75pt solid #000; padding: 5px;text-align: center; font-family: Arial; font-size: 10pt;'>".$solicitud["monto_divisas"]."$</td>";
+                $tabla_solicitudes .= "<td style='border: 0.75pt solid #000; padding: 5px;text-align: center; font-family: Arial; font-size: 10pt;'>".$solicitud["monto_aprobado"]." bs</td>";
+                $tabla_solicitudes .= "<td style='border: 0.75pt solid #000; padding: 5px;text-align: center; font-family: Arial; font-size: 10pt;'>".$solicitud["monto_divisas"]." $</td>";
                 $tabla_solicitudes .= "</tr>";
             }
 
@@ -221,7 +370,7 @@ use Dompdf\Options;
 </head>
     <body>
         <div>    
-            <img src='https://seeklogo.com/images/C/corpolara-logo-46E171FECB-seeklogo.com.gif' style='width:250px'>
+            <img src='https://seeklogo.com/images/C/corpolara-logo-46E171FECB-seeklogo.com.gif' style='width:50px'>
 
             <p style='margin-top:0pt; margin-bottom:10pt; text-align:center; line-height:115%; font-size:16pt;'>
                 <span style='font-family:Arial;'>
@@ -229,14 +378,18 @@ use Dompdf\Options;
                 </span>
             </p>
 
-            <p style='margin-top:0pt; margin-bottom:10pt; text-align:justify; line-height:115%; font-size:12pt;'><span style='font-family:Arial;'>
+            <p style='margin-top:0pt; margin-bottom:10pt; text-align:justify; line-height:115%; font-size:12pt;'>
+
                 <span style='font-family:Arial;'>                    
                     TITULAR: $nombre_trabajador
                 </span>
-            </p>
 
-            <p style='margin-top:0pt; margin-bottom:10pt; text-align:justify; line-height:115%; font-size:12pt;'>
-                <span style='font-family:Arial;'>
+                <span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+
+                <span style='font-family:Arial;'> 
                     Codigo de expediente: $fecha_ingreso_trabajador
                 </span>
             </p>
@@ -269,6 +422,9 @@ use Dompdf\Options;
                 <span style='font-family:Arial;'>
                     ASEGURADO: $nombre_solicitante
                 </span>
+                <span style='font-family:Arial;'>
+                    CEDULA: $cedula_solicitante
+                </span>
             </p>
 
             <table cellspacing='0' cellpadding='0' style='border-collapse: collapse; width: 100%;'>
@@ -291,8 +447,8 @@ use Dompdf\Options;
                     <!-- Fila con montos -->
                     <tr>
                         <td colspan='6' style='padding: 5px;'>&nbsp;</td>
-                        <td style='border: 0.75pt solid #000; padding: 5px; text-align:center;background-color:#b6dde8;'>".$monto_total_bs. "bs</td>
-                        <td style='border: 0.75pt solid #000; padding: 5px; text-align:center;background-color:#b6dde8;'>" . $monto_total_divisa . "bs</td>
+                        <td style='border: 0.75pt solid #000; padding: 5px; text-align:center;background-color:#b6dde8;'>".$monto_total_bs. " bs</td>
+                        <td style='border: 0.75pt solid #000; padding: 5px; text-align:center;background-color:#b6dde8;'>" . $monto_total_divisa . " $</td>
                     </tr>
                 </tbody>
             </table>
@@ -340,23 +496,23 @@ use Dompdf\Options;
                             </p>
                         </td>
                         <td style='width:101.4pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
-                            <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
+                            <p style='margin-top:0pt; margin-bottom:0pt; text-align: center; font-size:12pt;'>
                                 <span style='font-family:Arial;'>
-                                    &nbsp;
+                                ".$monto_total_Bs_farmacia. " Bs.                               
                                 </span>
                             </p>
                         </td>
                         <td style='width:101.45pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
-                            <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
+                            <p style='margin-top:0pt; margin-bottom:0pt; text-align: center; font-size:12pt;'>
                                 <span style='font-family:Arial;'>
-                                    &nbsp;
+                                ".$monto_total_divisa_farmacia. " $
                                 </span>
                             </p>
                         </td>
                         <td style='width:101.45pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
-                            <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
+                            <p style='margin-top:0pt; margin-bottom:0pt; text-align: center; font-size:12pt;'>
                                 <span style='font-family:Arial;'>
-                                    &nbsp;
+                                ".$porcentaje_formateado. " %
                                 </span>
                             </p>
                         </td>
@@ -370,23 +526,23 @@ use Dompdf\Options;
                             </p>
                         </td>
                         <td style='width:101.4pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
-                            <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
+                            <p style='margin-top:0pt; margin-bottom:0pt; text-align: center; font-size:12pt;'>
                                 <span style='font-family:Arial;'>
-                                    &nbsp;
+                                ".$monto_total_Bs_aps. " Bs.
                                 </span>
                             </p>
                         </td>
                         <td style='width:101.45pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
-                            <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
+                            <p style='margin-top:0pt; margin-bottom:0pt; text-align: center; font-size:12pt;'>
                                 <span style='font-family:Arial;'>
-                                    &nbsp;
+                                ".$monto_total_divisa_aps. " $
                                 </span>
                             </p>
                         </td>
                         <td style='width:101.45pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
-                            <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
+                            <p style='margin-top:0pt; margin-bottom:0pt; text-align: center; font-size:12pt;'>
                                 <span style='font-family:Arial;'>
-                                    &nbsp;
+                                ".$porcentaje_formateado_aps. " %
                                 </span>
                             </p>
                         </td>
@@ -400,23 +556,23 @@ use Dompdf\Options;
                             </p>
                         </td>
                         <td style='width:101.4pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
-                            <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
+                            <p style='margin-top:0pt; margin-bottom:0pt; text-align: center; font-size:12pt;'>
                                 <span style='font-family:Arial;'>
-                                    &nbsp;
+                                ".$monto_total_Bs_reembolso. " Bs.
                                 </span>
                             </p>
                         </td>
                         <td style='width:101.45pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
-                            <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
+                            <p style='margin-top:0pt; margin-bottom:0pt; text-align: center; font-size:12pt;'>
                                 <span style='font-family:Arial;'>
-                                    &nbsp;
+                                ".$monto_total_divisa_reembolso. " $
                                 </span>
                             </p>
                         </td>
                         <td style='width:101.45pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
-                            <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
+                            <p style='margin-top:0pt; margin-bottom:0pt; text-align: center; font-size:12pt;'>
                                 <span style='font-family:Arial;'>
-                                    &nbsp;
+                                ".$porcentaje_formateado_reembolso. " %
                                 </span>
                             </p>
                         </td>
@@ -430,23 +586,23 @@ use Dompdf\Options;
                             </p>
                         </td>
                         <td style='width:101.4pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
-                            <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
+                            <p style='margin-top:0pt; margin-bottom:0pt; text-align: center; font-size:12pt;'>
                                 <span style='font-family:Arial;'>
-                                    &nbsp;
+                                ".$monto_total_Bs_funeraria. " Bs.
                                 </span>
                             </p>
                         </td>
                         <td style='width:101.45pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
-                            <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
+                            <p style='margin-top:0pt; margin-bottom:0pt; text-align: center; font-size:12pt;'>
                                 <span style='font-family:Arial;'>
-                                    &nbsp;
+                                ".$monto_total_divisa_funeraria. " $
                                 </span>
                             </p>
                         </td>
                         <td style='width:101.45pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
-                            <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
+                            <p style='margin-top:0pt; margin-bottom:0pt; text-align: center; font-size:12pt;'>
                                 <span style='font-family:Arial;'>
-                                    &nbsp;
+                                ".$porcentaje_formateado_funeraria. " %
                                 </span>
                             </p>
                         </td>
@@ -485,7 +641,7 @@ use Dompdf\Options;
                     </tr>
                     <tr style='height:64.3pt;'>
                         <td style='width:138.8pt; border-top-style:solid; border-top-width:0.75pt; border-right-style:solid; border-right-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
-                            <p style='margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:12pt;'>
+                            <p style='margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:30pt;'>
                                 <span style='font-family:Arial;'>
                                     &nbsp;
                                 </span>
@@ -509,8 +665,10 @@ use Dompdf\Options;
                 </tbody>
             </table>
 
+            <br>
+
             <div>
-                <img src='INSTITUCIONAL.png' style = 'width : 1400px; height: 150px;'>
+                <img src='INSTITUCIONAL.png' style = 'width : 750px; height: 50px;'>
             </div>            
         </div>
     </body>

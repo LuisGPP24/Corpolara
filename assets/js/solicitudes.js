@@ -89,7 +89,8 @@ $("#modalSolicitudes").submit(function (e) {       
 
         
     const montoSolicitado = $("#monto_solicitado").val();        
-    const montoAprobado = $("#monto_aprobado").val();  
+    const montoAprobado = $("#monto_aprobado").val();
+    const montoDivisas = $("#monto_divisas").val();  
         
     const regex = /^[0-9]{1,12}[.]{0,1}[0-9]{2}$/; 
       
@@ -112,6 +113,16 @@ $("#modalSolicitudes").submit(function (e) {       
 
         return;
     }
+
+    if (!regex.test(montoDivisas)) {            
+        
+        Toast.fire({                
+            icon: "error",                
+            title: "Escriba bien el monto en divisas, Por favor.",              
+        });
+
+        return;
+    }
         const data = new FormData();
         const btn_clicked = e.originalEvent.submitter.id;
         data.append("accion", btn_clicked);
@@ -130,7 +141,7 @@ $("#modalSolicitudes").submit(function (e) {       
         data.append("remitido", $("#remitido").val());        
         data.append("monto_solicitado", montoSolicitado);        
         data.append("monto_aprobado", montoAprobado);   
-        data.append("monto_divisas", $("#monto_divisas").val());     
+        data.append("monto_divisas", montoDivisas);     
         data.append("fecha_registro", $("#fecha_registro").val());        
         data.append("condicion", $("#condicion").val());        
         data.append("estatus", $("#estatus").val());        

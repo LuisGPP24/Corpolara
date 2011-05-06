@@ -48,7 +48,7 @@
                                            <th>ID</th>
                                            <th>Cedula</th>
                                            <th>Nombre</th>
-                                           <th>Fecha de registro</th>
+                                           <th>Fecha de Ingreso</th>
                                            <th>Tipo de personal</th>
                                            <th>Unidad organizativa</th>
                                            <th>Fecha de nacimiento</th>
