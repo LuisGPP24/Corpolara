@@ -272,13 +272,17 @@ use Dompdf\Options;
                 return;
             }
 
+            // Habilitar imágenes remotas
+            // $options = new Options();
+            // $options->set('isRemoteEnabled', true);
             $dompdf = new Dompdf();
 
-            // $imagen_logo = "assets/img/logo-aps.png";
-            // $imagen_institucional = "assets/img/INSTITUCIONAL.png";
+            $path_img_aps = "assets/img/logo-aps.jpg";
+            $path_img_institucional = "assets/img/institucional.jpg";
 
-            // $image_logo_to_base64 = $this->image_to_base64($imagen_logo);
-            // $image_institucional_to_base64 = $this->image_to_base64($imagen_institucional);
+
+            $img_logo = $this->image_to_base64($path_img_aps);
+            $img_institucional = $this->image_to_base64($path_img_institucional);
 
             $nombre_trabajador = $infoTrabajador["nombre"];
             $cedula_trabajador = $infoTrabajador["cedula"];
@@ -291,60 +295,37 @@ use Dompdf\Options;
             $cedula_solicitante = $infoSolicitante["cedula"];
             $nombre_solicitante = $infoSolicitante["nombre"];
 
-            $monto_total_bs = $getMontos["monto_total_bs"];
-            $monto_total_divisa = $getMontos["monto_total_divisa"];
+            $monto_total_bs = $getMontos["monto_total_bs"] ?? 0;
+            $monto_total_divisa = $getMontos["monto_total_divisa"] ?? 0;
 
-            $monto_total_Bs_farmacia = $getMontosFarmacia["monto_total_bs_farmacia"];
-            $monto_total_divisa_farmacia = $getMontosFarmacia["monto_total_divisas_farmacia"];
+            $monto_total_Bs_farmacia = $getMontosFarmacia["monto_total_bs_farmacia"] ?? 0;
+            $monto_total_divisa_farmacia = $getMontosFarmacia["monto_total_divisas_farmacia"] ?? 0;
 
-            $monto_total_Bs_aps = $getMontoAps["monto_total_bs_aps"];
-            $monto_total_divisa_aps = $getMontoAps["monto_total_divisas_aps"];
+            $monto_total_Bs_aps = $getMontoAps["monto_total_bs_aps"] ?? 0;
+            $monto_total_divisa_aps = $getMontoAps["monto_total_divisas_aps"] ?? 0;
 
-            $monto_total_Bs_reembolso = $getMontoReembolso["monto_total_bs_reembolso"];
-            $monto_total_divisa_reembolso = $getMontoReembolso["monto_total_divisas_reembolso"];
+            $monto_total_Bs_reembolso = $getMontoReembolso["monto_total_bs_reembolso"] ?? 0;
+            $monto_total_divisa_reembolso = $getMontoReembolso["monto_total_divisas_reembolso"] ?? 0;
 
-            $monto_total_Bs_funeraria = $getMontoFuneraria["monto_total_bs_funeraria"];
-            $monto_total_divisa_funeraria = $getMontoFuneraria["monto_total_divisas_funeraria"];
+            $monto_total_Bs_funeraria = $getMontoFuneraria["monto_total_bs_funeraria"] ?? 0;
+            $monto_total_divisa_funeraria = $getMontoFuneraria["monto_total_divisas_funeraria"] ?? 0;
 
+            $poliza = 600;
             //PARA EL PORCENTAJE DE POLIZAS
 
-            $poliza_farmacia = 600;
-
-            $porcentaje = ($monto_total_divisa_farmacia / $poliza_farmacia) * 100;
-
-            $porcentaje_formateado = number_format($porcentaje, 2);
-
-            //FIN DE CALCULO DE POLIZAS
+            $porcentaje_farmacia = $this->obtener_porcentaje($monto_total_divisa_farmacia, $poliza);
 
             //PARA EL PORCENTAJE DE POLIZAS APS
 
-            $poliza_aps = 600;
-
-            $porcentajeAPS = ($monto_total_divisa_aps / $poliza_aps) * 100;
-
-            $porcentaje_formateado_aps = number_format($porcentajeAPS, 2);
-
-            //FIN DE CALCULO DE POLIZAS APS
+            $porcentajeAPS = $this->obtener_porcentaje($monto_total_divisa_aps, $poliza);
 
             //PARA EL PORCENTAJE DE POLIZAS REEMBOLSO
 
-            $poliza_reembolso = 600;
-
-            $porcentajeReembolso = ($monto_total_divisa_reembolso / $poliza_reembolso) * 100;
-
-            $porcentaje_formateado_reembolso = number_format($porcentajeReembolso, 2);
-
-            //FIN DE CALCULO DE POLIZAS REEMBOLSO
+            $porcentajeReembolso = $this->obtener_porcentaje($monto_total_divisa_reembolso, $poliza);
 
             //PARA EL PORCENTAJE DE POLIZAS REEMBOLSO
 
-            $poliza_funeraria = 600;
-
-            $porcentajeFuneraria = ($monto_total_divisa_funeraria / $poliza_funeraria) * 100;
-
-            $porcentaje_formateado_funeraria = number_format($porcentajeFuneraria, 2);
-
-            //FIN DE CALCULO DE POLIZAS REEMBOLSO
+            $porcentajeFuneraria = $this->obtener_porcentaje($monto_total_divisa_funeraria, $poliza);
 
             $tabla_solicitudes = "";
             
@@ -368,9 +349,11 @@ use Dompdf\Options;
 <head>
 <meta charset='utf8'>
 </head>
-    <body>
+<body>
+<header>
+    <img src='$img_logo' style='width:200px'>
+</header>
         <div>    
-            <img src='https://seeklogo.com/images/C/corpolara-logo-46E171FECB-seeklogo.com.gif' style='width:50px'>
 
             <p style='margin-top:0pt; margin-bottom:10pt; text-align:center; line-height:115%; font-size:16pt;'>
                 <span style='font-family:Arial;'>
@@ -512,7 +495,7 @@ use Dompdf\Options;
                         <td style='width:101.45pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
                             <p style='margin-top:0pt; margin-bottom:0pt; text-align: center; font-size:12pt;'>
                                 <span style='font-family:Arial;'>
-                                ".$porcentaje_formateado. " %
+                                ". $porcentaje_farmacia. " %
                                 </span>
                             </p>
                         </td>
@@ -542,7 +525,7 @@ use Dompdf\Options;
                         <td style='width:101.45pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
                             <p style='margin-top:0pt; margin-bottom:0pt; text-align: center; font-size:12pt;'>
                                 <span style='font-family:Arial;'>
-                                ".$porcentaje_formateado_aps. " %
+                                ". $porcentajeAPS. " %
                                 </span>
                             </p>
                         </td>
@@ -572,7 +555,7 @@ use Dompdf\Options;
                         <td style='width:101.45pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
                             <p style='margin-top:0pt; margin-bottom:0pt; text-align: center; font-size:12pt;'>
                                 <span style='font-family:Arial;'>
-                                ".$porcentaje_formateado_reembolso. " %
+                                ". $porcentajeReembolso. " %
                                 </span>
                             </p>
                         </td>
@@ -602,7 +585,7 @@ use Dompdf\Options;
                         <td style='width:101.45pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
                             <p style='margin-top:0pt; margin-bottom:0pt; text-align: center; font-size:12pt;'>
                                 <span style='font-family:Arial;'>
-                                ".$porcentaje_formateado_funeraria. " %
+                                ". $porcentajeFuneraria. " %
                                 </span>
                             </p>
                         </td>
@@ -666,11 +649,11 @@ use Dompdf\Options;
             </table>
 
             <br>
+            </div>
+            <footer>
+                <img src='$img_institucional' style = 'width : 100%; height: 200px;'>
+            </footer>    
 
-            <div>
-                <img src='INSTITUCIONAL.png' style = 'width : 750px; height: 50px;'>
-            </div>            
-        </div>
     </body>
 </html>";
             
@@ -681,7 +664,7 @@ use Dompdf\Options;
             // Obtener contenido en base64
             $pdfOutput = $dompdf->output();
             $base64Pdf = base64_encode($pdfOutput);
-
+            ob_end_clean();
             http_response_code(200);
 
             echo json_encode(["pdf" => $base64Pdf]);
@@ -719,11 +702,24 @@ use Dompdf\Options;
         }
     }
 
-    // private function image_to_base64($image_path){
+    private function obtener_porcentaje ($total_divisa, $poliza) {
+        
+        if ($total_divisa == 0 || $poliza == 0) {
+            return 0;
+        }
 
-    //     $logoType = pathinfo($image_path, PATHINFO_EXTENSION);
-    //     $logoData = file_get_contents($image_path);
-    //     $logoBase64 = 'data:image/' . $logoType . ';base64,' . base64_encode($logoData);
-    // }
+        $porcentajeFuneraria = ($total_divisa / $poliza) * 100;
+
+        $porcentaje_formateado_funeraria = number_format($porcentajeFuneraria, 2); 
+
+        return $porcentaje_formateado_funeraria;
+    }
+
+    private function image_to_base64($image_path){
+        $imagenData = base64_encode(file_get_contents($image_path));
+        $imagenTipo = mime_content_type($image_path);
+        $imagen_logo = "data:$imagenTipo;base64,$imagenData";
+        return $imagen_logo;
+    }
    
 }
