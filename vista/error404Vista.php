@@ -4,8 +4,7 @@
 </head>
 <body class="sb-nav-fixed"> 
 
-<center>
-    
+<center>    
 	<div class="container text-center h1">
 		<br>
 		404
