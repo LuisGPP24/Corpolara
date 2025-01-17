@@ -1,6 +1,10 @@
 <?php 
 
-    require_once("conexion.php");
+    namespace modelo;
+
+    use modelo\conexion as conexion;
+    use PDO;
+    use PDOException;
     class SolicitudesModelo extends conexion{
 
     private $id;
@@ -342,7 +346,7 @@
             }
 
 
-        }catch(Exception $e) {
+        }catch(PDOException $e) {
             http_response_code(500);
             return $e->getMessage();
         }

@@ -29,7 +29,7 @@
 
             <div class="collapse" id="collapseRegistro" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                 <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="?pagina=carga_familiar">Carga familiar</a>
+                    <a class="nav-link" href="?pagina=cargaFamiliar">Carga familiar</a>
                 </nav>
             </div>
 

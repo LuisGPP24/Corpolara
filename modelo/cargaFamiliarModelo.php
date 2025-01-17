@@ -1,7 +1,13 @@
-<?php 
+<?php
 
-    require_once("conexion.php");
-    class FamiliaModelo extends conexion{
+namespace modelo;
+
+use modelo\conexion as conexion;
+
+use PDO;
+use PDOException;
+
+class cargaFamiliarModelo extends conexion{
 
     private $id;
     private $trabajador;
@@ -277,7 +283,7 @@
             }
 
 
-        }catch(Exception $e) {
+        }catch(PDOException $e) {
             http_response_code(500);
             return $e->getMessage();
         }

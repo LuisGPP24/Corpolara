@@ -236,7 +236,7 @@
 
 
 
-    <script src="assets/js/carga_familiar.js"></script>
+    <script src="assets/js/cargaFamiliar.js"></script>
     <script src="assets/js/scripts.js"></script>
 
 </body>

@@ -1,0 +1,23 @@
+{
+    "name": "corpolara/content",
+    "description": "Sistema APS",
+    "type": "project",
+    "license": "001",
+    "autoload": {
+        "psr-4": {
+            "modelo\\": "modelo/"
+        },
+        "files": [
+            "config/config.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Luis Perdomo"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}

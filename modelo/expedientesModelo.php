@@ -1,7 +1,12 @@
 <?php 
 
-    require_once("conexion.php");
-    class ExpedienteModelo extends conexion{
+    namespace modelo;
+
+    use modelo\conexion as conexion;
+    use PDO;
+    use PDOException;
+    
+    class ExpedientesModelo extends conexion{
 
     private $id;
     private $trabajador;
@@ -45,7 +50,7 @@
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "INSERT INTO expedientes(id_trabajadores,fecha_registro,nombre_foto) VALUES ('$trabajador','$fecha_registro','$expediente')";
+            // $sql = "INSERT INTO expedientes(id_trabajadores,fecha_registro,nombre_foto) VALUES ('$trabajador','$fecha_registro','$expediente')";
 
             /*$stmt = $bd->prepare($sql);
             
@@ -56,7 +61,7 @@
                 ":nombre_foto" => $this->expediente
             ));*/
 
-            $sql_query = mysqli_query($bd,$sql);
+            // $sql_query = mysqli_query($bd,$sql);
 
             http_response_code(200);
             return "registro exitoso";
@@ -107,15 +112,15 @@
 
             $stmt = $bd->prepare($sql);
 
-            $stmt->execute(array(
-                ":ente" => $this->ente,
-                ":descripcion_solicitud" => $this->descripcion_solicitud,
-                ":fecha_nacimiento" => $this->fecha_nacimiento,
-                ":parentesco" => $this->parentesco,
-                ":patologia" => $this->patologia,
-                ":proveedor" => $this->proveedor,
-                ":id" => $this->id,
-            ));
+            // $stmt->execute(array(
+            //     ":ente" => $this->ente,
+            //     ":descripcion_solicitud" => $this->descripcion_solicitud,
+            //     ":fecha_nacimiento" => $this->fecha_nacimiento,
+            //     ":parentesco" => $this->parentesco,
+            //     ":patologia" => $this->patologia,
+            //     ":proveedor" => $this->proveedor,
+            //     ":id" => $this->id,
+            // ));
 
             http_response_code(200);
             return "Modificación con exito";
@@ -212,7 +217,7 @@
             }
 
 
-        }catch(Exception $e) {
+        }catch(PDOException $e) {
             http_response_code(500);
             return $e->getMessage();
         }

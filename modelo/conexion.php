@@ -1,11 +1,13 @@
 <?php 
-
+namespace modelo;
+use PDO;
+use PDOException;
 class conexion {
 
-    private $usuario = "root"; 
-    private $contrasena = ""; 
-    private $local = "localhost"; 
-    private $nombrebd = "bdluis"; 
+    private $usuario = USUARIO; 
+    private $contrasena = CONTRASENA; 
+    private $local = LOCAL; 
+    private $nombrebd = NOMBREBD; 
 
     protected function conecta(){
 		try{

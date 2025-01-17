@@ -1,6 +1,9 @@
 <?php 
+    namespace modelo;
+    use modelo\conexion as conexion;
 
-    require_once("conexion.php");
+    use PDO;
+    use PDOException;
     class AntecedentesModelo extends conexion{
 
     private $trabajador;
@@ -328,7 +331,7 @@
             }
 
 
-        }catch(Exception $e) {
+        }catch(PDOException $e) {
             http_response_code(500);
             return $e->getMessage();
         }

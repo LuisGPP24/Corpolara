@@ -131,7 +131,7 @@
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <label for="expediente" class="form-label">Expediente del trabajador</label>
-                                <input class="form-control form-control" id="expediente" name="expediente" type="file">
+                                <input class="form-control" id="expediente" name="expediente" type="file" accept=".pdf">
                             </div>
                         </div>
 

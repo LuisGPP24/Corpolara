@@ -5,7 +5,7 @@ if (!is_file("modelo/" . $pagina . "Modelo.php")) {
     exit;
 }
 
-require_once("modelo/" . $pagina . "Modelo.php");
+use modelo\SolicitudesModelo;
 
 if (is_file("vista/" . $pagina . "Vista.php")) {
 

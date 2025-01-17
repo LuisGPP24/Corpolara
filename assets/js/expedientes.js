@@ -31,7 +31,7 @@ $(document).ready(function () {
         data.append("id", $("#id").val());
         data.append("trabajador", $("#trabajador").val());
         data.append("fecha_registro", $("#fecha_registro").val());
-        data.append("expediente", $("#expediente").val());
+        data.append("expediente", $("#expediente")[0].files[0]);
         
         $.ajax({
           async: true,
