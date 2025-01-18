@@ -1,7 +1,6 @@
 <?php
 
-require_once("modelo/".$pagina."Modelo.php");
-
+use modelo\loginModelo;
 
 if (is_file("vista/" . $pagina . "Vista.php")) {
 

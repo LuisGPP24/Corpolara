@@ -5,11 +5,11 @@ if (!is_file("modelo/" . $pagina . "Modelo.php")) {
     exit;
 }
 
-require_once("modelo/" . $pagina . "Modelo.php");
+use modelo\consultasMedicasModelo;
 
 if (is_file("vista/" . $pagina . "Vista.php")) {
 
-    $objeto = new Consultas_PediatricasModelo();
+    $objeto = new consultasMedicasModelo();
 
     if (isset($_POST['accion'])) {
 
@@ -17,25 +17,31 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
 
         if($accion == "registrar"){
 
-            $representante = $_POST["representante"];
+            $trabajador = $_POST["trabajador"];
             $fecha_consulta = $_POST["fecha_consulta"];
             $nombre_paciente = $_POST["nombre_paciente"];
             $cedula_paciente = $_POST["cedula_paciente"];
-            $fecha_nacimiento = $_POST["fecha_nacimiento"];
+            $parentesco = $_POST["parentesco"];
             $genero = $_POST["genero"];
+            $direccion = $_POST["direccion"];
+            $gerencia = $_POST["gerencia"];
             $telefono = $_POST["telefono"];
+            $motivo = $_POST["motivo"];
+            $edad = $_POST["edad"];
             $doctor = $_POST["doctor"];
-            $observacion = $_POST["observacion"];
             
-            $objeto->set_representante($representante);
+            $objeto->set_trabajador($trabajador);
             $objeto->set_fecha_consulta($fecha_consulta);
             $objeto->set_nombre_paciente($nombre_paciente);
             $objeto->set_cedula_paciente($cedula_paciente);
-            $objeto->set_fecha_nacimiento($fecha_nacimiento);
+            $objeto->set_parentesco($parentesco);
             $objeto->set_genero_paciente($genero);
+            $objeto->set_edad_paciente($edad);
+            $objeto->set_direccion($direccion);
+            $objeto->set_gerencia($gerencia);
             $objeto->set_telefono($telefono);
-            $objeto->set_especialidad($doctor);
-            $objeto->set_observacion($observacion);
+            $objeto->set_motivo_consulta($motivo);
+            $objeto->set_doctor($doctor);
             
             echo $objeto->registrar_morbilidad();
             exit;
@@ -43,26 +49,32 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
 
         if($accion == "modificar"){
             
-            $representante = $_POST["representante"];
+            $trabajador = $_POST["trabajador"];
             $fecha_consulta = $_POST["fecha_consulta"];
             $nombre_paciente = $_POST["nombre_paciente"];
             $cedula_paciente = $_POST["cedula_paciente"];
-            $fecha_nacimiento = $_POST["fecha_nacimiento"];
+            $parentesco = $_POST["parentesco"];
             $genero = $_POST["genero"];
+            $direccion = $_POST["direccion"];
+            $gerencia = $_POST["gerencia"];
             $telefono = $_POST["telefono"];
+            $motivo = $_POST["motivo"];
+            $edad = $_POST["edad"];
             $doctor = $_POST["doctor"];
-            $observacion = $_POST["observacion"];
             $id = $_POST["id"];
             
-            $objeto->set_representante($representante);
+            $objeto->set_trabajador($trabajador);
             $objeto->set_fecha_consulta($fecha_consulta);
             $objeto->set_nombre_paciente($nombre_paciente);
             $objeto->set_cedula_paciente($cedula_paciente);
-            $objeto->set_fecha_nacimiento($fecha_nacimiento);
+            $objeto->set_parentesco($parentesco);
             $objeto->set_genero_paciente($genero);
+            $objeto->set_edad_paciente($edad);
+            $objeto->set_direccion($direccion);
+            $objeto->set_gerencia($gerencia);
             $objeto->set_telefono($telefono);
-            $objeto->set_especialidad($doctor);
-            $objeto->set_observacion($observacion);
+            $objeto->set_motivo_consulta($motivo);
+            $objeto->set_doctor($doctor);
             $objeto->set_id($id);
 
             echo $objeto->modificar_consulta();

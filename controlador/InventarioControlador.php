@@ -5,11 +5,11 @@ if (!is_file("modelo/" . $pagina . "Modelo.php")) {
     exit;
 }
 
-require_once("modelo/" . $pagina . "Modelo.php");
+use modelo\inventarioModelo;
 
 if (is_file("vista/" . $pagina . "Vista.php")) {
 
-    $objeto = new InventarioModelo();
+    $objeto = new inventarioModelo();
 
     if (isset($_POST['accion'])) {
 

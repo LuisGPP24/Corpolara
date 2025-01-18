@@ -1,7 +1,12 @@
 <?php 
 
-    require_once("conexion.php");
-    class InventarioModelo extends conexion{
+    namespace modelo;
+
+    use modelo\conexion as conexion;
+    use PDO;
+    use PDOException;
+    
+    class inventarioModelo extends conexion{
 
     private $id;
     private $codigo;

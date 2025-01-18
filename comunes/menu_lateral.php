@@ -121,13 +121,13 @@
 
             <div class="collapse" id="collapseServiciosMedicos" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                 <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="?pagina=consultas_medicas">Registro de consultas medicas</a>
+                    <a class="nav-link" href="?pagina=consultasMedicas">Registro de consultas medicas</a>
                 </nav>
             </div>
 
             <div class="collapse" id="collapseServiciosMedicos" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                 <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="?pagina=consultas_pediatricas">Registro de consultas pediátricas</a>
+                    <a class="nav-link" href="?pagina=consultasPediatricas">Registro de consultas pediátricas</a>
                 </nav>
             </div>
 

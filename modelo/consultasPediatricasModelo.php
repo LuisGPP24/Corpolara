@@ -1,27 +1,29 @@
 <?php 
 
-    require_once("conexion.php");
-    class ConsultasModelo extends conexion{
+    namespace modelo;
+
+    use modelo\conexion as conexion;
+    use PDO;
+    use PDOException;
+
+    class consultasPediatricasModelo extends conexion{
 
     private $id;
-    private $trabajador;
+    private $representante;
     private $fecha_consulta;
     private $nombre_paciente;
     private $cedula_paciente;
-    private $parentesco;
+    private $fecha_nacimiento;
     private $genero_paciente;
-    private $edad_paciente;
-    private $direccion;
-    private $gerencia;
     private $telefono;
-    private $motivo_consulta;
-    private $doctor;
+    private $especialidad;
+    private $observacion;
 
     public function set_id($valor){
         $this->id = $valor;
     }
-    public function set_trabajador($valor){
-        $this->trabajador = $valor;
+    public function set_representante($valor){
+        $this->representante = $valor;
     }
     public function set_fecha_consulta($valor){
         $this->fecha_consulta = $valor;
@@ -32,29 +34,20 @@
     public function set_cedula_paciente($valor){
         $this->cedula_paciente = $valor;
     }
-    public function set_parentesco($valor){
-        $this->parentesco = $valor;
+    public function set_fecha_nacimiento($valor){
+        $this->fecha_nacimiento = $valor;
     }
     public function set_genero_paciente($valor){
         $this->genero_paciente = $valor;
     }
-    public function set_edad_paciente($valor){
-        $this->edad_paciente = $valor;
-    }
-    public function set_direccion($valor){
-        $this->direccion = $valor;
-    }
-    public function set_gerencia($valor){
-        $this->gerencia = $valor;
-    }
     public function set_telefono($valor){
         $this->telefono = $valor;
     }
-    public function set_motivo_consulta($valor){
-        $this->motivo_consulta = $valor;
+    public function set_especialidad($valor){
+        $this->especialidad = $valor;
     }
-    public function set_doctor($valor){
-        $this->doctor = $valor;
+    public function set_observacion($valor){
+        $this->observacion = $valor;
     }
 
     public function registrar_morbilidad(){
@@ -62,7 +55,7 @@
 
             if(
 
-                !$this->evaluar_caracteres("/^[0-9\b]{1,50}$/",$this->trabajador)
+                !$this->evaluar_caracteres("/^[0-9\b]{1,50}$/",$this->representante)
                 /*!$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_cardiovasculares)||
                 !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_pulmonares)||
                 !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_digestivos)||
@@ -82,7 +75,7 @@
                 !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_alcoholismo)*/
             ){
             	http_response_code(400);
-                return "Elija a un trabajador";
+                return "Elija a un representante";
             }
 
             /*if($this->existe_familiar($this->cedula)){
@@ -94,23 +87,20 @@
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "INSERT INTO morbilidad (id_trabajadores, fecha_consulta, nombre_paciente, cedula, genero, edad_paciente, parentesco, direccion, gerencia, telefono, motivo, especialidad) VALUES (:trabajador, :fecha_consulta, :nombre_paciente, :cedula, :genero, :edad_paciente, :parentesco, :direccion, :gerencia, :telefono, :motivo, :especialidad)";
+            $sql = "INSERT INTO morbilidad_pediatrica (id_trabajadores, fecha_consulta, nombre_paciente, cedula_paciente, fecha_nacimiento, genero, telefono, doctor, observacion) VALUES (:trabajador, :fecha_consulta, :nombre_paciente, :cedula_paciente, :fecha_nacimiento, :genero, :telefono, :doctor, :observacion)";
 
             $stmt = $bd->prepare($sql);
             
             $stmt->execute(array(
-                ":trabajador" => $this->trabajador,
+                ":trabajador" => $this->representante,
                 ":fecha_consulta" => $this->fecha_consulta,
                 ":nombre_paciente" => $this->nombre_paciente,
-                ":cedula" => $this->cedula_paciente,
+                ":cedula_paciente" => $this->cedula_paciente,
+                ":fecha_nacimiento" => $this->fecha_nacimiento,
                 ":genero" => $this->genero_paciente,
-                ":edad_paciente" => $this->edad_paciente,
-                ":parentesco" => $this->parentesco,
-                ":direccion" => $this->direccion,
-                ":gerencia" => $this->gerencia,
                 ":telefono" => $this->telefono,
-                ":motivo" => $this->motivo_consulta,
-                ":especialidad" => $this->doctor
+                ":doctor" => $this->especialidad,
+                ":observacion" => $this->observacion
 
             ));
 
@@ -131,8 +121,8 @@
 
             $sql = "SELECT a.id,
                 b.id as id_trabajadores,
-                a.fecha_consulta, a.nombre_paciente, a.cedula, a.genero,
-                a.edad_paciente, a.parentesco, a.direccion,a.gerencia,a.telefono,a.motivo, a.especialidad, b.nombre, b.cedula as cedula2 from morbilidad a INNER JOIN trabajadores b ON a.id_trabajadores = b.id";
+                a.fecha_consulta, a.nombre_paciente, a.cedula_paciente, a.fecha_nacimiento,
+                a.genero, a.telefono, a.telefono, a.doctor, a.observacion, b.nombre from morbilidad_pediatrica a INNER JOIN trabajadores b ON a.id_trabajadores = b.id";
             
 
             $stmt = $bd->prepare($sql);
@@ -167,23 +157,20 @@
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-           $sql = "UPDATE morbilidad SET fecha_consulta = :fecha_consulta, nombre_paciente = :nombre_paciente, cedula = :cedula, genero = :genero, edad_paciente = :edad_paciente, parentesco = :parentesco, direccion = :direccion, gerencia = :gerencia, telefono = :telefono, motivo = :motivo, especialidad = :especialidad WHERE id = :id";
+           $sql = "UPDATE morbilidad_pediatrica SET id_trabajadores = :representante, fecha_consulta = :fecha_consulta, nombre_paciente = :nombre_paciente, fecha_nacimiento = :fecha_nacimiento, genero = :genero, telefono = :telefono, doctor = :doctor, observacion = :observacion WHERE id = :id";
 
             $stmt = $bd->prepare($sql);
 
             $stmt->execute(array(
                 
+                ":representante" => $this->representante,
                 ":fecha_consulta" => $this->fecha_consulta,
                 ":nombre_paciente" => $this->nombre_paciente,
-                ":cedula" => $this->cedula_paciente,
+                ":fecha_nacimiento" => $this->fecha_nacimiento,
                 ":genero" => $this->genero_paciente,
-                ":edad_paciente" => $this->edad_paciente,
-                ":parentesco" => $this->parentesco,
-                ":direccion" => $this->direccion,
-                ":gerencia" => $this->gerencia,
                 ":telefono" => $this->telefono,
-                ":motivo" => $this->motivo_consulta,
-                ":especialidad" => $this->doctor,
+                ":doctor" => $this->especialidad,
+                ":observacion" => $this->observacion,
                 ":id" => $this->id
             ));
 
@@ -210,7 +197,7 @@
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "DELETE FROM morbilidad WHERE id = :id";
+            $sql = "DELETE FROM morbilidad_pediatrica WHERE id = :id";
 
             $stmt = $bd->prepare($sql);
 
@@ -266,7 +253,7 @@
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "SELECT id,cedula, nombre from trabajadores";
+            $sql = "SELECT id, nombre from trabajadores";
 
             $stmt = $bd->prepare($sql);
             $stmt->execute();
