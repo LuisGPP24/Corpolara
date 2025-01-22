@@ -16,7 +16,7 @@ $(document).ready(function () {
         $("#modalExpedienteLabel").text('Registro de Expedientes');
         $("#registrar").show();
         $("#modificar").hide();
-        $("#codigo_registro").removeAttr("disabled")
+        $("#trabajador").removeAttr("disabled")
         borrarForm();
     });
     
@@ -67,18 +67,13 @@ $(document).ready(function () {
 function borrarForm() {
 
    $('#id').val('');
-   $('#codigo_registro').val('');
-   $('#ente').val('');
-   $('#descripcion_solicitud').val('');
-   $('#fecha_nacimiento').val('');
-   $('#parentesco').val('');
-   $('#patologia').val('');
-   $('#proveedor').val('');
+   $('#trabajador').val('');
+   $('#fecha_registro').val('');
    
 }
 
 function modalModificar(fila) {
-   $("#modalExpedienteLabel").text("Modificar Solicitud de Farmacia");
+   $("#modalExpedienteLabel").text("Modificar Expediente de trabajador");
 
   $("#registrar").hide();
   $("#modificar").show();
@@ -88,23 +83,13 @@ function modalModificar(fila) {
      
    const linea = $(fila).closest("tr");
    const id = $(linea).find("td:eq(1)");
-   const codigo_registro = $(linea).find("td:eq(0)");
-   const ente = $(linea).find("td:eq(4)");
-   const descripcion_solicitud = $(linea).find("td:eq(12)");
-   const fecha_nacimiento = $(linea).find("td:eq(9)");
-   const parentesco = $(linea).find("td:eq(10)");
-   const patologia = $(linea).find("td:eq(14)");
-   const proveedor = $(linea).find("td:eq(15)");
+   const trabajador = $(linea).find("td:eq(0)");
+   const fecha_registro = $(linea).find("td:eq(5)");
    
-   $("#codigo_registro").attr('disabled','disabled');
+   $("#trabajador").attr('disabled','disabled');
    $("#id").val(id.text());
-   $("#codigo_registro").val(codigo_registro.text());
-   $("#ente").val(ente.text());
-   $("#descripcion_solicitud").val(descripcion_solicitud.text());
-   $("#fecha_nacimiento").val(fecha_nacimiento.text());
-   $("#parentesco").val(parentesco.text());
-   $("#patologia").val(patologia.text());
-   $("#proveedor").val(proveedor.text());     
+   $("#trabajador").val(trabajador.text());
+   $("#fecha_registro").val(fecha_registro.text());  
 }
 
 function eliminar(fila) {

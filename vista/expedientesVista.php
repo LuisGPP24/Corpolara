@@ -56,15 +56,14 @@
                                         </tr>
                                     </thead>
                                    
-                                        <!--<?php foreach ($consultas as $consulta) : ?>
+                                        <?php foreach ($consultas as $consulta) : ?>
                                             <tr>
                                                 <td class="d-none"><?= $consulta["id_trabajadores"] ?></td>
                                                 <td><?= $consulta["id"] ?></td>
                                                 <td><?= $consulta["nombre"] ?></td>
                                                 <td><?= $consulta["cedula"] ?></td>
                                                 <td><?= $consulta["unidad_organizativa"] ?></td>
-                                                <td><?= $consulta["fecha_registro"] ?></td>                                               
-                                                <td><?= $consulta["expediente"] ?>
+                                                <td><?= $consulta["fecha_registro"] ?></td>
                                                 <td>
                                                     <div class='btn-group' role='group' aria-label='optiones buttons'>
                                                         <button onclick="modalModificar(this)" id="btn-modificar" class="btn btn-primary">
@@ -76,7 +75,7 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                        <?php endforeach; ?>-->
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>

@@ -19,17 +19,9 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             
             $trabajador = $_POST['trabajador'];
             $fecha_registro = $_POST["fecha_registro"];
-            $expediente_nombre = $_FILES['expediente']['name'];
-            $expediente_tmp = $_FILES['expediente']['tmp_name'];
-            
-            $ruta = "assets/expedientes/".$expediente_nombre;
 
             $objeto->set_trabajador($trabajador);
             $objeto->set_fecha_registro($fecha_registro);
-            $objeto->set_expediente($expediente);
-
-            move_uploaded_file($expediente_tmp, $ruta);           
-            
             
             echo $objeto->registrar_expediente();
             exit;
@@ -68,7 +60,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
         }*/
     }
 
-    //$consultas = $objeto->listar_expediente();
+    $consultas = $objeto->listar_expediente();
     $consulta_trabajadores = $objeto->consulta_trabajadores();
 
     require_once("vista/" . $pagina . "Vista.php");

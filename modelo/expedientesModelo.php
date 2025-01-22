@@ -11,7 +11,6 @@
     private $id;
     private $trabajador;
     private $fecha_registro;
-    private $expediente;
 
     
     public function set_id($valor){
@@ -23,10 +22,7 @@
     public function set_fecha_registro($valor){
         $this->fecha_registro = $valor;
     }
-    public function set_expediente($valor){
-        $this->expediente = $valor;
-    }
-    
+
     public function registrar_expediente(){
         try {
 
@@ -37,11 +33,11 @@
                 !$this->evaluar_caracteres("/^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ\s]{1,100}$/",$this->patologia)
                 
             ){
-            	http_response_code(400);
+                http_response_code(400);
                 return "Caraceteres inválidos";
-            }
+            }*/
                       
-            if($this->existe_codigo($this->codigo_registro)){
+            /*if($this->existe_codigo($this->codigo_registro)){
                 http_response_code(400);
                 return "Este registro ya existe!!";
             }*/
@@ -50,18 +46,16 @@
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            // $sql = "INSERT INTO expedientes(id_trabajadores,fecha_registro,nombre_foto) VALUES ('$trabajador','$fecha_registro','$expediente')";
+            $sql = "INSERT INTO expedientes(id_trabajadores,fecha_registro) VALUES (:trabajador,:fecha_registro)";
 
-            /*$stmt = $bd->prepare($sql);
+            $stmt = $bd->prepare($sql);
             
             $stmt->execute(array(
 
-                ":trabajadores" => $this->trabajador,
-                ":fecha_registro" => $this->fecha_registro,
-                ":nombre_foto" => $this->expediente
-            ));*/
+                ":trabajador" => $this->trabajador,
+                ":fecha_registro" => $this->fecha_registro
 
-            // $sql_query = mysqli_query($bd,$sql);
+            ));
 
             http_response_code(200);
             return "registro exitoso";
@@ -71,14 +65,14 @@
             return $e->getMessage();
         }
     }
-
+    
     public function listar_expediente(){
 
         try{
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "SELECT a.id, b.id as id_trabajadores, a.fecha_registro, a.expediente, b.nombre, b.cedula, b.unidad_organizativa from expediente a INNER JOIN trabajadores b ON a.id_trabajadores = b.id";
+            $sql = "SELECT a.id, b.id as id_trabajadores, a.fecha_registro, b.nombre, b.cedula, b.unidad_organizativa from expedientes a INNER JOIN trabajadores b ON a.id_trabajadores = b.id";
             
             $stmt = $bd->prepare($sql);
 
