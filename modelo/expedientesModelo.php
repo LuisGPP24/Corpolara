@@ -156,7 +156,7 @@
         }
     }
 
-    /*private function existe_codigo($codigo_registro){
+    private function existe_codigo($codigo_registro){
         try {
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -179,7 +179,7 @@
         } catch (PDOException $e) {
             return false;
         }
-    }*/
+    }
 
     private function evaluar_caracteres($regex, $valor){
         $valor = trim($valor);
