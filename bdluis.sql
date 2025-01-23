@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-01-2025 a las 18:30:10
+-- Tiempo de generación: 23-01-2025 a las 01:16:40
 -- Versión del servidor: 10.1.38-MariaDB
 -- Versión de PHP: 7.3.2
 
@@ -89,9 +89,16 @@ INSERT INTO `estudios_medicos` (`id`, `id_solicitudes`, `ente`, `descripcion_sol
 CREATE TABLE `expedientes` (
   `id` int(11) NOT NULL,
   `id_trabajadores` int(11) NOT NULL,
-  `fecha_registro` int(11) NOT NULL,
-  `nombre_foto` int(11) NOT NULL
+  `fecha_registro` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `expedientes`
+--
+
+INSERT INTO `expedientes` (`id`, `id_trabajadores`, `fecha_registro`) VALUES
+(1, 1, '2025-01-22'),
+(2, 4, '2025-01-22');
 
 -- --------------------------------------------------------
 
@@ -448,7 +455,7 @@ ALTER TABLE `estudios_medicos`
 -- AUTO_INCREMENT de la tabla `expedientes`
 --
 ALTER TABLE `expedientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `familiares`
