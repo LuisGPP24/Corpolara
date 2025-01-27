@@ -57,6 +57,11 @@
 
             ));
 
+            if(isset($_FILES['expediente'])){    
+                    
+                move_uploaded_file($_FILES['expediente']['tmp_name'],'assets/expedientes/'.$_FILES['expediente']['name'].'.pdf');
+            }
+
             http_response_code(200);
             return "registro exitoso";
             
@@ -87,7 +92,7 @@
         
     }
 
-   public function modificar_farmacia(){
+   public function modificar_expediente(){
         try {
             /*if (
                 !$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula) ||
@@ -102,19 +107,14 @@
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
            
-            $sql = "UPDATE farmacia SET ente = :ente, descripcion_solicitud = :descripcion_solicitud, fecha_nacimiento = :fecha_nacimiento, parentesco = :parentesco, patologia = :patologia, proveedor = :proveedor WHERE id = :id";
+            $sql = "UPDATE expedientes SET fecha_registro = :fecha_registro WHERE id = :id";
 
             $stmt = $bd->prepare($sql);
 
-            // $stmt->execute(array(
-            //     ":ente" => $this->ente,
-            //     ":descripcion_solicitud" => $this->descripcion_solicitud,
-            //     ":fecha_nacimiento" => $this->fecha_nacimiento,
-            //     ":parentesco" => $this->parentesco,
-            //     ":patologia" => $this->patologia,
-            //     ":proveedor" => $this->proveedor,
-            //     ":id" => $this->id,
-            // ));
+            $stmt->execute(array(
+                ":fecha_registro" => $this->fecha_registro,
+                ":id" => $this->id
+             ));
 
             http_response_code(200);
             return "Modificación con exito";
@@ -139,7 +139,7 @@
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "DELETE FROM farmacia WHERE id = :id";
+            $sql = "DELETE FROM expedientes WHERE id = :id";
 
             $stmt = $bd->prepare($sql);
 
