@@ -64,6 +64,11 @@
                                                 <td><?= $consulta["cedula"] ?></td>
                                                 <td><?= $consulta["unidad_organizativa"] ?></td>
                                                 <td><?= $consulta["fecha_registro"] ?></td>
+                                                <td colspan="2" class="text-center">
+                                                <a href="assets/expediente-<?= $consulta["cedula"] ?>.pdf" target="_blank">
+                                                    <i class="bi bi-filetype-pdf"></i>
+                                                </a>
+                                            </td>
                                                 <td>
                                                     <div class='btn-group' role='group' aria-label='optiones buttons'>
                                                         <button onclick="modalModificar(this)" id="btn-modificar" class="btn btn-primary">
