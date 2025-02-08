@@ -14,6 +14,7 @@ class usuariosModelo extends conexion{
     private $contrasena;
     private $contrasena2;
     private $correo;
+    private $rol;
 
     public function set_id($valor){
         $this->id = $valor;
@@ -33,6 +34,9 @@ class usuariosModelo extends conexion{
     public function set_correo($valor){
         $this->correo = $valor;
     }
+    public function set_rol($valor){
+        $this->rol = $valor;
+    }
 
     public function registrar_usuario(){
         try {
@@ -42,7 +46,8 @@ class usuariosModelo extends conexion{
                 !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->nombre)||
                 !$this->evaluar_caracteres("/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ$#*.,]{1,50}$/",$this->contrasena) ||
                 !$this->evaluar_caracteres("/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ$#*.,]{1,50}$/",$this->contrasena2) ||
-                !$this->evaluar_caracteres("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/",$this->correo) 
+                !$this->evaluar_caracteres("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/",$this->correo) ||
+                !$this->evaluar_caracteres("/^[0-9]{1,10}$/", $this->rol)
             ){
                 http_response_code(400);
                 return "Caracteres inválidos";
@@ -63,12 +68,13 @@ class usuariosModelo extends conexion{
 
             $contrasena_hash = password_hash($this->contrasena, PASSWORD_DEFAULT,["cost" => 12]);
 
-            $sql = "INSERT INTO usuarios (cedula,nombre,contrasena,correo) VALUES (:cedula, :nombre,:contrasena,:correo)";
+            $sql = "INSERT INTO usuarios (cedula,id_rol,nombre,contrasena,correo) VALUES (:cedula,:id_rol, :nombre,:contrasena,:correo)";
 
             $stmt = $bd->prepare($sql);
             
             $stmt->execute(array(
                 ":cedula" => $this->cedula,
+                ":id_rol" => $this->rol,
                 ":nombre" => $this->nombre,
                 ":contrasena" => $contrasena_hash,
                 ":correo" => $this->correo,
@@ -147,7 +153,8 @@ class usuariosModelo extends conexion{
             if (
                 !$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula) ||
                 !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/", $this->nombre) ||
-                !$this->evaluar_caracteres("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", $this->correo)
+                !$this->evaluar_caracteres("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", $this->correo) ||
+                !$this->evaluar_caracteres("/^[0-9]{1,10}$/", $this->rol)
             ) {
                 http_response_code(400);
                 return "Caracteres inválidos";
@@ -160,12 +167,13 @@ class usuariosModelo extends conexion{
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "UPDATE usuarios SET nombre = :nombre, correo = :correo WHERE cedula = :cedula";
+            $sql = "UPDATE usuarios SET nombre = :nombre, correo = :correo, id_rol = :id_rol WHERE cedula = :cedula";
 
             $stmt = $bd->prepare($sql);
 
             $stmt->execute(array(
                 ":cedula" => $this->cedula,
+                ":id_rol" => $this->rol,
                 ":nombre" => $this->nombre,
                 ":correo" => $this->correo,
                 

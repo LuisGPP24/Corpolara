@@ -21,11 +21,16 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                 echo $objeto->eliminar_registro();
 
             }else{
-
+                
+                if (empty($_FILES['expediente']) ) {
+                    http_response_code(400);
+                    echo "Debe Seleccionar un archivo";
+                    exit;
+                }
                 $objeto->set_id($_POST['id']);
                 $objeto->set_trabajador($_POST['trabajador']);
                 $objeto->set_fecha_registro($_POST['fecha_registro']);
-                
+                $objeto->set_expediente($_FILES['expediente']);
                 
                 if($accion=='registrar'){
 

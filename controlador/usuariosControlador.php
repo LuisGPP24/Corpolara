@@ -27,12 +27,15 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $contrasena = $_POST["contrasena"];
             $contrasena2 = $_POST["contrasena2"];
             $correo = $_POST["correo"];
+            // $rol = $_POST["id_rol"];
+            $rol = 1;
 
             $objeto->set_cedula($cedula);
             $objeto->set_nombre($nombre);
             $objeto->set_contrasena($contrasena);
             $objeto->set_contrasena2($contrasena2);
             $objeto->set_correo($correo);
+            $objeto->set_rol($rol);
 
             echo $objeto->registrar_usuario();
             exit;
@@ -49,11 +52,13 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $cedula = $_POST['cedula'];
             $nombre = $_POST['nombre'];
             $correo = $_POST['correo'];
-
+            // $rol = $_POST["id_rol"];
+            $rol = 1;
             $objeto->set_cedula($cedula);
             $objeto->set_nombre($nombre);
             $objeto->set_correo($correo);
-
+            
+            $objeto->set_rol($rol);
             echo $objeto->modificar_usuario();
             exit;
         }

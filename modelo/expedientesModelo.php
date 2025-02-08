@@ -11,7 +11,7 @@
     private $id;
     private $trabajador;
     private $fecha_registro;
-
+    private $expediente;
     
     public function set_id($valor){
         $this->id = $valor;
@@ -21,6 +21,9 @@
     }    
     public function set_fecha_registro($valor){
         $this->fecha_registro = $valor;
+    }
+    public function set_expediente($valor){
+        $this->expediente = $valor;
     }
 
     /*public function registrar_expediente(){
@@ -101,25 +104,25 @@
         }
 
 
-        $bd = $this->conecta();
-        $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-        
-        $sql = "INSERT INTO expedientes(id_trabajadores, fecha_registro) VALUES (:trabajador, :fecha_registro)";
-        $stmt = $bd->prepare($sql);
-        $stmt->execute(array(
-            ":trabajador" => $this->trabajador,
-            ":fecha_registro" => $this->fecha_registro
-        ));
-
-        if (isset($_FILES['expediente'])) {
+        if (!empty($this->expediente) ) {
             
-           if($_FILES['expediente']['size'] === 0) {
+            if($this->expediente['size'] === 0) {
                 http_response_code(400);
                 return "El campo archivo está vacío";
             }else{
-
-                move_uploaded_file($_FILES['expediente']['tmp_name'], 'assets/expedientes/' . $_FILES['expediente']['name'] . '.pdf');
+                
+                $bd = $this->conecta();
+                $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                
+                
+                $sql = "INSERT INTO expedientes(id_trabajadores, fecha_registro) VALUES (:trabajador, :fecha_registro)";
+                $stmt = $bd->prepare($sql);
+                $stmt->execute(array(
+                    ":trabajador" => $this->trabajador,
+                    ":fecha_registro" => $this->fecha_registro
+                ));
+                move_uploaded_file($this->expediente['tmp_name'], 'assets/expedientes/' . $this->expediente['name'] );
             }
             
         } else{
