@@ -125,7 +125,7 @@
 
             <div class="collapse" id="collapseServiciosMedicos" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                 <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="?pagina=registro_inventario">Registro de salida de insumos</a>
+                    <a class="nav-link" href="?pagina=salidaInsumos">Registro de salida de insumos</a>
                 </nav>
             </div>
 
