@@ -15,8 +15,6 @@ $(document).ready(function () {
     $("#btn_registrar").click(function (e) {
         $("#modalExpedienteLabel").text('Registro de Expedientes');
         $("#registrar").show();
-        $("#modificar").hide();
-        $("#trabajador").removeAttr("disabled")
         borrarForm();
     });
     
@@ -57,7 +55,6 @@ $(document).ready(function () {
           },
           complete: function () {
                 $("#modalExpediente").modal("hide");
-            borrarForm();
                 
             },
         });
@@ -69,27 +66,7 @@ function borrarForm() {
    $('#id').val('');
    $('#trabajador').val('');
    $('#fecha_registro').val('');
-   
-}
-
-function modalModificar(fila) {
-   $("#modalExpedienteLabel").text("Modificar Expediente de trabajador");
-
-  $("#registrar").hide();
-  $("#modificar").show();
-   
-
-   $("#modalExpediente").modal("show");
-     
-   const linea = $(fila).closest("tr");
-   const id = $(linea).find("td:eq(1)");
-   const trabajador = $(linea).find("td:eq(0)");
-   const fecha_registro = $(linea).find("td:eq(5)");
-   
-   $("#trabajador").attr('disabled','disabled');
-   $("#id").val(id.text());
-   $("#trabajador").val(trabajador.text());
-   $("#fecha_registro").val(fecha_registro.text());  
+   $('#expediente').val('');   
 }
 
 function eliminar(fila) {

@@ -88,26 +88,18 @@
 
             <div class="collapse" id="collapseReportes" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                 <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="?pagina=reportes">Reportes</a>
+                    <a class="nav-link" href="?pagina=reportes">Ficha de Personal</a>
 
                 </nav>
             </div>
 
             <div class="collapse" id="collapseReportes" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                 <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="?pagina=reportesEstadisticos">Reportes estadísticos</a>
+                    <a class="nav-link" href="?pagina=ficha_personal">Planillas de Solicitudes</a>
 
                 </nav>
             </div>
-
-            <div class="collapse" id="collapseReportes" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="?pagina=ficha_personal">Ficha de personal</a>
-
-                </nav>
-            </div>
-
-
+            
             <!--  -->
             <div class="sb-sidenav-menu-heading">Servicios Médicos</div>
 

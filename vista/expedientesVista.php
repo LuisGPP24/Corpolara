@@ -65,15 +65,12 @@
                                                 <td><?= $consulta["unidad_organizativa"] ?></td>
                                                 <td><?= $consulta["fecha_registro"] ?></td>
                                                 <td colspan="2" class="text-center">
-                                                <a href="assets/expediente-<?= $consulta["cedula"] ?>.pdf" target="_blank">
+                                                <a href="assets/expedientes/expediente-<?= $consulta["cedula"] ?>.pdf" target="_blank">
                                                     <i class="bi bi-filetype-pdf"></i>
                                                 </a>
                                             </td>
-                                                <td>
+                                                <td colspan="2" class="text-center">
                                                     <div class='btn-group' role='group' aria-label='optiones buttons'>
-                                                        <button onclick="modalModificar(this)" id="btn-modificar" class="btn btn-primary">
-                                                            <i class="bi bi-pencil-square"></i>
-                                                        </button>
                                                         <button onclick="eliminar(this)" id="btn_eliminar" class="btn btn-danger">
                                                             <i class="bi bi-trash-fill"></i>
                                                         </button>
@@ -134,7 +131,7 @@
 
                         <div class="row mb-3">
                             <div class="col-md-12">
-                                <label for="expediente" class="form-label">Expediente del trabajador</label>
+                                <label for="expediente" class="form-label">Expediente del trabajador <strong>(Ej.: expediente-0000000.pdf)</strong></label>
                                 <input class="form-control" id="expediente" name="expediente" type="file" accept=".pdf">
                             </div>
                         </div>
@@ -145,7 +142,6 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     <button type="submit" form="formExpediente" id="registrar" class="btn btn-success">registrar</button>
-                    <button type="submit" form="formExpediente" id="modificar" class="btn btn-primary">modificar</button>
                 </div>
             </div>
         </div>

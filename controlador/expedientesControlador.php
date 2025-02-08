@@ -21,8 +21,6 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                 echo $objeto->eliminar_registro();
 
             }else{
-                
-                //asignando los valores a los atributos 
 
                 $objeto->set_id($_POST['id']);
                 $objeto->set_trabajador($_POST['trabajador']);
@@ -32,17 +30,10 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                 if($accion=='registrar'){
 
                     echo $objeto->registrar_expediente(); 
-
-                }
-                elseif($accion=='modificar'){
-                    
-                    echo $objeto->modificar_expediente();
-                    
-                }       
+                }      
             }
 
         exit;
-        
     }
 
     $consultas = $objeto->listar_expediente();

@@ -26,105 +26,67 @@
                 <div class="container-fluid px-3">
 
                     <div class="card shadow-sm rounded mt-3">
+
                         <div class="card-body">
 
                             <div class="row mt-2 mb-4">
-                                <div class="col-auto me-auto mb-2">
-                                    <h2 class="card-title">Reportes</h2>
+                                <div class="container-fluid text-center me-auto mb-2">
+                                    <h2 class="card-title">Ficha del Trabajador</h2>
                                 </div>
 
                             </div>
 
-                            <form id="formReportes" action="" method="POST">
+                            <div class="container-fluid">
 
-                                <div class="row mb-3">
-                                    <div class="col-md-3">
-                                        <div class="form-floating">
-                                            <select class="selectpicker form-control" name="trabajador" id="trabajador" name="trabajador">
-                                                <option value="1">diego</option>
-                                                <option value="2">jose</option>
-                                                <option value="3">jose</option>
-                                                <option value="4">jose</option>
-                                                <option value="5">jose</option>
+                                <form id="formReportes" action="" method="POST">
 
-                                            </select>
-                                            <label for="trabajador">trabajador</label>
+                                    <div class="row mb-3">
+
+                                    <div class="row mb-2 justify-content-center">
+
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <select class="selectpicker form-control" name="trabajador" id="trabajador" name="trabajador">
+                                                    <option value=""></option>
+                                                    <option value="1">diego</option>
+                                                    <option value="2">jose</option>
+                                                    <option value="3">jose</option>
+                                                    <option value="4">jose</option>
+                                                    <option value="5">jose</option>
+                                                </select>
+                                                <label for="trabajador">trabajador</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <div class="form-floating">
+                                                    <input type="text" name="solicitante" id="solicitante" class="form-control">
+                                                    <label for="solicitante">solicitante</label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="form-floating">
-                                            <select class="selectpicker form-control" name="solicitante" id="solicitante" name="solicitante">
-                                                <option value="30591237">diego</option>
-                                                <option value="31231241">jose</option>
-                                                <option value="34343434">jose</option>
-                                                <option value="64656757">jose</option>
-                                                <option value="78868686">jose</option>
 
-                                            </select>
-                                            <label for="solicitante">solicitante</label>
+                                    <div class="row">
+                                        <div class="col-md-12 text-center mb-3">
+                                
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <button type="button" class="btn btn-primary">listar</button>
+
+                                    <div class="row mb-2 justify-content-center">
+                                        <div class="row mb-2 justify-content-center">
+                                            <button type="button" id="generarReporte" class="btn btn-danger w-50">generar</button>
+                                        </div>                                        
                                     </div>
-                                    <div class="col-md-3">
-                                        <button type="button" id="generarReporte" class="btn btn-primary">generar</button>
                                     </div>
-                                </div>
-
-
-                            </form>
-
-                        </div>
-                    </div>
-                    <div class="card shadow-sm rounded mt-3">
-                        <div class="card-body">
-
-                            <div class="table-responsive">
-                                <table id="tablaExpedientes" class="table table-hover table-striped mt-3" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Codigo Registro</th>
-                                            <th>trabajador</th>
-                                            <th>solicitante</th>
-                                            <th>Fecha de registro
-                                            <th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>001</td>
-                                            <td>Diego</td>
-                                            <td>luis</td>
-                                            <td>2024</td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>005</td>
-                                            <td>Diego</td>
-                                            <td>luis</td>
-                                            <td>2024</td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>0007</td>
-                                            <td>Diego</td>
-                                            <td>luis</td>
-                                            <td>2024</td>
-
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                </form>
                             </div>
-
-
                         </div>
-                    </div>
+                    </div>                 
                 </div>
-
             </main>
         </div>
-
     </div>
 
 

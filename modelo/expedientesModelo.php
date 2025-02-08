@@ -23,24 +23,29 @@
         $this->fecha_registro = $valor;
     }
 
-    public function registrar_expediente(){
+    /*public function registrar_expediente(){
         try {
 
-            /*if(
+            if(
 
-                !$this->evaluar_caracteres("/^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ\s]{1,100}$/",$this->ente)||
-                !$this->evaluar_caracteres("/^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ\s]{1,100}$/",$this->descripcion_solicitud)||
-                !$this->evaluar_caracteres("/^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ\s]{1,100}$/",$this->patologia)
-                
+                !$this->evaluar_caracteres("/^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ\s]{1,100}$/",$this->trabajador)
             ){
                 http_response_code(400);
-                return "Caraceteres inválidos";
-            }*/
-                      
-            /*if($this->existe_codigo($this->codigo_registro)){
+                return "Elija a un trabajador";
+            }
+
+            if(
+
+                !$this->evaluar_caracteres("/^(19|20)(((([02468][048])|([13579][26]))-02-29)|(\d{2})-((02-((0[1-9])|1\d|2[0-8]))|((((0[13456789])|1[012]))-((0[1-9])|((1|2)\d)|30))|(((0[13578])|(1[02]))-31)))$/",$this->fecha_registro)
+            ){
                 http_response_code(400);
-                return "Este registro ya existe!!";
-            }*/
+                return "Coloque una fecha valida";
+            }
+                      
+            if($this->existe_registro($this->trabajador)){
+                http_response_code(400);
+                return "El registro de este trabajador ya existe!!";
+            }
 
             
             $bd = $this->conecta();
@@ -55,21 +60,82 @@
                 ":trabajador" => $this->trabajador,
                 ":fecha_registro" => $this->fecha_registro
 
-            ));
+            ));  
 
-            if(isset($_FILES['expediente'])){    
+            if(isset($_FILES['expediente'])){ 
                     
                 move_uploaded_file($_FILES['expediente']['tmp_name'],'assets/expedientes/'.$_FILES['expediente']['name'].'.pdf');
-            }
 
+            }
+            
             http_response_code(200);
             return "registro exitoso";
             
+
         } catch (PDOException $e) {
             http_response_code(500);
             return $e->getMessage();
         }
+    }*/
+
+    public function registrar_expediente() {
+    try {
+
+        if (!$this->evaluar_caracteres("/^[A-Za-z0-9áéíóúÁÉÍÓÚñÑs]{1,100}$/", $this->trabajador)) {
+            http_response_code(400);
+            return "Elija a un trabajador";
+        }
+
+        if(
+
+        !$this->evaluar_caracteres("/^(19|20)(((([02468][048])|([13579][26]))-02-29)|(\d{2})-((02-((0[1-9])|1\d|2[0-8]))|((((0[13456789])|1[012]))-((0[1-9])|((1|2)\d)|30))|(((0[13578])|(1[02]))-31)))$/",$this->fecha_registro)
+        ){
+            http_response_code(400);
+            return "Coloque una fecha valida";
+        }
+
+        
+        if ($this->existe_registro($this->trabajador)) {
+            http_response_code(400);
+            return "El registro de este trabajador ya existe!!";
+        }
+
+
+        $bd = $this->conecta();
+        $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+        
+        $sql = "INSERT INTO expedientes(id_trabajadores, fecha_registro) VALUES (:trabajador, :fecha_registro)";
+        $stmt = $bd->prepare($sql);
+        $stmt->execute(array(
+            ":trabajador" => $this->trabajador,
+            ":fecha_registro" => $this->fecha_registro
+        ));
+
+        if (isset($_FILES['expediente'])) {
+            
+           if($_FILES['expediente']['size'] === 0) {
+                http_response_code(400);
+                return "El campo archivo está vacío";
+            }else{
+
+                move_uploaded_file($_FILES['expediente']['tmp_name'], 'assets/expedientes/' . $_FILES['expediente']['name'] . '.pdf');
+            }
+            
+        } else{
+            http_response_code(400);
+            return "No se ha seleccionado ningún archivo";
+        }
+
+        http_response_code(200);
+        return "Registro exitoso";
+
+    } catch (PDOException $e) {
+        http_response_code(500);
+        return $e->getMessage();
     }
+}
+
     
     public function listar_expediente(){
 
@@ -92,48 +158,11 @@
         
     }
 
-   public function modificar_expediente(){
-        try {
-            /*if (
-                !$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula) ||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/", $this->nombre) ||
-                !$this->evaluar_caracteres("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", $this->correo)
-            ) {
-                http_response_code(400);
-                return "Caracteres inválidos";
-            }*/
-            
-            
-            $bd = $this->conecta();
-            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-           
-            $sql = "UPDATE expedientes SET fecha_registro = :fecha_registro WHERE id = :id";
-
-            $stmt = $bd->prepare($sql);
-
-            $stmt->execute(array(
-                ":fecha_registro" => $this->fecha_registro,
-                ":id" => $this->id
-             ));
-
-            http_response_code(200);
-            return "Modificación con exito";
-        } catch (PDOException $e) {
-            http_response_code(500);
-            return $e->getMessage();
-        }
-    }
-
     public function eliminar_registro(){
         try {
-            /*if(!$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula)){
+            /*if(!$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->id)){
                 http_response_code(400);
                 return "Caracteres inválidos";
-            }*/
-
-            /*if (!$this->existe_codigo($this->codigo_registro)){
-                http_response_code(400);
-                return "Este Registro No existe";
             }*/
 
             $bd = $this->conecta();
@@ -147,6 +176,13 @@
                 ":id" => $this->id
             ));
 
+            /*if(is_file("assets/expedientes/".expediente-["cedula"].".pdf")){
+                unlink("assets/expedientes/".expediente-["cedula"].".pdf");
+                return "eliminado";
+            }else{
+                return "no eliminado";
+            }*/
+
             http_response_code(200);
             return "eliminacion con exito";
             
@@ -156,17 +192,17 @@
         }
     }
 
-    private function existe_codigo($codigo_registro){
+    private function existe_registro($trabajador){
         try {
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "SELECT * FROM farmacia WHERE id_solicitudes = :solicitudes";
+            $sql = "SELECT * FROM expedientes WHERE id_trabajadores = :trabajador";
 
             $stmt = $bd->prepare($sql);
 
             $stmt->execute(array(
-                ":solicitudes" => $codigo_registro,
+                ":trabajador" => $trabajador,
             ));
             
             $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
