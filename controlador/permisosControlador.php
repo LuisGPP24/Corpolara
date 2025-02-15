@@ -15,6 +15,14 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
 
         $accion = $_POST['accion'];
 
+        if($accion == "consulta_accesos"){
+            $idRol =  $_POST['id'];
+
+            $objeto->set_id_rol($idRol);
+            echo $objeto->consulta_accesos();
+            exit;
+        }
+
         if($accion == "registrar"){
           
             $codigo = $_POST["codigo"];
@@ -115,6 +123,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
 
     $consultas = $objeto->listar_roles();
     $consulta_trabajadores = $objeto->consulta_trabajadores();
+    $lista_permisos = $objeto->lista_permisos();
 
     require_once("vista/" . $pagina . "Vista.php");
     exit;

@@ -27,9 +27,17 @@
     private $estatus;
     private $observacion;
 
+    private $id_rol;
+
+    public function set_id_rol($valor){
+        $this->id_rol = $valor;
+    }
+
     public function set_id($valor){
         $this->id = $valor;
     }
+    
+
     public function set_codigo($valor){
         $this->codigo = $valor;
     }
@@ -348,5 +356,56 @@
             return $e->getMessage();
         }
     }
+
+    public function lista_permisos()
+    {
+        try {
+
+            $bd = $this->conecta();
+            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $sql = "SELECT * from modulos";
+
+
+            $stmt = $bd->prepare($sql);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            http_response_code(500);
+            return $e->getMessage();
+        }
+    }
+
+    
+    public function consulta_accesos(){
+        try{
+
+            $bd = $this->conecta();
+            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $sql = "SELECT id_modulos,acceso from permisos where id_rol = :id_rol";
+
+
+            $stmt = $bd->prepare($sql);
+
+            $stmt->execute([
+                "id_rol" => $this->id_rol
+            ]);
+
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $dataJson = json_encode($resultado);
+            
+            return $dataJson;
+
+        } catch (PDOException $e) {
+            http_response_code(500);
+            return json_encode($e->getMessage());
+        }
+    }
+
+
 }
 ?>

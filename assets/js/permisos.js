@@ -106,9 +106,51 @@ $(document).ready(function () {
 });
 
 function modalPermisos(fila) {
+  $("#rol-titulo").text("");
     const linea = $(fila).closest("tr");
-    const cedula = $(linea).find("td:eq(1)");
-    $("#cedula_editar").val(cedula.text());
+    const id = $(linea).find("td:eq(0)");
+  const nombreRol = $(linea).find("td:eq(1)");
+  
+  $("#id").val(id.text());
+  
+  $("#rol-titulo").text(`${id.text()} - ${nombreRol.text()}`);
+
+  if ($(".x-permiso").is(":checked")) {
+    $(".x-permiso").prop("checked", false);
+  };
+
+
+  const data = new FormData();
+
+  data.append("accion", "consulta_accesos");
+  data.append("id", $("#id").val());
+
+  $.ajax({
+    async: true,
+    url: " ",
+    type: "POST",
+    contentType: false,
+    data: data,
+    processData: false,
+    cache: false,
+    success: function (response) {
+      const result = JSON.parse(response);
+      result.forEach((item) => {
+        let checkbox = $(`#fila-modulo-${item.id_modulos} .x-permiso`);
+        console.log(checkbox);
+        if (checkbox.length) {
+          checkbox.prop("checked", item.acceso === 1);
+        }
+      });
+    },
+    error: function ({ responseText }, status, error) {
+      Toast.fire({
+        icon: "error",
+        title: `${responseText}`,
+      });
+    },
+    
+  });
 
 
     $("#modalPassword").modal("show");

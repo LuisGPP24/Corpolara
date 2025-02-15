@@ -44,16 +44,17 @@
                             <div class="table-responsive">
                                 <table id="tablaSolicitudes" class="table table-hover table-striped mt-3" style="width:100%">
                                     <thead>
-                                        <tr>                                            
+                                        <tr>
                                             <th>ID</th>
                                             <th>Nombre</th>
                                             <th>Descripción</th>
                                             <th>Opciones</th>
                                         </tr>
                                     </thead>
-                                   
+
+                                    <tbody>
                                         <?php foreach ($consultas as $consulta) : ?>
-                                            <tr>                                                
+                                            <tr>
                                                 <td><?= $consulta["id"] ?></td>
                                                 <td><?= $consulta["nombre"] ?></td>
                                                 <td><?= $consulta["descripcion"] ?></td>
@@ -105,7 +106,7 @@
                                     <label for="nombre">Nombre del Rol</label>
                                 </div>
                             </div>
-                        </div>                     
+                        </div>
 
                         <div class="row mb-3">
                             <div class="col-md-12">
@@ -116,7 +117,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -134,37 +135,47 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modalPasswordLabel">Permisos de Rol:</h1>
+                    <h1 class="modal-title fs-5" id="modalPasswordLabel">Permisos de Rol: <span id="rol-titulo"> </span> </h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-12">                            
+                        <div class="col-md-12">
                             <form id="formulario_permisos" method="post">
                                 <div class="row mt-3">
                                     <div class="col-md-12">
-                                         <div class="table-responsive card">
+                                        <div class="table-responsive card">
                                             <table class="table table-hover">
                                                 <thead>
-                                                    <th class="text-center">Listado de Módulos</th>
+                                                    <th class="text-center">#</th>
+                                                    <th>Listado de Módulos</th>
                                                     <th class="text-center">Acceso</th>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
+                                                    <?php foreach ($lista_permisos as $permiso) : ?>
+                                                        <tr id="fila-modulo-<?= $permiso["id"] ?>">
+                                                            <td class="text-center"><?= $permiso["id"] ?></td>
+                                                            <td><?= $permiso["nombre"] ?></td>
+                                                            <td class="text-center">
+                                                                <input type="checkbox" class="form-check-input x-permiso" name="acceso[<?= $permiso["id"] ?>]">
+                                                            </td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                    <!-- <tr>
                                                         <td>Gestionar de Trabajadores</td>
                                                         <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_trabajadores" name="modulo_trabajadores[]">
+                                                            <input type="checkbox" class="form-check-input" id="modulo_trabajadores" name="modulo_trabajadores">
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>Gestionar Antecedentes</td>
-                                                            <td class="text-center">
+                                                        <td class="text-center">
                                                             <input type="checkbox" class="form-check-input" id="modulo_antecedentes" name="modulo_antecedentes">
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>Gestionar Carga Familiar</td>
-                                                            <td class="text-center">
+                                                        <td class="text-center">
                                                             <input type="checkbox" class="form-check-input" id="modulo_carga_familiar" name="modulo_carga_familiar">
                                                         </td>
                                                     </tr>
@@ -269,13 +280,13 @@
                                                         <td class="text-center">
                                                             <input type="checkbox" class="form-check-input" id="modulo_manual" name="modulo_manual">
                                                         </td>
-                                                    </tr>
+                                                    </tr> -->
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                 </div>
-                            </form>                            
+                            </form>
                         </div>
                     </div>
                 </div>
