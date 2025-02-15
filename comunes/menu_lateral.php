@@ -99,7 +99,28 @@
 
                 </nav>
             </div>
-            
+
+            <div class="collapse" id="collapseReportes" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                <nav class="sb-sidenav-menu-nested nav">
+                    <a class="nav-link" href="?pagina=reportesEstadisticos">Reportes Estadísticos</a>
+
+                </nav>
+            </div>
+
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseFacturas" aria-expanded="false" aria-controls="collapseFacturas">
+
+                Facturas
+                <div class="sb-sidenav-collapse-arrow">
+                    <i class="bi bi-chevron-down"></i>
+                </div>
+            </a>
+
+            <div class="collapse" id="collapseFacturas" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                <nav class="sb-sidenav-menu-nested nav">
+                    <a class="nav-link" href="?pagina=facturas">Registro de Facturas</a>
+                </nav>
+            </div>
+
             <!--  -->
             <div class="sb-sidenav-menu-heading">Servicios Médicos</div>
 

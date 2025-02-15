@@ -30,6 +30,7 @@ $(document).ready(function () {
       { data: "cedula" },
       { data: "nombre" },
       { data: "correo" },
+      { data: "rol" },
       {target: -1,defaultContent: ""},
     ],
     columnDefs: [
@@ -56,51 +57,6 @@ $(document).ready(function () {
     ],
   });
 
-    // tabla = $("#tablaUsuarios").DataTable({
-    //   resposive: true,
-    //   pagingType: "simple_numbers",
-    //   language: {
-    //     url: "./assets/es-ES.json",
-    //   },
-    //   ajax: {
-    //     url: " ",
-    //     type: "POST",
-    //     dataSrc: "data",
-    //     data: { accion: "listar" },
-    //   },
-    //   columns: [
-    //     { data: "id" },
-    //     { data: "cedula" },
-    //     { data: "nombre" },
-    //     { data: "correo" },
-    //     { targets: -1, defaultContent: "" },
-    //   ],
-    //   columnDefs: [
-    //     {
-    //       target: -1,
-    //       searchable: false,
-    //       render: function (data, type, row, meta) {
-    //         const btn_editar =
-    //           "<button type='button' class='btn btn-primary me-1'  ><i class='bi bi-pencil-fill'></i></button>";
-
-    //         const btn_eliminar =
-    //           "<button type='button' class='btn btn-danger '><i class='bi bi-trash-fill'></i></button>";
-    //         return (
-    //           "<div class='btn-group' role='group' aria-label='optiones buttons'>" +
-    //           btn_editar +
-    //           btn_eliminar +
-    //           "</div>"
-    //         );
-    //       },
-    //     },
-    //     // { responsivePriority: 1, targets: 1 },
-    //     // { responsivePriority: 1, targets: -1 },
-    //     // { responsivePriority: 2, targets: 0 },
-    //     // { responsivePriority: 3, targets: 2 },
-    //     // { responsivePriority: 4, targets: 3 },
-    //   ],
-    // });
-
     $("#btn_registrar").click(function (e) {
         $("#modalUsuariosLabel").text('Gestión Registro');
         $("#registrar").show();
@@ -119,7 +75,6 @@ $(document).ready(function () {
 
         data.append("accion", "cambiar");
         data.append("cedula", $("#cedula_editar").val());
-
         data.append("contrasena", $("#contrasena_editar").val());
         data.append("contrasena2", $("#contrasena2_editar").val());
       
@@ -166,6 +121,7 @@ $(document).ready(function () {
         data.append("cedula", $("#cedula").val());
         data.append("nombre", $("#nombre").val());
         data.append("correo", $("#correo").val());
+        data.append("rol", $("#rol").val());
         
         if (btn_clicked === 'registrar') {
             
@@ -231,11 +187,13 @@ function modalPassword(fila) {
    const cedula = $(linea).find("td:eq(1)");
    const nombre = $(linea).find("td:eq(2)");
    const correo = $(linea).find("td:eq(3)");
+   const rol = $(linea).find("td:eq(4)");
 
    $("#cedula").attr('disabled','disabled');
    $("#cedula").val(cedula.text());
    $("#nombre").val(nombre.text());
    $("#correo").val(correo.text());
+   $("#rol").val(rol.text());
 
 }
  
@@ -245,6 +203,7 @@ function borrarForm() {
     $('#correo').val('');
     $("#contrasena").val('');
     $("#contrasena2").val('');
+    $("#rol").val('');
 
     $('#cedula_editar').val('');
     $("#contrasena_editar").val('');

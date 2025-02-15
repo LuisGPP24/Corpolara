@@ -68,13 +68,13 @@ class usuariosModelo extends conexion{
 
             $contrasena_hash = password_hash($this->contrasena, PASSWORD_DEFAULT,["cost" => 12]);
 
-            $sql = "INSERT INTO usuarios (cedula,id_rol,nombre,contrasena,correo) VALUES (:cedula,:id_rol, :nombre,:contrasena,:correo)";
+            $sql = "INSERT INTO usuarios (cedula,id_rol,nombre,contrasena,correo) VALUES (:cedula,:rol, :nombre,:contrasena,:correo)";
 
             $stmt = $bd->prepare($sql);
             
             $stmt->execute(array(
                 ":cedula" => $this->cedula,
-                ":id_rol" => $this->rol,
+                ":rol" => $this->rol,
                 ":nombre" => $this->nombre,
                 ":contrasena" => $contrasena_hash,
                 ":correo" => $this->correo,
@@ -89,33 +89,13 @@ class usuariosModelo extends conexion{
         }
     }
 
-    // public function listar_usuario(){
-
-    //     try{
-    //         $bd = $this->conecta();
-    //         $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    //         $sql = "SELECT * FROM usuarios";
-
-    //         $stmt = $bd->prepare($sql);
-
-    //         $stmt->execute();
-
-    //         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    //     } catch (PDOException $e) {
-    //         http_response_code(500);
-    //         return $e->getMessage();
-    //     }
-        
-    // }
     public function listar_usuario(){
 
         try{
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "SELECT * FROM usuarios";
+            $sql = "SELECT a.id, a.cedula, a.nombre, a.correo, b.nombre as nombre_rol FROM usuarios a INNER JOIN roles b ON a.id_rol = b.id";
 
             $stmt = $bd->prepare($sql);
 
@@ -132,6 +112,7 @@ class usuariosModelo extends conexion{
                 $subarray['cedula'] = $resultado['cedula'];
                 $subarray['nombre'] = $resultado['nombre'];
                 $subarray['correo'] = $resultado['correo'];
+                $subarray['rol'] = $resultado['nombre_rol'];
 
                 $data[] = $subarray;
             }
@@ -286,6 +267,35 @@ class usuariosModelo extends conexion{
             }
         } catch (PDOException $e) {
             return false;
+        }
+    }
+
+    public function consulta_roles(){
+
+        try{
+
+            $bd = $this->conecta();
+            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $sql = "SELECT id,nombre from roles";
+
+            $stmt = $bd->prepare($sql);
+            $stmt->execute();
+            
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            if($resultado){
+                http_response_code(200);
+                return $resultado;
+            }else{
+                http_response_code(200);
+                return null;
+            }
+
+
+        }catch(Exception $e) {
+            http_response_code(500);
+            return $e->getMessage();
         }
     }
 

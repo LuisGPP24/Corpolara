@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="col-auto">
 
-                                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalFarmacia" id='btn_registrar'>
+                                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalSalidaInsumo" id='btn_registrar'>
                                         Registrar
                                     </button>
 
@@ -42,47 +42,34 @@
                             </div>
 
                             <div class="table-responsive">
-                                <table id="tablaFarmacia" class="table table-hover table-striped mt-3" style="width:100%">
+                                <table id="tablaSalidaInsumo" class="table table-hover table-striped mt-3" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th class="d-none">id_trabajadores</th>
                                             <th>ID</th>
-                                            <th>Codigo del registro</th>
-                                            <th>Fecha de la Solicitud</th>
-                                            <th>Ente</th>                               
-                                            <th>Trabajador/Titular</th>
-                                            <th>Cedula del trabajador</th>
-                                            <th>Nombre del beneficiario</th>
-                                            <th>Cedula del beneficiario</th>
-                                            <th>Fecha de nacimiento</th>
-                                            <th>Parentesco</th>
-                                            <th>Tipo de Solicitud</th>
-                                            <th>Descripcion de Solicitud</th>
-                                            <th>Telefono</th>
-                                            <th>Patología/Sintomatologia</th>
-                                            <th>Proveedor</th>
+                                            <th>Fecha</th>
+                                            <th>Nombre y apellido</th>
+                                            <th>Cédula</th>                               
+                                            <th>Unidad Organizativa</th>
+                                            <th>Insumo Utilizado</th>
+                                            <th>Cantidad suministrada</th>
+                                            <th>Entregado por:</th>
                                             <th>Opciones</th>
                                         </tr>
                                     </thead>
                                    
-                                        <!--<?php foreach ($consultas as $consulta) : ?>
+                                        <?php foreach ($consultas as $consulta) : ?>
                                             <tr>
-                                                <td class="d-none"><?= $consulta["id_solicitudes"] ?></td>
+                                                <td class="d-none"><?= $consulta["id_trabajadores"] ?></td>
+                                                <td class="d-none"><?= $consulta["id_inventario"] ?></td>
                                                 <td><?= $consulta["id"] ?></td>
-                                                <td><?= $consulta["codigo_registro"] ?></td>
-                                                <td><?= $consulta["fecha_registro"] ?></td>
-                                                <td><?= $consulta["ente"] ?></td>                                                
+                                                <td><?= $consulta["fecha"] ?></td>
                                                 <td><?= $consulta["nombre"] ?></td>
-                                                <td><?= $consulta["cedula"] ?></td>                                                 
-                                                <td><?= $consulta["nombre_solicitante"] ?></td>
-                                                <td><?= $consulta["cedula_solicitante"] ?></td>
-                                                <td><?= $consulta["fecha_nacimiento"] ?></td>
-                                                <td><?= $consulta["parentesco"] ?></td>
-                                                <td><?= $consulta["tipo_solicitud"] ?></td>
-                                                <td><?= $consulta["descripcion_solicitud"] ?></td>
-                                                <td><?= $consulta["telefono_solicitante"] ?></td>
-                                                <td><?= $consulta["patologia"] ?></td>                                                
-                                                <td><?= $consulta["proveedor"] ?></td>
+                                                <td><?= $consulta["cedula"] ?></td>                                                
+                                                <td><?= $consulta["unidad_organizativa"] ?></td>
+                                                <td><?= $consulta["nombre_insumo"] ?></td>                                                 
+                                                <td><?= $consulta["cantidad"] ?></td>
+                                                <td><?= $consulta["entregado_por"] ?></td>
                                                 <td>
                                                     <div class='btn-group' role='group' aria-label='optiones buttons'>
                                                         <button onclick="modalModificar(this)" id="btn-modificar" class="btn btn-primary">
@@ -94,7 +81,7 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                        <?php endforeach; ?>-->
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -108,90 +95,73 @@
     </div>
 
     <!-- Modal Gestion-->
-    <div class="modal fade" id="modalFarmacia" tabindex="-1" aria-labelledby="modalFarmaciaLabel" aria-hidden="true">
+    <div class="modal fade" id="modalSalidaInsumo" tabindex="-1" aria-labelledby="modalSalidaInsumoLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modalFarmaciaLabel"></h1>
+                    <h1 class="modal-title fs-5" id="modalSalidaInsumoLabel"></h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
-                    <form id="formFarmacia" action="" method="POST">
+                    <form id="formSalidaInsumo" action="" method="POST">
 
                         <input type="text" class="d-none" id="id" placeholder="id">
 
                         <div class="row mb-3">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-floating">
-                                    <select class="selectpicker form-control" name="codigo_registro" id="codigo_registro" data-live-search="true" data-show-subtext="true">
+                                    <div class="form-floating">
+                                        <input type="date" class="form-control" id="fecha" placeholder="fecha">
+                                        <label for="fecha">Fecha</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-control" name="insumo" id="insumo">
                                         <option value=""></option>
-                                        <?php foreach ($consulta_solicitudes as $solicitudes) : ?>
-                                            <option value="<?= $solicitudes['id'] ?>"> 
-                                                <?= $solicitudes['codigo_registro'] ?> -- <?= $solicitudes['nombre_solicitante'] ?> -- <?= $solicitudes['tipo_solicitud'] ?>
+                                        <?php foreach ($consulta_inventario as $inventario) : ?>
+                                            <option value="<?= $inventario['id'] ?>"> 
+                                                <?= $inventario['codigo_insumo'] ?> -- <?= $inventario['nombre_insumo'] ?>
                                             </option>
                                         <?php endforeach ?>
                                     </select>
-                                    <label for="codigo_registro">Codigo Del Registro</label>
-                                </div>
-                            </div>
-                        </div>                        
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="ente" placeholder="ente">
-                                        <label for="ente">Ente</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="descripcion_solicitud" placeholder="descripcion_solicitud">
-                                    <label for="descripcion_solicitud">Descripción de la Solicitud</label>
-                                </div>
-                            </div>
-                        </div>  
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <div class="form-floating">
-                                        <input type="date" class="form-control" id="fecha_nacimiento" placeholder="fecha_nacimiento">
-                                        <label for="fecha_nacimiento">Fecha de nacimiento</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <select class="form-control" name="parentesco" id="parentesco">
-                                        <option value="" hidden="" selected="hidden">Seleccionar Opcion</option>
-                                        <option value=""></option>
-                                        <option value="padre">Padre</option> 
-                                        <option value="madre">Madre</option> 
-                                        <option value="hijo">Hijo(a)</option>
-                                        <option value="hermano">Hermano</option>
-                                    </select>
-                                    <label for="parentesco">Parentesco</label>
+                                    <label for="insumo">Insumo</label>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row mb-3">
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <select class="selectpicker form-control" name="trabajador" id="trabajador" data-live-search="true" data-show-subtext="true">
+                                        <option value=""></option>
+                                        <?php foreach ($consulta_trabajadores as $trabajadores) : ?>
+                                            <option value="<?= $trabajadores['id'] ?>"> 
+                                                <?= $trabajadores['cedula'] ?> -- <?= $trabajadores['nombre'] ?>
+                                            </option>
+                                        <?php endforeach ?>
+                                    </select>
+                                    <label for="trabajador">Trabajador</label>
+                                </div>
+                            </div>
+                        </div> 
+
+                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="patologia" placeholder="patologia">
-                                        <label for="patologia">Patología/Sintomatologia</label>
+                                        <input type="text" class="form-control" id="cantidad" placeholder="cantidad">
+                                        <label for="cantidad">Cantidad suministrada</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="proveedor" placeholder="proveedor">
-                                        <label for="proveedor">Proveedor</label>
+                                        <input type="text" class="form-control" id="entregado" placeholder="entregado">
+                                        <label for="entregado">Entregado por</label>
                                     </div>
                                 </div>
                             </div>
@@ -201,8 +171,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" form="formFarmacia" id="registrar" class="btn btn-success">registrar</button>
-                    <button type="submit" form="formFarmacia" id="modificar" class="btn btn-primary">modificar</button>
+                    <button type="submit" form="formSalidaInsumo" id="registrar" class="btn btn-success">registrar</button>
+                    <button type="submit" form="formSalidaInsumo" id="modificar" class="btn btn-primary">modificar</button>
                 </div>
             </div>
         </div>

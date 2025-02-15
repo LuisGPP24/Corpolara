@@ -48,6 +48,7 @@
                                         <th>Cedula</th>
                                         <th>Nombre</th>
                                         <th>Correo</th>
+                                        <th>Rol</th>
                                         <th>Opciones</th>
                                     </tr>
                                 </thead>
@@ -103,10 +104,23 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="email" class="form-control" id="correo" placeholder="correo">
                                     <label for="correo">Correo</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-control" name="rol" id="rol">
+                                        <option value=""></option>
+                                        <?php foreach ($consulta_roles as $roles) : ?>
+                                            <option value="<?= $roles['id'] ?>"> 
+                                                <?= $roles['nombre'] ?>
+                                            </option>
+                                        <?php endforeach ?>
+                                    </select>
+                                    <label for="rol">Rol del Usuario</label>
                                 </div>
                             </div>
                         </div>
@@ -175,15 +189,3 @@
 </body>
 
 </html>
-<!-- 
-<div class='btn-group' role='group' aria-label='optiones buttons'>
-    <button onclick="modalModificar(this)" class="btn btn-primary">
-        <i class="bi bi-pencil-square"></i>
-    </button>
-    <button onclick="modalPassword(this)" class="btn btn-warning">
-        <i class="bi bi-key-fill"></i>
-    </button>
-    <button onclick="eliminar(this)" id="btn_eliminar" class="btn btn-danger">
-        <i class="bi bi-trash-fill"></i>
-    </button>
-</div> -->

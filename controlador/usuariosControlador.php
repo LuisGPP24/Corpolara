@@ -27,8 +27,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $contrasena = $_POST["contrasena"];
             $contrasena2 = $_POST["contrasena2"];
             $correo = $_POST["correo"];
-            // $rol = $_POST["id_rol"];
-            $rol = 1;
+            $rol = $_POST["rol"];
 
             $objeto->set_cedula($cedula);
             $objeto->set_nombre($nombre);
@@ -49,16 +48,17 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             exit;
         }
         if($accion == "modificar"){
+
             $cedula = $_POST['cedula'];
             $nombre = $_POST['nombre'];
             $correo = $_POST['correo'];
-            // $rol = $_POST["id_rol"];
-            $rol = 1;
+            $rol = $_POST["rol"];
+            
             $objeto->set_cedula($cedula);
             $objeto->set_nombre($nombre);
-            $objeto->set_correo($correo);
-            
+            $objeto->set_correo($correo);            
             $objeto->set_rol($rol);
+
             echo $objeto->modificar_usuario();
             exit;
         }
@@ -76,6 +76,9 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
         }
         
     }
+
+    $consulta_roles = $objeto->consulta_roles();
+
     require_once("vista/" . $pagina . "Vista.php");
     exit;
 } else {

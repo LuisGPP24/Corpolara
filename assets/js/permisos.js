@@ -13,14 +13,56 @@ var Toast = Swal.mixin({
 $(document).ready(function () {
     
     $("#btn_registrar").click(function (e) {
-        $("#modalSalidaInsumoLabel").text('Registro de Salida de Insumo');
+        $("#modalSolicitudesLabel").text('Registro de Permiso');
         $("#registrar").show();
         $("#modificar").hide();
-        $("#codigo_registro").removeAttr("disabled")
+        $("#nombre").removeAttr("disabled")
         borrarForm();
     });
+
+    $("#formPassword").submit(function (event) {
+      event.preventDefault();
+
+      const data = new FormData();
+
+
+        data.append("accion", "cambiar");
+        data.append("cedula", $("#cedula_editar").val());
+        data.append("contrasena", $("#contrasena_editar").val());
+        data.append("contrasena2", $("#contrasena2_editar").val());
+      
+
+      $.ajax({
+        async: true,
+        url: " ",
+        type: "POST",
+        contentType: false,
+        data: data,
+        processData: false,
+        cache: false,
+
+        success: function (response) {
+          Toast.fire({
+            icon: "success",
+            title: `exito`,
+            text: `${response}`,
+          });
+
+        },
+        error: function ({ responseText }, status, error) {
+          Toast.fire({
+            icon: "error",
+            title: `${responseText}`,
+          });
+        },
+        complete: function () {
+            $("#modalPassword").modal("hide");
+            borrarForm();
+        },
+      });
+    });
     
-    $("#modalSalidaInsumo").submit(function (e) { 
+    $("#modalSolicitudes").submit(function (e) { 
         e.preventDefault();
         
         const data = new FormData();
@@ -29,11 +71,8 @@ $(document).ready(function () {
 
         data.append("accion", btn_clicked);
         data.append("id", $("#id").val());
-        data.append("fecha", $("#fecha").val());
-        data.append("insumo", $("#insumo").val());
-        data.append("trabajador", $("#trabajador").val());
-        data.append("cantidad", $("#cantidad").val());
-        data.append("entregado", $("#entregado").val());
+        data.append("nombre", $("#nombre").val());
+        data.append("descripcion", $("#descripcion").val());
         
         $.ajax({
           async: true,
@@ -58,7 +97,7 @@ $(document).ready(function () {
             });
           },
           complete: function () {
-                $("#modalSalidaInsumo").modal("hide");
+                $("#modalSolicitudes").modal("hide");
             borrarForm();
                 
             },
@@ -66,47 +105,42 @@ $(document).ready(function () {
     });
 });
 
+function modalPermisos(fila) {
+    const linea = $(fila).closest("tr");
+    const cedula = $(linea).find("td:eq(1)");
+    $("#cedula_editar").val(cedula.text());
+
+
+    $("#modalPassword").modal("show");
+}
+
 function borrarForm() {
 
    $('#id').val('');
-   $('#codigo_registro').val('');
-   $('#ente').val('');
-   $('#descripcion_solicitud').val('');
-   $('#fecha_nacimiento').val('');
-   $('#parentesco').val('');
-   $('#patologia').val('');
-   $('#proveedor').val('');
+   $('#nombre').val('');
+   $('#descripcion').val('');
    
 }
 
 function modalModificar(fila) {
-   $("#modalSalidaInsumoLabel").text("Modificar Salida de Insumo");
+   $("#modalSolicitudesLabel").text("Modificar Permiso");
 
   $("#registrar").hide();
   $("#modificar").show();
    
 
-   $("#modalSalidaInsumo").modal("show");
+   $("#modalSolicitudes").modal("show");
      
    const linea = $(fila).closest("tr");
-   const id = $(linea).find("td:eq(1)");
-   const codigo_registro = $(linea).find("td:eq(0)");
-   const ente = $(linea).find("td:eq(4)");
-   const descripcion_solicitud = $(linea).find("td:eq(12)");
-   const fecha_nacimiento = $(linea).find("td:eq(9)");
-   const parentesco = $(linea).find("td:eq(10)");
-   const patologia = $(linea).find("td:eq(14)");
-   const proveedor = $(linea).find("td:eq(15)");
+   const id = $(linea).find("td:eq(0)");
+   const nombre = $(linea).find("td:eq(1)");
+   const descripcion = $(linea).find("td:eq(2)");
    
-   $("#codigo_registro").attr('disabled','disabled');
+
+   $("#nombre").attr('disabled','disabled');
    $("#id").val(id.text());
-   $("#codigo_registro").val(codigo_registro.text());
-   $("#ente").val(ente.text());
-   $("#descripcion_solicitud").val(descripcion_solicitud.text());
-   $("#fecha_nacimiento").val(fecha_nacimiento.text());
-   $("#parentesco").val(parentesco.text());
-   $("#patologia").val(patologia.text());
-   $("#proveedor").val(proveedor.text());     
+   $("#nombre").val(nombre.text());
+   $("#descripcion").val(descripcion.text());
 }
 
 function eliminar(fila) {
@@ -124,7 +158,7 @@ function eliminar(fila) {
         if (result.isConfirmed) {
 
             const linea = $(fila).closest("tr");
-            const id = $(linea).find("td:eq(2)");
+            const id = $(linea).find("td:eq(0)");
 
             const data = new FormData();
             data.append("accion", "eliminar");

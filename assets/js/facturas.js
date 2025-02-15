@@ -13,14 +13,14 @@ var Toast = Swal.mixin({
 $(document).ready(function () {
     
     $("#btn_registrar").click(function (e) {
-        $("#modalSalidaInsumoLabel").text('Registro de Salida de Insumo');
+        $("#modalFacturasLabel").text('Registro de Facturas');
         $("#registrar").show();
         $("#modificar").hide();
         $("#codigo_registro").removeAttr("disabled")
         borrarForm();
     });
     
-    $("#modalSalidaInsumo").submit(function (e) { 
+    $("#modalFacturas").submit(function (e) { 
         e.preventDefault();
         
         const data = new FormData();
@@ -29,11 +29,10 @@ $(document).ready(function () {
 
         data.append("accion", btn_clicked);
         data.append("id", $("#id").val());
-        data.append("fecha", $("#fecha").val());
-        data.append("insumo", $("#insumo").val());
-        data.append("trabajador", $("#trabajador").val());
-        data.append("cantidad", $("#cantidad").val());
-        data.append("entregado", $("#entregado").val());
+        data.append("codigo_registro", $("#codigo_registro").val());
+        data.append("numero_factura", $("#numero_factura").val());
+        data.append("descripcion", $("#descripcion").val());
+        data.append("monto", $("#monto").val());
         
         $.ajax({
           async: true,
@@ -58,7 +57,7 @@ $(document).ready(function () {
             });
           },
           complete: function () {
-                $("#modalSalidaInsumo").modal("hide");
+                $("#modalFacturas").modal("hide");
             borrarForm();
                 
             },
@@ -70,43 +69,34 @@ function borrarForm() {
 
    $('#id').val('');
    $('#codigo_registro').val('');
-   $('#ente').val('');
-   $('#descripcion_solicitud').val('');
-   $('#fecha_nacimiento').val('');
-   $('#parentesco').val('');
-   $('#patologia').val('');
-   $('#proveedor').val('');
+   $('#numero_factura').val('');
+   $('#descripcion').val('');
+   $('#monto').val('');
    
 }
 
 function modalModificar(fila) {
-   $("#modalSalidaInsumoLabel").text("Modificar Salida de Insumo");
+   $("#modalFacturasLabel").text("Modificar Factura");
 
   $("#registrar").hide();
   $("#modificar").show();
    
 
-   $("#modalSalidaInsumo").modal("show");
+   $("#modalFacturas").modal("show");
      
    const linea = $(fila).closest("tr");
    const id = $(linea).find("td:eq(1)");
    const codigo_registro = $(linea).find("td:eq(0)");
-   const ente = $(linea).find("td:eq(4)");
-   const descripcion_solicitud = $(linea).find("td:eq(12)");
-   const fecha_nacimiento = $(linea).find("td:eq(9)");
-   const parentesco = $(linea).find("td:eq(10)");
-   const patologia = $(linea).find("td:eq(14)");
-   const proveedor = $(linea).find("td:eq(15)");
+   const numero_factura = $(linea).find("td:eq(5)");
+   const descripcion = $(linea).find("td:eq(6)");
+   const monto = $(linea).find("td:eq(7)");
    
    $("#codigo_registro").attr('disabled','disabled');
    $("#id").val(id.text());
    $("#codigo_registro").val(codigo_registro.text());
-   $("#ente").val(ente.text());
-   $("#descripcion_solicitud").val(descripcion_solicitud.text());
-   $("#fecha_nacimiento").val(fecha_nacimiento.text());
-   $("#parentesco").val(parentesco.text());
-   $("#patologia").val(patologia.text());
-   $("#proveedor").val(proveedor.text());     
+   $("#numero_factura").val(numero_factura.text());
+   $("#descripcion").val(descripcion.text());
+   $("#monto").val(monto.text());     
 }
 
 function eliminar(fila) {
@@ -124,7 +114,7 @@ function eliminar(fila) {
         if (result.isConfirmed) {
 
             const linea = $(fila).closest("tr");
-            const id = $(linea).find("td:eq(2)");
+            const id = $(linea).find("td:eq(1)");
 
             const data = new FormData();
             data.append("accion", "eliminar");

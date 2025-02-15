@@ -37,7 +37,7 @@ class ReportesModelo extends conexion
             $html = '<h1>Reporte de Solicitudes</h1><p>Contenido del reporte aquí...</p>';
             
             $dompdf->loadHtml(utf8_decode($html));
-            $dompdf->setPaper('A4', 'landscape');
+            $dompdf->setPaper('letter', 'portrait');
             $dompdf->render();
 
             // Obtener contenido en base64

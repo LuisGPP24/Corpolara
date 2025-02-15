@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-02-2025 a las 22:41:44
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.1.25
+-- Tiempo de generación: 11-02-2025 a las 20:52:07
+-- Versión del servidor: 10.1.38-MariaDB
+-- Versión de PHP: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -49,7 +50,7 @@ CREATE TABLE `antecedentes` (
   `descripcion_accidente` varchar(150) NOT NULL,
   `ant_tabaquismo` varchar(50) NOT NULL,
   `ant_alcoholismo` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `antecedentes`
@@ -69,7 +70,7 @@ CREATE TABLE `bitacora` (
   `cedula_usuario` varchar(15) NOT NULL,
   `id_modulos` int(11) NOT NULL,
   `accion` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -83,7 +84,7 @@ CREATE TABLE `estudios_medicos` (
   `ente` varchar(11) NOT NULL,
   `descripcion_solicitud` varchar(300) NOT NULL,
   `patologia` varchar(300) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `estudios_medicos`
@@ -102,15 +103,36 @@ CREATE TABLE `expedientes` (
   `id` int(11) NOT NULL,
   `id_trabajadores` int(11) NOT NULL,
   `fecha_registro` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `expedientes`
 --
 
 INSERT INTO `expedientes` (`id`, `id_trabajadores`, `fecha_registro`) VALUES
-(1, 1, '2025-01-22'),
-(8, 4, '2025-02-14');
+(11, 1, '2025-02-10'),
+(12, 4, '2025-02-10');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `facturas`
+--
+
+CREATE TABLE `facturas` (
+  `id` int(11) NOT NULL,
+  `id_solicitudes` int(11) NOT NULL,
+  `numero_factura` varchar(12) NOT NULL,
+  `descripcion` varchar(200) NOT NULL,
+  `monto` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `facturas`
+--
+
+INSERT INTO `facturas` (`id`, `id_solicitudes`, `numero_factura`, `descripcion`, `monto`) VALUES
+(2, 12, '0001', 'Ciplofloxacina', '300,00');
 
 -- --------------------------------------------------------
 
@@ -131,7 +153,7 @@ CREATE TABLE `familiares` (
   `cuenta` varchar(50) NOT NULL,
   `correo` varchar(50) NOT NULL,
   `fecha_ingreso` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `familiares`
@@ -155,7 +177,7 @@ CREATE TABLE `farmacia` (
   `fecha_nacimiento` date NOT NULL,
   `parentesco` varchar(50) NOT NULL,
   `proveedor` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `farmacia`
@@ -175,7 +197,7 @@ CREATE TABLE `funeraria` (
   `id_solicitudes` int(11) NOT NULL,
   `ente` varchar(11) NOT NULL,
   `defuncion_paciente` varchar(300) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `funeraria`
@@ -196,14 +218,14 @@ CREATE TABLE `inventario` (
   `nombre_insumo` varchar(50) NOT NULL,
   `cantidad` varchar(20) NOT NULL,
   `fecha_caducidad` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `inventario`
 --
 
 INSERT INTO `inventario` (`id`, `codigo_insumo`, `nombre_insumo`, `cantidad`, `fecha_caducidad`) VALUES
-(1, '0001-O-2025', 'Omeprazol 500mg', '8', '2025-01-08');
+(1, '0001-O-2025', 'Omeprazol 500mg', '20', '2025-01-08');
 
 -- --------------------------------------------------------
 
@@ -214,7 +236,7 @@ INSERT INTO `inventario` (`id`, `codigo_insumo`, `nombre_insumo`, `cantidad`, `f
 CREATE TABLE `modulos` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -236,7 +258,7 @@ CREATE TABLE `morbilidad` (
   `motivo` varchar(200) NOT NULL,
   `especialidad` varchar(20) NOT NULL,
   `parentesco` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `morbilidad`
@@ -262,14 +284,14 @@ CREATE TABLE `morbilidad_pediatrica` (
   `telefono` varchar(20) NOT NULL,
   `doctor` varchar(20) NOT NULL,
   `observacion` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `morbilidad_pediatrica`
 --
 
 INSERT INTO `morbilidad_pediatrica` (`id`, `id_trabajadores`, `fecha_consulta`, `nombre_paciente`, `cedula_paciente`, `fecha_nacimiento`, `genero`, `telefono`, `doctor`, `observacion`) VALUES
-(11, 1, '2025-01-07', 'Génesis Gúzman', '30591237', '2025-01-07', 'femenino', '04141392278', 'Pediatria', 'Nada que reportar');
+(11, 1, '2025-01-07', 'Génesis Gúzman', '30591237', '2025-01-07', 'femenino', '04141392278', 'Pediatria', 'Nada que ver');
 
 -- --------------------------------------------------------
 
@@ -281,8 +303,8 @@ CREATE TABLE `permisos` (
   `id` int(11) NOT NULL,
   `id_rol` int(11) NOT NULL,
   `id_modulos` int(11) NOT NULL,
-  `acceso` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `acceso` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -294,7 +316,7 @@ CREATE TABLE `roles` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL COMMENT 'nombre del rol',
   `descripcion` varchar(250) NOT NULL COMMENT 'descripcion del papel que cumple el rol en el sistema'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `roles`
@@ -302,6 +324,28 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`id`, `nombre`, `descripcion`) VALUES
 (1, 'Super Usuario', 'Acceso a todo el sistema');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `salida_insumos`
+--
+
+CREATE TABLE `salida_insumos` (
+  `id` int(11) NOT NULL,
+  `id_trabajadores` int(11) NOT NULL,
+  `id_inventario` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `cantidad` int(20) NOT NULL,
+  `entregado_por` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `salida_insumos`
+--
+
+INSERT INTO `salida_insumos` (`id`, `id_trabajadores`, `id_inventario`, `fecha`, `cantidad`, `entregado_por`) VALUES
+(2, 1, 1, '2025-02-11', 20, 'Raymar Rodríguez');
 
 -- --------------------------------------------------------
 
@@ -329,7 +373,7 @@ CREATE TABLE `solicitudes` (
   `condicion` varchar(30) NOT NULL,
   `estatus` varchar(20) NOT NULL,
   `observacion` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `solicitudes`
@@ -340,7 +384,8 @@ INSERT INTO `solicitudes` (`id`, `id_trabajadores`, `codigo_registro`, `numero_r
 (7, 1, '001', '0002', '30591237', 'Luis Perdomo', '04141392278', 'consultas', 'ninguna', 'activo', 'ninguna', 'corpolara', 'nadie', '600,00', '600,00', '2025-01-13', 'beneficiario', 'negado', 'nada'),
 (8, 1, '0005', '0001', '30591237', 'Luis Perdomo', '04141392278', 'farmacia', 'ninguna', 'activo', 'ninguna', 'corpolara', 'nadie', '600,00', '600,00', '2025-01-13', 'titular', 'en_proceso', 'nada'),
 (10, 1, '0007', '0007', '30591237', 'Luis Perdomo', '04141392278', 'funeraria', 'ninguna', 'activo', 'ninguna', 'corpolara', 'nadie', '600,00', '600,00', '2025-01-13', 'titular', 'anulado', 'ninguna'),
-(11, 1, '0008', '0008', '30591237', 'Luis Perdomo', '04141392278', 'estudios', 'ninguna', 'activo', 'ninguna', 'corpolara', 'nadie', '600,00', '600,00', '2025-01-13', 'titular', 'aprobado', 'ninguna');
+(11, 1, '0008', '0008', '30591237', 'Luis Perdomo', '04141392278', 'estudios', 'ninguna', 'activo', 'ninguna', 'corpolara', 'nadie', '600,00', '600,00', '2025-01-13', 'titular', 'aprobado', 'ninguna'),
+(12, 1, '0009', '0009', '30591237', 'Luis Perdomo', '04141392278', 'reembolso', 'ninguna', 'activo', 'Ciplofloxacina', 'corpolara', 'nadie', '600,00', '600,00', '2025-02-10', 'titular', 'aprobado', 'ninguna');
 
 -- --------------------------------------------------------
 
@@ -371,7 +416,7 @@ CREATE TABLE `trabajadores` (
   `tipo_sangre` varchar(20) NOT NULL,
   `vacunas` varchar(20) NOT NULL,
   `covid` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `trabajadores`
@@ -394,14 +439,14 @@ CREATE TABLE `usuarios` (
   `nombre` varchar(50) NOT NULL,
   `contrasena` text NOT NULL,
   `correo` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
 INSERT INTO `usuarios` (`id`, `cedula`, `id_rol`, `nombre`, `contrasena`, `correo`) VALUES
-(1, '30591237', 1, 'Luis Perdomo', '$2y$12$KatNCVerHyJ4Yh8m5JPu4eZJZjsUSLLGV/amOrRnLkADSdB5y1I6G', 'luis@gmail.com'),
+(1, '30591237', 1, 'Luis Gustavo Perdomo', '$2y$12$KatNCVerHyJ4Yh8m5JPu4eZJZjsUSLLGV/amOrRnLkADSdB5y1I6G', 'luis@gmail.com'),
 (3, '29831184', 1, 'Diego Aguilar', '$2y$12$u790W0TIjEsleBEFftTEW.v8r0D12LgZSbjZgaBTgimUKVle42g6q', 'diego@gmail.com'),
 (5, '30591244', 1, 'Diego Alejandro', '$2y$12$efMoz5Uc.r5hC4PRoxxf2.95GqF5ApzsmPX.teP7uUFFv0WW5Eb..', 'diegoAAA@gmail.com');
 
@@ -437,6 +482,13 @@ ALTER TABLE `estudios_medicos`
 ALTER TABLE `expedientes`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_trabajadores` (`id_trabajadores`);
+
+--
+-- Indices de la tabla `facturas`
+--
+ALTER TABLE `facturas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_solicitudes` (`id_solicitudes`);
 
 --
 -- Indices de la tabla `familiares`
@@ -501,6 +553,14 @@ ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `salida_insumos`
+--
+ALTER TABLE `salida_insumos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_inventario` (`id_inventario`),
+  ADD KEY `fk_trabajadores` (`id_trabajadores`);
+
+--
 -- Indices de la tabla `solicitudes`
 --
 ALTER TABLE `solicitudes`
@@ -548,7 +608,13 @@ ALTER TABLE `estudios_medicos`
 -- AUTO_INCREMENT de la tabla `expedientes`
 --
 ALTER TABLE `expedientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT de la tabla `facturas`
+--
+ALTER TABLE `facturas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `familiares`
@@ -605,10 +671,16 @@ ALTER TABLE `roles`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT de la tabla `salida_insumos`
+--
+ALTER TABLE `salida_insumos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT de la tabla `solicitudes`
 --
 ALTER TABLE `solicitudes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `trabajadores`
@@ -620,7 +692,7 @@ ALTER TABLE `trabajadores`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas
@@ -650,6 +722,12 @@ ALTER TABLE `estudios_medicos`
 --
 ALTER TABLE `expedientes`
   ADD CONSTRAINT `expedientes_ibfk_1` FOREIGN KEY (`id_trabajadores`) REFERENCES `trabajadores` (`id`);
+
+--
+-- Filtros para la tabla `facturas`
+--
+ALTER TABLE `facturas`
+  ADD CONSTRAINT `fk_solicitudes` FOREIGN KEY (`id_solicitudes`) REFERENCES `solicitudes` (`id`);
 
 --
 -- Filtros para la tabla `familiares`
@@ -687,6 +765,13 @@ ALTER TABLE `morbilidad_pediatrica`
 ALTER TABLE `permisos`
   ADD CONSTRAINT `fk_id_modulos` FOREIGN KEY (`id_modulos`) REFERENCES `modulos` (`id`),
   ADD CONSTRAINT `fk_id_rol` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id`);
+
+--
+-- Filtros para la tabla `salida_insumos`
+--
+ALTER TABLE `salida_insumos`
+  ADD CONSTRAINT `fk_inventario` FOREIGN KEY (`id_inventario`) REFERENCES `inventario` (`id`),
+  ADD CONSTRAINT `fk_trabajadores` FOREIGN KEY (`id_trabajadores`) REFERENCES `trabajadores` (`id`);
 
 --
 -- Filtros para la tabla `solicitudes`

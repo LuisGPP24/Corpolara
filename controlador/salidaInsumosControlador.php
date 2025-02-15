@@ -5,11 +5,11 @@ if (!is_file("modelo/" . $pagina . "Modelo.php")) {
     exit;
 }
 
-use modelo\FarmaciaModelo;
+use modelo\salidaInsumosModelo;
 
 if (is_file("vista/" . $pagina . "Vista.php")) {
 
-    $objeto = new FarmaciaModelo();
+    $objeto = new salidaInsumosModelo();
 
     if (isset($_POST['accion'])) {
 
@@ -18,24 +18,20 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
         if($accion == "registrar"){
           
             $id = $_POST["id"];
-            $codigo_registro = $_POST["codigo_registro"];
-            $ente = $_POST["ente"];
-            $descripcion_solicitud = $_POST["descripcion_solicitud"];
-            $fecha_nacimiento = $_POST["fecha_nacimiento"];
-            $parentesco = $_POST["parentesco"];
-            $patologia = $_POST["patologia"];
-            $proveedor = $_POST["proveedor"];
+            $fecha = $_POST["fecha"];
+            $insumo = $_POST["insumo"];
+            $trabajador = $_POST["trabajador"];
+            $cantidad = $_POST["cantidad"];
+            $entregado = $_POST["entregado"];
 
             $objeto->set_id($id);
-            $objeto->set_codigo_registro($codigo_registro);
-            $objeto->set_ente($ente);
-            $objeto->set_descripcion_solicitud($descripcion_solicitud);
-            $objeto->set_fecha_nacimiento($fecha_nacimiento);
-            $objeto->set_parentesco($parentesco);
-            $objeto->set_patologia($patologia);
-            $objeto->set_proveedor($proveedor);
+            $objeto->set_fecha($fecha);
+            $objeto->set_insumo($insumo);
+            $objeto->set_trabajador($trabajador);
+            $objeto->set_cantidad($cantidad);
+            $objeto->set_entregado($entregado);
             
-            echo $objeto->registrar_farmacia();
+            echo $objeto->registrar_salida();
             exit;
         }
 
@@ -72,8 +68,9 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
         }
     }
 
-    $consultas = $objeto->listar_solicitudes();
-    $consulta_solicitudes = $objeto->consulta_solicitudes();
+    $consultas = $objeto->listar_inventario();
+    $consulta_trabajadores = $objeto->consulta_trabajadores();
+    $consulta_inventario = $objeto->consulta_inventario();
 
     require_once("vista/" . $pagina . "Vista.php");
     exit;
