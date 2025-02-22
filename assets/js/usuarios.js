@@ -31,7 +31,8 @@ $(document).ready(function () {
       { data: "nombre" },
       { data: "correo" },
       { data: "rol" },
-      {target: -1,defaultContent: ""},
+      { data: "id_rol", visible: false },
+      { target: -1, defaultContent: "" },
     ],
     columnDefs: [
       {
@@ -47,14 +48,24 @@ $(document).ready(function () {
 
           return (
             "<div class='btn-group' role='group' aria-label='optiones buttons'>" +
-              btn_modificar +
-              btn_password +
-              btn_eliminar +
+            btn_modificar +
+            btn_password +
+            btn_eliminar +
             "</div>"
           );
         },
       },
     ],
+    drawCallback: function (settings, json) {
+      // Agregar atributo data-id a cada fila después de que se haya inicializado la tabla
+      this.api()
+        .rows()
+        .every(function () {
+          let data = this.data();
+          let id = data.id; // Suponiendo que "id" es el ID único de la fila
+          $(this.node()).attr("data-id", id);
+        });
+    },
   });
 
     $("#btn_registrar").click(function (e) {
@@ -181,21 +192,23 @@ function modalPassword(fila) {
    $("#modificar").show();
    $("#row_password").hide();
 
-     $("#modalUsuarios").modal("show");
-     
-   const linea = $(fila).closest("tr");
-   const cedula = $(linea).find("td:eq(1)");
-   const nombre = $(linea).find("td:eq(2)");
-   const correo = $(linea).find("td:eq(3)");
-   const rol = $(linea).find("td:eq(4)");
+   $("#modalUsuarios").modal("show");
 
-   $("#cedula").attr('disabled','disabled');
-   $("#cedula").val(cedula.text());
-   $("#nombre").val(nombre.text());
-   $("#correo").val(correo.text());
-   $("#rol").val(rol.text());
+   const idFila = $(fila).closest("tr").data("id");
+   // Buscar el índice de la fila correspondiente al ID único
+   let indiceFila = tabla.row('[data-id="' + idFila + '"]').index();
 
-}
+   const cedula = tabla.cell(indiceFila, 1).data();
+   const nombre = tabla.cell(indiceFila, 2).data();
+   const correo = tabla.cell(indiceFila, 3).data();
+   const rol = tabla.cell(indiceFila, 5).data();
+   
+   $("#cedula").attr("disabled", "disabled");
+   $("#cedula").val(cedula);
+   $("#nombre").val(nombre);
+   $("#correo").val(correo);
+    $("#rol").val(rol);
+ }
  
 function borrarForm() {
     $('#cedula').val('');

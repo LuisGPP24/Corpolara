@@ -11,7 +11,11 @@
     private $nombre;
     private $descripcion;
     private $id_rol;
+    private $permisos;
 
+    public function set_permisos($valor){
+        $this->permisos = $valor;
+    }
     public function set_id_rol($valor){
         $this->id_rol = $valor;
     }
@@ -48,7 +52,16 @@
             
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $bd->beginTransaction();
 
+            $modulos = $this->getModulos();
+
+            if(!$modulos){
+                $bd->rollBack();
+                http_response_code(500);
+                return "No se pudo obtener los modulos";
+            }
+        
             $sql = "INSERT INTO roles(nombre,descripcion) VALUES (:nombre,:descripcion)";
 
             $stmt = $bd->prepare($sql);
@@ -60,9 +73,42 @@
 
             ));
 
+            $id_rol = $bd->lastInsertId();
+
+            $sql = "INSERT INTO permisos(id_rol,id_modulos,acceso) VALUES (:id_rol,:id_modulos,:acceso)";
+            $stmt = $bd->prepare($sql);
+            
+            foreach($modulos as $modulo){
+                $stmt->execute(array(
+                    ":id_rol" => $id_rol,
+                    ":id_modulos" => $modulo["id"],
+                    ":acceso" => 0
+                ));
+            }
+
+            $bd->commit();
             http_response_code(200);
             return "registro exitoso";
             
+        } catch (PDOException $e) {
+            $bd->rollBack();
+            http_response_code(500);
+            return $e->getMessage();
+        }
+    }
+
+    public function getModulos(){
+        try {
+            $bd = $this->conecta();
+            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $sql = "SELECT * from modulos";
+
+            $stmt = $bd->prepare($sql);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             http_response_code(500);
             return $e->getMessage();
@@ -199,6 +245,65 @@
         } catch (PDOException $e) {
             http_response_code(500);
             return json_encode($e->getMessage());
+        }
+    }
+
+    public function guardar_permisos(){
+        
+        try{
+            $bd = $this->conecta();
+            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $bd->beginTransaction();
+
+
+            $sql = "SELECT id_modulos,acceso from permisos where id_rol = :id_rol";
+
+
+            $stmt = $bd->prepare($sql);
+
+            $stmt->execute([
+                "id_rol" => $this->id_rol
+            ]);
+
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if(!$resultado){
+                $bd->rollBack();
+                http_response_code(500);
+                return "No se pudo obtener los permisos de este rol";
+            }
+
+            $newPermisos = array();
+
+            foreach ($this->permisos as $permiso) {
+                foreach ($resultado as $actual) {
+
+                    if ($permiso["id"] == $actual["id_modulos"] && $permiso["acceso"] != $actual["acceso"]) {
+                        $newPermisos[] = $permiso;
+                    }
+                }
+            }
+            // Si hay cambios, actualizar en la base de datos
+            if (!empty($newPermisos)) {
+                $sql = "UPDATE permisos SET acceso = :acceso WHERE id_modulos = :id_modulos AND id_rol = :id_rol";
+                $stmt = $bd->prepare($sql);
+
+                foreach ($newPermisos as $permiso) {
+                    $stmt->execute([
+                        "acceso" => $permiso["acceso"],
+                        "id_modulos" => $permiso["id"],
+                        "id_rol" => $this->id_rol
+                    ]);
+                }
+            }
+            $bd->commit();
+            http_response_code(200);
+            return "permisos actualizados";
+
+        } catch (PDOException $e) {
+            $bd->rollBack();
+            http_response_code(500);
+            return $e->getMessage();
         }
     }
 

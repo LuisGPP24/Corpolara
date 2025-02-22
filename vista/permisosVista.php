@@ -141,6 +141,13 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
+                            <!-- Botón único para alternar selección -->
+                             <div class="row text-end mb-2">
+                                <div class="col">
+
+                                    <button id="btn-toggle-seleccion" class="btn btn-primary btn-sm">Seleccionar Todos</button>
+                                </div>
+                             </div>
                             <form id="formulario_permisos" method="post">
                                 <div class="row mt-3">
                                     <div class="col-md-12">
@@ -161,126 +168,7 @@
                                                             </td>
                                                         </tr>
                                                     <?php endforeach; ?>
-                                                    <!-- <tr>
-                                                        <td>Gestionar de Trabajadores</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_trabajadores" name="modulo_trabajadores">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Gestionar Antecedentes</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_antecedentes" name="modulo_antecedentes">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Gestionar Carga Familiar</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_carga_familiar" name="modulo_carga_familiar">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Gestionar Expedientes</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_expedientes" name="modulo_expedientes">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Gestionar Solicitudes</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_registro_solicitudes" name="modulo_registro_solicitudes">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Gestionar Farmacia</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_farmacia" name="modulo_farmacia">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Gestionar Estudios Médicos</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_estudios_medicos" name="modulo_estudios_medicos">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Gestionar Funeraria</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_funeraria" name="modulo_funeraria">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Ficha de personal</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_ficha" name="modulo_ficha">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Planillas de Solicitudes</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_planillas" name="modulo_planillas">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Reportes Estadísticos</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_reportes_estadisticos" name="modulo_reportes_estadisticos">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Gestionar Facturas</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_facturas" name="modulo_facturas">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Gestionar Consultas Médicas</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_consultas_medicas" name="modulo_consultas_medicas">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Gestionar Consultas Pediátricas</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_consultas_pediatricas" name="modulo_consultas_pediatricas">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Gestionar Salida de Insumos</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_salida_insumos" name="modulo_salida_insumos">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Inventario</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_inventarios" name="modulo_inventarios">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Usuarios</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_usuarios" name="modulo_usuarios">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Permisos</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_permisos" name="modulo_permisos">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bitácora</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_bitacora" name="modulo_bitacora">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Manual de usuario</td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="form-check-input" id="modulo_manual" name="modulo_manual">
-                                                        </td>
-                                                    </tr> -->
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -292,7 +180,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" form="formPassword" id="cambiar" class="btn btn-warning">Cambiar</button>
+                    <button type="submit" form="formulario_permisos" id="cambiar" class="btn btn-warning">Cambiar</button>
                 </div>
             </div>
         </div>

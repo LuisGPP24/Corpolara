@@ -49,6 +49,7 @@
                                         <th>Nombre</th>
                                         <th>Correo</th>
                                         <th>Rol</th>
+                                        <th class="d-none">id_rol</th>
                                         <th>Opciones</th>
                                     </tr>
                                 </thead>

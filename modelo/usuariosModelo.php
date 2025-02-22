@@ -95,7 +95,7 @@ class usuariosModelo extends conexion{
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "SELECT a.id, a.cedula, a.nombre, a.correo, b.nombre as nombre_rol FROM usuarios a INNER JOIN roles b ON a.id_rol = b.id";
+            $sql = "SELECT a.id, a.cedula, a.nombre, a.correo, b.nombre as nombre_rol , b.id as id_rol FROM usuarios a INNER JOIN roles b ON a.id_rol = b.id";
 
             $stmt = $bd->prepare($sql);
 
@@ -113,6 +113,7 @@ class usuariosModelo extends conexion{
                 $subarray['nombre'] = $resultado['nombre'];
                 $subarray['correo'] = $resultado['correo'];
                 $subarray['rol'] = $resultado['nombre_rol'];
+                $subarray['id_rol'] = $resultado['id_rol'];
 
                 $data[] = $subarray;
             }
@@ -293,7 +294,7 @@ class usuariosModelo extends conexion{
             }
 
 
-        }catch(Exception $e) {
+        }catch(PDOException $e) {
             http_response_code(500);
             return $e->getMessage();
         }

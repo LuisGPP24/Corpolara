@@ -15,6 +15,16 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
 
         $accion = $_POST['accion'];
 
+        if($accion == "guardar_permisos"){
+            $idRol =  $_POST['idRol'];
+            $permisos = json_decode($_POST['permisos'],true);
+
+            $objeto->set_id_rol($idRol);
+            $objeto->set_permisos($permisos);
+
+            echo $objeto->guardar_permisos();
+            exit;
+        }
         if($accion == "consulta_accesos"){
             $idRol =  $_POST['id'];
 

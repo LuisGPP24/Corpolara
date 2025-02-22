@@ -11,98 +11,153 @@ var Toast = Swal.mixin({
 });
 
 $(document).ready(function () {
-    
-    $("#btn_registrar").click(function (e) {
-        $("#modalSolicitudesLabel").text('Registro de Permiso');
-        $("#registrar").show();
-        $("#modificar").hide();
-        $("#nombre").removeAttr("disabled")
-        borrarForm();
+  let seleccionados = false; // Estado inicial
+
+  $("#formulario_permisos").on("submit", function (e) {
+    e.preventDefault();
+
+    const permisos = [];
+
+    $(".x-permiso").each(function (index, item) {
+      let id = $(this).closest("tr").find("td:eq(0)").text().trim();
+      let acceso = $(this).is(":checked") ? 1 : 0;
+      permisos.push({ id: id, acceso: acceso });
     });
 
-    $("#formPassword").submit(function (event) {
-      event.preventDefault();
+    const idRol = $("#rol-titulo").text().split("-")[0].trim();
+    const data = new FormData();
 
-      const data = new FormData();
+    data.append("accion", "guardar_permisos");
+    data.append("idRol", idRol);
+    data.append("permisos", JSON.stringify(permisos));
 
+    $.ajax({
+      async: true,
+      url: " ",
+      type: "POST",
+      contentType: false,
+      data: data,
+      processData: false,
+      cache: false,
 
-        data.append("accion", "cambiar");
-        data.append("cedula", $("#cedula_editar").val());
-        data.append("contrasena", $("#contrasena_editar").val());
-        data.append("contrasena2", $("#contrasena2_editar").val());
-      
-
-      $.ajax({
-        async: true,
-        url: " ",
-        type: "POST",
-        contentType: false,
-        data: data,
-        processData: false,
-        cache: false,
-
-        success: function (response) {
-          Toast.fire({
-            icon: "success",
-            title: `exito`,
-            text: `${response}`,
-          });
-
-        },
-        error: function ({ responseText }, status, error) {
-          Toast.fire({
-            icon: "error",
-            title: `${responseText}`,
-          });
-        },
-        complete: function () {
-            $("#modalPassword").modal("hide");
-            borrarForm();
-        },
-      });
-    });
-    
-    $("#modalSolicitudes").submit(function (e) { 
-        e.preventDefault();
-        
-        const data = new FormData();
-
-        const btn_clicked = e.originalEvent.submitter.id;
-
-        data.append("accion", btn_clicked);
-        data.append("id", $("#id").val());
-        data.append("nombre", $("#nombre").val());
-        data.append("descripcion", $("#descripcion").val());
-        
-        $.ajax({
-          async: true,
-          url: " ",
-          type: "POST",
-          contentType: false,
-          data: data,
-          processData: false,
-          cache: false,
-          success: function (response) {
-              
-              Toast.fire({
-                icon: "success",
-                text: response,
-                title: "Muy Bien!!",
-              });
-          },
-          error: function ({ responseText }, status, error) {
-            Toast.fire({
-              icon: "error",
-              title: `${responseText}`,
-            });
-          },
-          complete: function () {
-                $("#modalSolicitudes").modal("hide");
-            borrarForm();
-                
-            },
+      success: function (response) {
+        Toast.fire({
+          icon: "success",
+          title: `exito`,
+          text: `${response}`,
         });
+      },
+      error: function ({ responseText }, status, error) {
+        Toast.fire({
+          icon: "error",
+          title: `${responseText}`,
+        });
+      },
+      complete: function () {
+        $("#modalPassword").modal("hide");
+      },
     });
+  });
+
+  $("#btn_registrar").click(function (e) {
+    $("#modalSolicitudesLabel").text("Registro de Permiso");
+    $("#registrar").show();
+    $("#modificar").hide();
+    $("#nombre").removeAttr("disabled");
+    borrarForm();
+  });
+
+  $("#formPassword").submit(function (event) {
+    event.preventDefault();
+
+    const data = new FormData();
+
+    data.append("accion", "cambiar");
+    data.append("cedula", $("#cedula_editar").val());
+    data.append("contrasena", $("#contrasena_editar").val());
+    data.append("contrasena2", $("#contrasena2_editar").val());
+
+    $.ajax({
+      async: true,
+      url: " ",
+      type: "POST",
+      contentType: false,
+      data: data,
+      processData: false,
+      cache: false,
+
+      success: function (response) {
+        Toast.fire({
+          icon: "success",
+          title: `exito`,
+          text: `${response}`,
+        });
+      },
+      error: function ({ responseText }, status, error) {
+        Toast.fire({
+          icon: "error",
+          title: `${responseText}`,
+        });
+      },
+      complete: function () {
+        $("#modalPassword").modal("hide");
+        borrarForm();
+      },
+    });
+  });
+
+  $("#modalSolicitudes").submit(function (e) {
+    e.preventDefault();
+
+    const data = new FormData();
+
+    const btn_clicked = e.originalEvent.submitter.id;
+
+    data.append("accion", btn_clicked);
+    data.append("id", $("#id").val());
+    data.append("nombre", $("#nombre").val());
+    data.append("descripcion", $("#descripcion").val());
+
+    $.ajax({
+      async: true,
+      url: " ",
+      type: "POST",
+      contentType: false,
+      data: data,
+      processData: false,
+      cache: false,
+      success: function (response) {
+        Toast.fire({
+          icon: "success",
+          text: response,
+          title: "Muy Bien!!",
+        });
+      },
+      error: function ({ responseText }, status, error) {
+        Toast.fire({
+          icon: "error",
+          title: `${responseText}`,
+        });
+      },
+      complete: function () {
+        $("#modalSolicitudes").modal("hide");
+        borrarForm();
+      },
+    });
+  });
+
+  $("#btn-toggle-seleccion").click(function (e) {
+    e.preventDefault();
+
+    // Alternar el estado de los checkboxes
+    $(".x-permiso").prop("checked", !seleccionados);
+
+    // Cambiar el estado de la variable
+    seleccionados = !seleccionados;
+
+    // Cambiar el texto del botón según el estado
+    $(this).text(seleccionados ? "Deseleccionar Todos" : "Seleccionar Todos");
+  });
 });
 
 function modalPermisos(fila) {
@@ -137,7 +192,6 @@ function modalPermisos(fila) {
       const result = JSON.parse(response);
       result.forEach((item) => {
         let checkbox = $(`#fila-modulo-${item.id_modulos} .x-permiso`);
-        console.log(checkbox);
         if (checkbox.length) {
           checkbox.prop("checked", item.acceso === 1);
         }
