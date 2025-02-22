@@ -95,7 +95,7 @@
 
             <div class="collapse" id="collapseReportes" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                 <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="?pagina=ficha_personal">Planillas de Solicitudes</a>
+                    <a class="nav-link" href="?pagina=fichaPersonal">Planillas de Solicitudes</a>
 
                 </nav>
             </div>
