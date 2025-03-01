@@ -29,7 +29,7 @@
         $this->descripcion = $valor;
     }
 
-    public function registrar_roles(){
+    public function registrar_roles($cedula_bitacora,$modulo){
         try {
 
             if(
@@ -78,18 +78,23 @@
             $sql = "INSERT INTO permisos(id_rol,id_modulos,acceso) VALUES (:id_rol,:id_modulos,:acceso)";
             $stmt = $bd->prepare($sql);
             
-            foreach($modulos as $modulo){
+            foreach($modulos as $modulos){
                 $stmt->execute(array(
                     ":id_rol" => $id_rol,
-                    ":id_modulos" => $modulo["id"],
+                    ":id_modulos" => $modulos["id"],
                     ":acceso" => 0
                 ));
             }
 
-            $bd->commit();
+            $accion= "Ha registrado un nuevo permiso";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+
+            $bd->commit();            
+
             http_response_code(200);
             return "registro exitoso";
-            
+
         } catch (PDOException $e) {
             $bd->rollBack();
             http_response_code(500);
@@ -137,7 +142,7 @@
         
     }
 
-   public function modificar_rol(){
+   public function modificar_rol($cedula_bitacora,$modulo){
         try {
 
             $bd = $this->conecta();
@@ -154,6 +159,10 @@
                 ":id" => $this->id
             ));
 
+            $accion= "Ha modificado un permiso";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+
             http_response_code(200);
             return "Modificación con exito";
         } catch (PDOException $e) {
@@ -162,7 +171,7 @@
         }
     }
 
-    public function eliminar_rol(){
+    public function eliminar_rol($cedula_bitacora,$modulo){
         try {
 
             $bd = $this->conecta();
@@ -175,6 +184,10 @@
             $stmt->execute(array(
                 ":id" => $this->id
             ));
+
+            $accion= "Ha eliminado un permiso";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
 
             http_response_code(200);
             return "eliminacion con exito";
@@ -248,7 +261,7 @@
         }
     }
 
-    public function guardar_permisos(){
+    public function guardar_permisos($cedula_bitacora,$modulo){
         
         try{
             $bd = $this->conecta();
@@ -297,6 +310,11 @@
                 }
             }
             $bd->commit();
+
+            $accion= "Ha actualizado los accesos de un permiso";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+
             http_response_code(200);
             return "permisos actualizados";
 

@@ -67,45 +67,6 @@ $(document).ready(function () {
     borrarForm();
   });
 
-  $("#formPassword").submit(function (event) {
-    event.preventDefault();
-
-    const data = new FormData();
-
-    data.append("accion", "cambiar");
-    data.append("cedula", $("#cedula_editar").val());
-    data.append("contrasena", $("#contrasena_editar").val());
-    data.append("contrasena2", $("#contrasena2_editar").val());
-
-    $.ajax({
-      async: true,
-      url: " ",
-      type: "POST",
-      contentType: false,
-      data: data,
-      processData: false,
-      cache: false,
-
-      success: function (response) {
-        Toast.fire({
-          icon: "success",
-          title: `exito`,
-          text: `${response}`,
-        });
-      },
-      error: function ({ responseText }, status, error) {
-        Toast.fire({
-          icon: "error",
-          title: `${responseText}`,
-        });
-      },
-      complete: function () {
-        $("#modalPassword").modal("hide");
-        borrarForm();
-      },
-    });
-  });
-
   $("#modalSolicitudes").submit(function (e) {
     e.preventDefault();
 

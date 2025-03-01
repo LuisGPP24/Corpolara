@@ -38,7 +38,7 @@ class usuariosModelo extends conexion{
         $this->rol = $valor;
     }
 
-    public function registrar_usuario(){
+    public function registrar_usuario($cedula_bitacora,$modulo){
         try {
 
             if(
@@ -80,6 +80,10 @@ class usuariosModelo extends conexion{
                 ":correo" => $this->correo,
             ));
 
+            $accion= "Ha registrado un nuevo usuario";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+
             http_response_code(200);
             return "registro exitoso";
             
@@ -120,9 +124,10 @@ class usuariosModelo extends conexion{
 
             $json = array(
                     "data" => $data
-                );
+            );
 
             return json_encode($json);
+
         } catch (PDOException $e) {
             http_response_code(500);
             return $e->getMessage();
@@ -130,7 +135,7 @@ class usuariosModelo extends conexion{
         
     }
 
-    public function modificar_usuario(){
+    public function modificar_usuario($cedula_bitacora,$modulo){
         try {
             if (
                 !$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula) ||
@@ -161,6 +166,10 @@ class usuariosModelo extends conexion{
                 
             ));
 
+            $accion= "Ha modificado un usuario";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+
             http_response_code(200);
             return "Modificación con exito";
         } catch (PDOException $e) {
@@ -168,7 +177,7 @@ class usuariosModelo extends conexion{
             return $e->getMessage();
         }
     }
-    public function eliminar_usuario(){
+    public function eliminar_usuario($cedula_bitacora,$modulo){
         try {
             if(!$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula)){
                 http_response_code(400);
@@ -191,6 +200,10 @@ class usuariosModelo extends conexion{
                 ":cedula" => $this->cedula
             ));
 
+            $accion= "Ha eliminado a un usuario";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+
             http_response_code(200);
             return "eliminacion con exito";
             
@@ -200,7 +213,7 @@ class usuariosModelo extends conexion{
         }
     }
 
-    public function cambiar_contrasena(){
+    public function cambiar_contrasena($cedula_bitacora,$modulo){
         try{
 
             if (
@@ -235,6 +248,10 @@ class usuariosModelo extends conexion{
                 ":contrasena" => $contrasena_hash,
 
             ));
+
+            $accion= "Ha cambiado la contraseña de un usuario";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
 
             http_response_code(200);
             return "Actualización con exito";

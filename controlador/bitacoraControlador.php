@@ -5,64 +5,43 @@ if (!is_file("modelo/" . $pagina . "Modelo.php")) {
     exit;
 }
 
-use modelo\facturasModelo;
+use modelo\bitacoraModelo;
 
 if (is_file("vista/" . $pagina . "Vista.php")) {
 
-    $objeto = new facturasModelo();
+    $objeto = new bitacoraModelo();
+
+    if(empty($_SESSION)){
+        session_start();
+    }
+        
+    if(isset($_SESSION['cedula'])){
+        $cedula_bitacora = $_SESSION['cedula'];
+    }
+    else{
+        $cedula_bitacora = "";
+    }
+ 
+    if(isset($_SESSION['rol'])){
+        $rol_usuario = $_SESSION['rol'];
+    }else{
+        $rol_usuario = "";
+    }
+
+    $modulo = 19;
 
     if (isset($_POST['accion'])) {
 
         $accion = $_POST['accion'];
 
-        if($accion == "registrar"){
-          
-            $id = $_POST["id"];
-            $codigo_registro = $_POST["codigo_registro"];
-            $numero_factura = $_POST["numero_factura"];
-            $descripcion = $_POST["descripcion"];
-            $monto = $_POST["monto"];
+        if($accion=='vaciar'){
 
-            $objeto->set_id($id);
-            $objeto->set_codigo_registro($codigo_registro);
-            $objeto->set_numero_factura($numero_factura);
-            $objeto->set_descripcion($descripcion);
-            $objeto->set_monto($monto);
-            
-            echo $objeto->registrar_factura();
-            exit;
-        }
-
-        if($accion == "modificar"){
-            
-            $id = $_POST["id"];
-            $codigo_registro = $_POST["codigo_registro"];
-            $numero_factura = $_POST["numero_factura"];
-            $descripcion = $_POST["descripcion"];
-            $monto = $_POST["monto"];
-
-            $objeto->set_id($id);
-            $objeto->set_codigo_registro($codigo_registro);
-            $objeto->set_numero_factura($numero_factura);
-            $objeto->set_descripcion($descripcion);
-            $objeto->set_monto($monto);
-            
-            echo $objeto->modificar_factura();
-            exit;
-        }
-
-       if($accion == "eliminar"){
-        
-            $id = $_POST['id'];
-
-            $objeto->set_id($id);
-            echo $objeto->eliminar_factura();
+            echo $objeto->vaciar_bitacora($cedula_bitacora,$modulo);       
             exit;
         }
     }
 
-    $consultas = $objeto->listar_facturas();
-    $consulta_solicitudes = $objeto->consulta_solicitudes();
+    $consultas = $objeto->listar_bitacora();
 
     require_once("vista/" . $pagina . "Vista.php");
     exit;

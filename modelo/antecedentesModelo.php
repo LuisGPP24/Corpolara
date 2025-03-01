@@ -88,29 +88,12 @@
         $this->antecedentes_alcoholismo = $valor;
     }
 
-    public function registrar_antecedentes(){
+    public function registrar_antecedentes($cedula_bitacora,$modulo){
         try {
 
             if(
 
                 !$this->evaluar_caracteres("/^[0-9\b]{1,50}$/",$this->trabajador)
-                /*!$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_cardiovasculares)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_pulmonares)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_digestivos)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_diabeticos)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_renales)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->alergias)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->otros)||
-                !$this->evaluar_caracteres("/^[0-9a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->tratamientos)||
-                !$this->evaluar_caracteres("/^[0-9a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->especificaciones_tratamiento)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->intervenciones)||
-                !$this->evaluar_caracteres("/^[0-9a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->edad_intervencion)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->descripcion_intervencion)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->accidentes)||
-                !$this->evaluar_caracteres("/^[0-9a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->edad_accidente)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->descripcion_accidente)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_tabaquismo)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_alcoholismo)*/
             ){
             	http_response_code(400);
                 return "Caracteres inválidos";
@@ -150,9 +133,12 @@
                 ":edad_accidente" => $this->edad_accidente,
                 ":descripcion_accidente" => $this->descripcion_accidente,
                 ":ant_tabaquismo" => $this->antecedentes_tabaquismo,
-                ":ant_alcoholismo" => $this->antecedentes_alcoholismo,
-
+                ":ant_alcoholismo" => $this->antecedentes_alcoholismo
             ));
+
+            $accion= "Ha registrado un antecedente";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
 
             http_response_code(200);
             return "registro exitoso";
@@ -191,16 +177,8 @@
         
     }
 
-   public function modificar_antecedentes(){
+   public function modificar_antecedentes($cedula_bitacora,$modulo){
         try {
-            /*if (
-                !$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula) ||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/", $this->nombre) ||
-                !$this->evaluar_caracteres("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", $this->correo)
-            ) {
-                http_response_code(400);
-                return "Caracteres inválidos";
-            }*/
             
             if (!$this->existe_antecedentes($this->trabajador)) {
                 http_response_code(400);
@@ -236,6 +214,10 @@
                 ":trabajador" => $this->trabajador,
             ));
 
+            $accion= "Ha modificado un antecedente";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+
             http_response_code(200);
             return "Modificación con exito";
         } catch (PDOException $e) {
@@ -244,7 +226,7 @@
         }
     }
 
-    public function eliminar_antecedente(){
+    public function eliminar_antecedente($cedula_bitacora,$modulo){
         try {
             /*if(!$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula)){
                 http_response_code(400);
@@ -266,6 +248,10 @@
             $stmt->execute(array(
                 ":trabajador" => $this->trabajador
             ));
+
+            $accion= "Ha eliminado un antecedente";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
 
             http_response_code(200);
             return "eliminacion con exito";

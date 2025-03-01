@@ -31,7 +31,7 @@
 
                             <div class="row mt-2 mb-4">
                                 <div class="container-fluid text-center me-auto mb-2">
-                                    <h2 class="card-title">Planillas de Solicitudes</h2>
+                                    <h2 class="card-title">Ficha de Personal</h2>
                                 </div>
 
                             </div>

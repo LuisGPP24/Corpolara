@@ -11,6 +11,25 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
 
     $objeto = new trabajadoresModelo();
 
+    if(empty($_SESSION)){
+            session_start();
+        }
+        
+        if(isset($_SESSION['cedula'])){
+            $cedula_bitacora = $_SESSION['cedula'];
+        }
+        else{
+            $cedula_bitacora = "";
+        }
+ 
+        if(isset($_SESSION['rol'])){
+            $rol_usuario = $_SESSION['rol'];
+        }else{
+            $rol_usuario = "";
+    }
+
+    $modulo = 1;
+
     if (isset($_POST['accion'])) {
 
         $accion = $_POST['accion'];
@@ -61,7 +80,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_vacunas($vacunas);
             $objeto->set_covid($covid);
 
-            echo $objeto->registrar_trabajador();
+            echo $objeto->registrar_trabajador($cedula_bitacora,$modulo);
             exit;
         }
 
@@ -111,7 +130,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_vacunas($vacunas);
             $objeto->set_covid($covid);
 
-            echo $objeto->modificar_trabajador();
+            echo $objeto->modificar_trabajador($cedula_bitacora,$modulo);
             exit;
         }
 
@@ -119,7 +138,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $cedula = $_POST['cedula'];
 
             $objeto->set_cedula($cedula);
-            echo $objeto->eliminar_trabajador();
+            echo $objeto->eliminar_trabajador($cedula_bitacora,$modulo);
             exit;
         }
     }

@@ -30,19 +30,8 @@
         $this->patologia = $valor;
     }
     
-    public function registrar_estudios(){
+    public function registrar_estudios($cedula_bitacora,$modulo){
         try {
-
-            /*if(
-
-                !$this->evaluar_caracteres("/^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ\s]{1,100}$/",$this->ente)||
-                !$this->evaluar_caracteres("/^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ\s]{1,100}$/",$this->descripcion_solicitud)||
-                !$this->evaluar_caracteres("/^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ\s]{1,100}$/",$this->patologia)
-                
-            ){
-            	http_response_code(400);
-                return "Caraceteres inválidos";
-            }*/
                       
             if($this->existe_codigo($this->codigo_registro)){
                 http_response_code(400);
@@ -63,8 +52,11 @@
                 ":ente" => $this->ente,
                 ":descripcion_solicitud" => $this->descripcion_solicitud,
                 ":patologia" => $this->patologia
-
             ));
+
+            $accion= "Ha registrado una solicitud de Estudios médicos";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
 
             http_response_code(200);
             return "registro exitoso";
@@ -96,17 +88,8 @@
         
     }
 
-   public function modificar_estudios(){
+   public function modificar_estudios($cedula_bitacora,$modulo){
         try {
-            /*if (
-                !$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula) ||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/", $this->nombre) ||
-                !$this->evaluar_caracteres("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", $this->correo)
-            ) {
-                http_response_code(400);
-                return "Caracteres inválidos";
-            }*/
-            
             
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -122,6 +105,10 @@
                 ":id" => $this->id,
             ));
 
+            $accion= "Ha modificado una solicitud de Estudios médicos";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+
             http_response_code(200);
             return "Modificación con exito";
         } catch (PDOException $e) {
@@ -130,17 +117,8 @@
         }
     }
 
-    public function eliminar_registro(){
+    public function eliminar_registro($cedula_bitacora,$modulo){
         try {
-            /*if(!$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula)){
-                http_response_code(400);
-                return "Caracteres inválidos";
-            }*/
-
-            /*if (!$this->existe_codigo($this->codigo_registro)){
-                http_response_code(400);
-                return "Este Registro No existe";
-            }*/
 
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -152,6 +130,10 @@
             $stmt->execute(array(
                 ":id" => $this->id
             ));
+
+            $accion= "Ha eliminado una solicitud de Estudios médicos";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
 
             http_response_code(200);
             return "eliminacion con exito";

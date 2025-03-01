@@ -11,6 +11,25 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
 
     $objeto = new usuariosModelo();
 
+    if(empty($_SESSION)){
+        session_start();
+    }
+        
+    if(isset($_SESSION['cedula'])){
+        $cedula_bitacora = $_SESSION['cedula'];
+    }
+    else{
+        $cedula_bitacora = "";
+    }
+ 
+    if(isset($_SESSION['rol'])){
+        $rol_usuario = $_SESSION['rol'];
+    }else{
+        $rol_usuario = "";
+    }
+
+    $modulo = 17;
+
     if (isset($_POST['accion'])) {
 
         $accion = $_POST['accion'];
@@ -36,7 +55,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_correo($correo);
             $objeto->set_rol($rol);
 
-            echo $objeto->registrar_usuario();
+            echo $objeto->registrar_usuario($cedula_bitacora,$modulo);
             exit;
         }
 
@@ -44,7 +63,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $cedula = $_POST['cedula'];
 
             $objeto->set_cedula($cedula);
-            echo $objeto->eliminar_usuario();
+            echo $objeto->eliminar_usuario($cedula_bitacora,$modulo);
             exit;
         }
         if($accion == "modificar"){
@@ -59,7 +78,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_correo($correo);            
             $objeto->set_rol($rol);
 
-            echo $objeto->modificar_usuario();
+            echo $objeto->modificar_usuario($cedula_bitacora,$modulo);
             exit;
         }
         if($accion == "cambiar"){
@@ -71,7 +90,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_contrasena($contrasena);
             $objeto->set_contrasena2($contrasena2);
 
-            echo $objeto->cambiar_contrasena();
+            echo $objeto->cambiar_contrasena($cedula_bitacora,$modulo);
             exit;
         }
         

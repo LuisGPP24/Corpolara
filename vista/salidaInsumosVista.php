@@ -72,9 +72,6 @@
                                                 <td><?= $consulta["entregado_por"] ?></td>
                                                 <td>
                                                     <div class='btn-group' role='group' aria-label='optiones buttons'>
-                                                        <button onclick="modalModificar(this)" id="btn-modificar" class="btn btn-primary">
-                                                            <i class="bi bi-pencil-square"></i>
-                                                        </button>
                                                         <button onclick="eliminar(this)" id="btn_eliminar" class="btn btn-danger">
                                                             <i class="bi bi-trash-fill"></i>
                                                         </button>

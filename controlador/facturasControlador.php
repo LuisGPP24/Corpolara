@@ -11,6 +11,25 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
 
     $objeto = new facturasModelo();
 
+    if(empty($_SESSION)){
+            session_start();
+        }
+        
+        if(isset($_SESSION['cedula'])){
+            $cedula_bitacora = $_SESSION['cedula'];
+        }
+        else{
+            $cedula_bitacora = "";
+        }
+ 
+        if(isset($_SESSION['rol'])){
+            $rol_usuario = $_SESSION['rol'];
+        }else{
+            $rol_usuario = "";
+    }
+
+    $modulo = 12;
+
     if (isset($_POST['accion'])) {
 
         $accion = $_POST['accion'];
@@ -29,7 +48,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_descripcion($descripcion);
             $objeto->set_monto($monto);
             
-            echo $objeto->registrar_factura();
+            echo $objeto->registrar_factura($cedula_bitacora,$modulo);
             exit;
         }
 
@@ -47,7 +66,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_descripcion($descripcion);
             $objeto->set_monto($monto);
             
-            echo $objeto->modificar_factura();
+            echo $objeto->modificar_factura($cedula_bitacora,$modulo);
             exit;
         }
 
@@ -56,7 +75,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $id = $_POST['id'];
 
             $objeto->set_id($id);
-            echo $objeto->eliminar_factura();
+            echo $objeto->eliminar_factura($cedula_bitacora,$modulo);
             exit;
         }
     }

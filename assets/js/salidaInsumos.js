@@ -16,7 +16,7 @@ $(document).ready(function () {
         $("#modalSalidaInsumoLabel").text('Registro de Salida de Insumo');
         $("#registrar").show();
         $("#modificar").hide();
-        $("#codigo_registro").removeAttr("disabled")
+        $("#cantidad").removeAttr("disabled")
         borrarForm();
     });
     
@@ -69,44 +69,12 @@ $(document).ready(function () {
 function borrarForm() {
 
    $('#id').val('');
-   $('#codigo_registro').val('');
-   $('#ente').val('');
-   $('#descripcion_solicitud').val('');
-   $('#fecha_nacimiento').val('');
-   $('#parentesco').val('');
-   $('#patologia').val('');
-   $('#proveedor').val('');
+   $('#fecha').val('');
+   $('#insumo').val('');
+   $('#trabajador').val('');
+   $('#cantidad').val('');
+   $('#entregado').val('');
    
-}
-
-function modalModificar(fila) {
-   $("#modalSalidaInsumoLabel").text("Modificar Salida de Insumo");
-
-  $("#registrar").hide();
-  $("#modificar").show();
-   
-
-   $("#modalSalidaInsumo").modal("show");
-     
-   const linea = $(fila).closest("tr");
-   const id = $(linea).find("td:eq(1)");
-   const codigo_registro = $(linea).find("td:eq(0)");
-   const ente = $(linea).find("td:eq(4)");
-   const descripcion_solicitud = $(linea).find("td:eq(12)");
-   const fecha_nacimiento = $(linea).find("td:eq(9)");
-   const parentesco = $(linea).find("td:eq(10)");
-   const patologia = $(linea).find("td:eq(14)");
-   const proveedor = $(linea).find("td:eq(15)");
-   
-   $("#codigo_registro").attr('disabled','disabled');
-   $("#id").val(id.text());
-   $("#codigo_registro").val(codigo_registro.text());
-   $("#ente").val(ente.text());
-   $("#descripcion_solicitud").val(descripcion_solicitud.text());
-   $("#fecha_nacimiento").val(fecha_nacimiento.text());
-   $("#parentesco").val(parentesco.text());
-   $("#patologia").val(patologia.text());
-   $("#proveedor").val(proveedor.text());     
 }
 
 function eliminar(fila) {

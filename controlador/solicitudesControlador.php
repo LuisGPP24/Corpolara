@@ -11,6 +11,25 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
 
     $objeto = new SolicitudesModelo();
 
+    if(empty($_SESSION)){
+        session_start();
+    }
+        
+    if(isset($_SESSION['cedula'])){
+        $cedula_bitacora = $_SESSION['cedula'];
+    }
+    else{
+        $cedula_bitacora = "";
+    }
+ 
+    if(isset($_SESSION['rol'])){
+        $rol_usuario = $_SESSION['rol'];
+    }else{
+        $rol_usuario = "";
+    }
+
+    $modulo = 5;
+
     if (isset($_POST['accion'])) {
 
         $accion = $_POST['accion'];
@@ -55,7 +74,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_estatus($estatus);
             $objeto->set_observacion($observacion);
             
-            echo $objeto->registrar_solicitud();
+            echo $objeto->registrar_solicitud($cedula_bitacora,$modulo);
             exit;
         }
 
@@ -100,7 +119,8 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_condicion($condicion);
             $objeto->set_estatus($estatus);
             $objeto->set_observacion($observacion);
-            echo $objeto->modificar_solicitud();
+            
+            echo $objeto->modificar_solicitud($cedula_bitacora,$modulo);
             exit;
         }
 
@@ -108,7 +128,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $id = $_POST['id'];
 
             $objeto->set_id($id);
-            echo $objeto->eliminar_solicitud();
+            echo $objeto->eliminar_solicitud($cedula_bitacora,$modulo);
             exit;
         }
     }

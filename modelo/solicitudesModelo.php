@@ -85,7 +85,7 @@
         $this->observacion = $valor;
     }
 
-    public function registrar_solicitud(){
+    public function registrar_solicitud($cedula_bitacora,$modulo){
         try {
 
             if(
@@ -141,6 +141,10 @@
 
             ));
 
+            $accion= "Ha registrado una nueva Solicitud";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+
             http_response_code(200);
             return "registro exitoso";
             
@@ -175,21 +179,8 @@
         
     }
 
-   public function modificar_solicitud(){
+   public function modificar_solicitud($cedula_bitacora,$modulo){
         try {
-            /*if (
-                !$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula) ||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/", $this->nombre) ||
-                !$this->evaluar_caracteres("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", $this->correo)
-            ) {
-                http_response_code(400);
-                return "Caracteres inválidos";
-            }
-            
-            if (!$this->existe_antecedentes($this->trabajador)) {
-                http_response_code(400);
-                return "Los antecedentes no existen";
-            }*/
 
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -217,6 +208,10 @@
                 ":id" => $this->id,
             ));
 
+            $accion= "Ha modificado una Solicitud";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+
             http_response_code(200);
             return "Modificación con exito";
         } catch (PDOException $e) {
@@ -225,17 +220,8 @@
         }
     }
 
-    public function eliminar_solicitud(){
+    public function eliminar_solicitud($cedula_bitacora,$modulo){
         try {
-            /*if(!$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula)){
-                http_response_code(400);
-                return "Caracteres inválidos";
-            }*/
-
-            /*if (!$this->existe_codigo($this->codigo)){
-                http_response_code(400);
-                return "Esta Solicitud No existe";
-            }*/
 
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -247,6 +233,10 @@
             $stmt->execute(array(
                 ":id" => $this->id
             ));
+
+            $accion= "Ha eliminado una Solicitud";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
 
             http_response_code(200);
             return "eliminacion con exito";

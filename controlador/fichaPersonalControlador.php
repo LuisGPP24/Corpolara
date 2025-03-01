@@ -5,22 +5,25 @@ if (!is_file("modelo/" . $pagina . "Modelo.php")) {
     exit;
 }
 
-use modelo\ReportesModelo;
+use modelo\ReportesModelo;    
 
 if (is_file("vista/" . $pagina . "Vista.php")) {
 
     $objeto = new ReportesModelo();
 
     if (isset($_POST['accion'])) {
+
         $accion = $_POST['accion'];
-        if ($accion == 'generarReporte') {
+
+        if ($accion == 'generarReporte'){
+
             $trabajador = $_POST['trabajador'];
             $solicitante = $_POST['solicitante'];
             $objeto->setTrabajador($trabajador);
             $objeto->setSolicitante($solicitante);
             $objeto->generarReporte();
-            exit;
-           
+
+            exit;           
         }
         exit;
     }

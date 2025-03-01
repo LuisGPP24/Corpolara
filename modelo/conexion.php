@@ -29,9 +29,20 @@ class conexion {
         return $matches > 0;
 	}
 
+	protected function registrar_bitacora($cedula, $accion, $id_modulos){
+
+        $sql = "INSERT INTO bitacora (cedula_usuario, id_modulos, fecha_registro, hora_registro, accion) 
+        VALUES(:cedula, :id, CURDATE(), CURTIME(), :accion)";
+
+        $stmt = $this->conecta()->prepare($sql);
+
+        $stmt->execute(array(
+            ":cedula" => $cedula,
+            ":id" => $id_modulos,
+            ":accion" => $accion
+        ));
+    }
+
 
 }
-
-
-
 ?>

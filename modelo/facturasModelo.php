@@ -30,7 +30,7 @@
         $this->monto = $valor;
     }
     
-    public function registrar_factura(){
+    public function registrar_factura($cedula_bitacora,$modulo){
         try {
 
             if(
@@ -61,8 +61,11 @@
                 ":numero_factura" => $this->numero_factura,
                 ":descripcion" => $this->descripcion,
                 ":monto" => $this->monto
-
             ));
+
+            $accion= "Ha registrado una nueva Factura";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
 
             http_response_code(200);
             return "Registro exitoso";
@@ -94,17 +97,9 @@
         
     }
 
-   public function modificar_factura(){
+   public function modificar_factura($cedula_bitacora,$modulo){
         try {
-            /*if (
-                !$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula) ||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/", $this->nombre) ||
-                !$this->evaluar_caracteres("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", $this->correo)
-            ) {
-                http_response_code(400);
-                return "Caracteres inválidos";
-            }*/
-
+            
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
            
@@ -119,6 +114,10 @@
                 ":id" => $this->id,
             ));
 
+            $accion= "Ha modificado una Factura";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+
             http_response_code(200);
             return "Modificación con exito";
         } catch (PDOException $e) {
@@ -127,7 +126,7 @@
         }
     }
 
-    public function eliminar_factura(){
+    public function eliminar_factura($cedula_bitacora,$modulo){
         try {
             /*if(!$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula)){
                 http_response_code(400);
@@ -149,6 +148,10 @@
             $stmt->execute(array(
                 ":id" => $this->id
             ));
+
+            $accion= "Ha eliminado una Factura";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
 
             http_response_code(200);
             return "eliminacion con exito";

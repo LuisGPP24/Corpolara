@@ -98,7 +98,7 @@
         $this->covid = $valor;
     }
 
-    public function registrar_trabajador(){
+    public function registrar_trabajador($cedula_bitacora,$modulo){
         try {
 
             if(
@@ -163,6 +163,10 @@
                 ":covid" => $this->covid,
             ));
 
+            $accion= "Ha registrado un nuevo Trabajador";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+
             http_response_code(200);
             return "registro exitoso";
             
@@ -193,7 +197,7 @@
         
     }
 
-    public function modificar_trabajador(){
+    public function modificar_trabajador($cedula_bitacora,$modulo){
         try {
             /*if (
                 !$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula) ||
@@ -240,6 +244,10 @@
                 
             ));
 
+            $accion= "Ha modificado un Trabajador";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+
             http_response_code(200);
             return "Modificación con exito";
         } catch (PDOException $e) {
@@ -248,7 +256,7 @@
         }
     }
 
-    public function eliminar_trabajador(){
+    public function eliminar_trabajador($cedula_bitacora,$modulo){
         try {
             if(!$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula)){
                 http_response_code(400);
@@ -270,6 +278,10 @@
             $stmt->execute(array(
                 ":cedula" => $this->cedula
             ));
+
+            $accion= "Ha eliminado a un Trabajador";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
 
             http_response_code(200);
             return "eliminacion con exito";

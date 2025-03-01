@@ -50,38 +50,16 @@
         $this->observacion = $valor;
     }
 
-    public function registrar_morbilidad(){
+    public function registrar_morbilidad($cedula_bitacora,$modulo){
         try {
 
             if(
 
                 !$this->evaluar_caracteres("/^[0-9\b]{1,50}$/",$this->representante)
-                /*!$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_cardiovasculares)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_pulmonares)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_digestivos)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_diabeticos)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_renales)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->alergias)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->otros)||
-                !$this->evaluar_caracteres("/^[0-9a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->tratamientos)||
-                !$this->evaluar_caracteres("/^[0-9a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->especificaciones_tratamiento)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->intervenciones)||
-                !$this->evaluar_caracteres("/^[0-9a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->edad_intervencion)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->descripcion_intervencion)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->accidentes)||
-                !$this->evaluar_caracteres("/^[0-9a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->edad_accidente)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->descripcion_accidente)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_tabaquismo)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_alcoholismo)*/
             ){
             	http_response_code(400);
                 return "Elija a un representante";
             }
-
-            /*if($this->existe_familiar($this->cedula)){
-                http_response_code(400);
-                return "Este familiar ya existe";
-            }*/
 
             
             $bd = $this->conecta();
@@ -101,8 +79,11 @@
                 ":telefono" => $this->telefono,
                 ":doctor" => $this->especialidad,
                 ":observacion" => $this->observacion
-
             ));
+
+            $accion= "Ha registrado una consulta pediátrica";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
 
             http_response_code(200);
             return "registro exitoso";
@@ -138,21 +119,8 @@
         
     }
 
-   public function modificar_consulta(){
+   public function modificar_consulta($cedula_bitacora,$modulo){
         try {
-            /*if (
-                !$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula) ||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/", $this->nombre) ||
-                !$this->evaluar_caracteres("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", $this->correo)
-            ) {
-                http_response_code(400);
-                return "Caracteres inválidos";
-            }
-            
-            if (!$this->existe_antecedentes($this->trabajador)) {
-                http_response_code(400);
-                return "Los antecedentes no existen";
-            }*/
 
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -174,6 +142,11 @@
                 ":id" => $this->id
             ));
 
+            $accion= "Ha modificado una consulta pediátrica";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+
+
             http_response_code(200);
             return "Modificación con exito";
         } catch (PDOException $e) {
@@ -182,17 +155,8 @@
         }
     }
 
-    public function eliminar_consulta(){
+    public function eliminar_consulta($cedula_bitacora,$modulo){
         try {
-            /*if(!$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula)){
-                http_response_code(400);
-                return "Caracteres inválidos";
-            }
-
-            if (!$this->existe_familiar($this->cedula)){
-                http_response_code(400);
-                return "Este familiar No existe";
-            }*/
 
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -205,6 +169,10 @@
                 ":id" => $this->id
             ));
 
+            $accion= "Ha eliminado una consulta pediátrica";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+
             http_response_code(200);
             return "eliminacion con exito";
             
@@ -213,31 +181,6 @@
             return $e->getMessage();
         }
     }
-
-    /*private function existe_familiar($cedula){
-        try {
-            $bd = $this->conecta();
-            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $sql = "SELECT * FROM familiares WHERE cedula = :cedula";
-
-            $stmt = $bd->prepare($sql);
-
-            $stmt->execute(array(
-                ":cedula" => $cedula,
-            ));
-            
-            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($resultado) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (PDOException $e) {
-            return false;
-        }
-    }*/
 
     private function evaluar_caracteres($regex, $valor){
         $valor = trim($valor);

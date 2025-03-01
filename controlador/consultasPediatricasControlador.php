@@ -11,6 +11,25 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
 
     $objeto = new consultasPediatricasModelo();
 
+    if(empty($_SESSION)){
+            session_start();
+        }
+        
+        if(isset($_SESSION['cedula'])){
+            $cedula_bitacora = $_SESSION['cedula'];
+        }
+        else{
+            $cedula_bitacora = "";
+        }
+ 
+        if(isset($_SESSION['rol'])){
+            $rol_usuario = $_SESSION['rol'];
+        }else{
+            $rol_usuario = "";
+    }
+
+    $modulo = 14;
+
     if (isset($_POST['accion'])) {
 
         $accion = $_POST['accion'];
@@ -37,7 +56,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_especialidad($doctor);
             $objeto->set_observacion($observacion);
             
-            echo $objeto->registrar_morbilidad();
+            echo $objeto->registrar_morbilidad($cedula_bitacora,$modulo);
             exit;
         }
 
@@ -65,7 +84,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_observacion($observacion);
             $objeto->set_id($id);
 
-            echo $objeto->modificar_consulta();
+            echo $objeto->modificar_consulta($cedula_bitacora,$modulo);
             exit;
         }
 
@@ -73,7 +92,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $id = $_POST['id'];
 
             $objeto->set_id($id);
-            echo $objeto->eliminar_consulta();
+            echo $objeto->eliminar_consulta($cedula_bitacora,$modulo);
             exit;
         }
     }

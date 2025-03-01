@@ -11,6 +11,25 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
 
     $objeto = new salidaInsumosModelo();
 
+    if(empty($_SESSION)){
+        session_start();
+    }
+        
+    if(isset($_SESSION['cedula'])){
+        $cedula_bitacora = $_SESSION['cedula'];
+    }
+    else{
+        $cedula_bitacora = "";
+    }
+ 
+    if(isset($_SESSION['rol'])){
+        $rol_usuario = $_SESSION['rol'];
+    }else{
+        $rol_usuario = "";
+    }
+
+    $modulo = 15;
+
     if (isset($_POST['accion'])) {
 
         $accion = $_POST['accion'];
@@ -31,31 +50,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_cantidad($cantidad);
             $objeto->set_entregado($entregado);
             
-            echo $objeto->registrar_salida();
-            exit;
-        }
-
-        if($accion == "modificar"){
-            
-            $id = $_POST["id"];
-            $codigo_registro = $_POST["codigo_registro"];
-            $ente = $_POST["ente"];
-            $descripcion_solicitud = $_POST["descripcion_solicitud"];
-            $fecha_nacimiento = $_POST["fecha_nacimiento"];
-            $parentesco = $_POST["parentesco"];
-            $patologia = $_POST["patologia"];
-            $proveedor = $_POST["proveedor"];
-
-            $objeto->set_id($id);
-            $objeto->set_codigo_registro($codigo_registro);
-            $objeto->set_ente($ente);
-            $objeto->set_descripcion_solicitud($descripcion_solicitud);
-            $objeto->set_fecha_nacimiento($fecha_nacimiento);
-            $objeto->set_parentesco($parentesco);
-            $objeto->set_patologia($patologia);
-            $objeto->set_proveedor($proveedor);
-            
-            echo $objeto->modificar_farmacia();
+            echo $objeto->registrar_salida($cedula_bitacora,$modulo);
             exit;
         }
 
@@ -63,7 +58,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $id = $_POST['id'];
 
             $objeto->set_id($id);
-            echo $objeto->eliminar_registro();
+            echo $objeto->eliminar_registro($cedula_bitacora,$modulo);
             exit;
         }
     }

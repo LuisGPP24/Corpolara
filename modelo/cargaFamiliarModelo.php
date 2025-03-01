@@ -59,29 +59,12 @@ class cargaFamiliarModelo extends conexion{
         $this->fecha_ingreso = $valor;
     }
 
-    public function registrar_familiar(){
+    public function registrar_familiar($cedula_bitacora,$modulo){
         try {
 
             if(
 
                 !$this->evaluar_caracteres("/^[0-9\b]{1,50}$/",$this->trabajador)
-                /*!$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_cardiovasculares)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_pulmonares)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_digestivos)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_diabeticos)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_renales)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->alergias)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->otros)||
-                !$this->evaluar_caracteres("/^[0-9a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->tratamientos)||
-                !$this->evaluar_caracteres("/^[0-9a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->especificaciones_tratamiento)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->intervenciones)||
-                !$this->evaluar_caracteres("/^[0-9a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->edad_intervencion)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->descripcion_intervencion)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->accidentes)||
-                !$this->evaluar_caracteres("/^[0-9a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->edad_accidente)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->descripcion_accidente)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_tabaquismo)||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->antecedentes_alcoholismo)*/
             ){
             	http_response_code(400);
                 return "Elija a un trabajador";
@@ -91,6 +74,10 @@ class cargaFamiliarModelo extends conexion{
                 http_response_code(400);
                 return "Este familiar ya existe";
             }
+
+            $accion= "Ha registrado una carga familiar";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
 
             
             $bd = $this->conecta();
@@ -149,21 +136,8 @@ class cargaFamiliarModelo extends conexion{
         
     }
 
-   public function modificar_familiar(){
+   public function modificar_familiar($cedula_bitacora,$modulo){
         try {
-            /*if (
-                !$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula) ||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/", $this->nombre) ||
-                !$this->evaluar_caracteres("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", $this->correo)
-            ) {
-                http_response_code(400);
-                return "Caracteres inválidos";
-            }
-            
-            if (!$this->existe_antecedentes($this->trabajador)) {
-                http_response_code(400);
-                return "Los antecedentes no existen";
-            }*/
 
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -188,6 +162,10 @@ class cargaFamiliarModelo extends conexion{
                 ":id" => $this->id,
             ));
 
+            $accion= "Ha modificado una carga familiar";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+
             http_response_code(200);
             return "Modificación con exito";
         } catch (PDOException $e) {
@@ -196,17 +174,8 @@ class cargaFamiliarModelo extends conexion{
         }
     }
 
-    public function eliminar_familiar(){
+    public function eliminar_familiar($cedula_bitacora,$modulo){
         try {
-            /*if(!$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula)){
-                http_response_code(400);
-                return "Caracteres inválidos";
-            }
-
-            if (!$this->existe_familiar($this->cedula)){
-                http_response_code(400);
-                return "Este familiar No existe";
-            }*/
 
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -218,6 +187,10 @@ class cargaFamiliarModelo extends conexion{
             $stmt->execute(array(
                 ":id" => $this->id
             ));
+
+            $accion= "Ha eliminado una carga familiar";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
 
             http_response_code(200);
             return "eliminacion con exito";

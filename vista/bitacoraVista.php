@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="col-auto">
 
-                                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalFacturas" id='btn_registrar' >
+                                    <button class="btn btn-danger" data-bs-toggle="modal" id='btn_vaciar' >
                                         <i class="bi bi-trash"></i> Vaciar
                                     </button>
 
@@ -42,29 +42,28 @@
                             </div>
 
                             <div class="table-responsive">
-                                <table id="tablaFacturas" class="table table-hover table-striped mt-3" style="width:100%">
+                                <table id="tablaBitacora" class="table table-hover table-striped mt-3" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>Usuario</th>
                                             <th>Nombre</th>
-                                            <th>Modulo</th>
+                                            <th>Módulo</th>
                                             <th>Fecha de Registro</th>
                                             <th>Hora de registro</th>
                                             <th>Acción realizada</th>
                                         </tr>
                                     </thead>
                                    
-                                        <!--<?php foreach ($consultas as $consulta) : ?>
+                                        <?php foreach ($consultas as $consulta) : ?>
                                             <tr>
-                                                <td class="d-none"><?= $consulta["id_solicitudes"] ?></td>
-                                                <td><?= $consulta["id"] ?></td>
-                                                <td><?= $consulta["nombre_solicitante"] ?></td>
-                                                <td><?= $consulta["cedula_solicitante"] ?></td>
-                                                <td><?= $consulta["codigo_registro"] ?></td>
-                                                <td><?= $consulta["numero_factura"] ?></td>
-                                                <td><?= $consulta["descripcion"] ?></td>
+                                                <td><?= $consulta["cedula"] ?></td>
+                                                <td><?= $consulta["nombre_usuario"] ?></td>
+                                                <td><?= $consulta["nombre_modulo"] ?></td>
+                                                <td><?= $consulta["fecha_registro"] ?></td>
+                                                <td><?= $consulta["hora_registro"] ?></td>
+                                                <td><?= $consulta["accion"] ?></td>
                                             </tr>
-                                        <?php endforeach; ?>-->
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -75,75 +74,6 @@
             </main>
         </div>
 
-    </div>
-
-    <!-- Modal Gestion-->
-    <div class="modal fade" id="modalFacturas" tabindex="-1" aria-labelledby="modalFacturasLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modalFacturasLabel"></h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-
-                    <form id="formFacturas" action="" method="POST">
-
-                        <input type="text" class="d-none" id="id" placeholder="id">
-
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <div class="form-floating">
-                                    <select class="selectpicker form-control" name="codigo_registro" id="codigo_registro" data-live-search="true" data-show-subtext="true">
-                                        <option value=""></option>
-                                        <?php foreach ($consulta_solicitudes as $solicitudes) : ?>
-                                            <option value="<?= $solicitudes['id'] ?>"> 
-                                                <?= $solicitudes['codigo_registro'] ?> -- <?= $solicitudes['nombre_solicitante'] ?> -- <?= $solicitudes['tipo_solicitud'] ?>
-                                            </option>
-                                        <?php endforeach ?>
-                                    </select>
-                                    <label for="codigo_registro">Codigo Del Registro</label>
-                                </div>
-                            </div>
-                        </div>                        
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="numero_factura" placeholder="numero_factura">
-                                        <label for="numero_factura">Número de factura</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="descripcion" placeholder="descripcion">
-                                    <label for="descripcion">Descripción/Concepto</label>
-                                </div>
-                            </div>
-                        </div>  
-
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <div class="form-floating">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="monto" placeholder="monto">
-                                        <label for="monto">Monto en Bs.</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>  
-                    </form>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" form="formFacturas" id="registrar" class="btn btn-success">registrar</button>
-                    <button type="submit" form="formFacturas" id="modificar" class="btn btn-primary">modificar</button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script src="assets/js/bitacora.js"></script>

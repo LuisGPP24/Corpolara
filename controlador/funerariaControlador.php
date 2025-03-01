@@ -11,6 +11,25 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
 
     $objeto = new FunerariaModelo();
 
+    if(empty($_SESSION)){
+        session_start();
+    }
+        
+    if(isset($_SESSION['cedula'])){
+        $cedula_bitacora = $_SESSION['cedula'];
+    }
+    else{
+        $cedula_bitacora = "";
+    }
+ 
+    if(isset($_SESSION['rol'])){
+        $rol_usuario = $_SESSION['rol'];
+    }else{
+        $rol_usuario = "";
+    }
+
+    $modulo = 8;
+
     if (isset($_POST['accion'])) {
 
         $accion = $_POST['accion'];
@@ -27,7 +46,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_ente($ente);
             $objeto->set_defuncion_paciente($defuncion_paciente);
             
-            echo $objeto->registrar_funeraria();
+            echo $objeto->registrar_funeraria($cedula_bitacora,$modulo);
             exit;
         }
 
@@ -43,7 +62,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_ente($ente);
             $objeto->set_defuncion_paciente($defuncion_paciente);
             
-            echo $objeto->modificar_funeraria();
+            echo $objeto->modificar_funeraria($cedula_bitacora,$modulo);
             exit;
         }
 
@@ -51,7 +70,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $id = $_POST['id'];
 
             $objeto->set_id($id);
-            echo $objeto->eliminar_registro();
+            echo $objeto->eliminar_registro($cedula_bitacora,$modulo);
             exit;
         }
     }

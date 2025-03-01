@@ -6,80 +6,16 @@
     use PDO;
     use PDOException;
     
-    class facturasModelo extends conexion{
+    class bitacoraModelo extends conexion{
 
-    private $id;
-    private $codigo_registro;
-    private $numero_factura;
-    private $descripcion;
-    private $monto;
-    
-    public function set_id($valor){
-        $this->id = $valor;
-    }
-    public function set_codigo_registro($valor){
-        $this->codigo_registro = $valor;
-    }    
-    public function set_numero_factura($valor){
-        $this->numero_factura = $valor;
-    }
-    public function set_descripcion($valor){
-        $this->descripcion = $valor;
-    }
-    public function set_monto($valor){
-        $this->monto = $valor;
-    }
-    
-    public function registrar_factura(){
-        try {
-
-            if(
-
-                !$this->evaluar_caracteres("/^[0-9]{1,20}$/",$this->codigo_registro)
-                
-            ){
-            	http_response_code(400);
-                return "Caraceteres inválidos";
-            }
-                      
-            if($this->existe_factura($this->numero_factura)){
-                http_response_code(400);
-                return "Este numero de factura ya existe!!";
-            }
-
-            
-            $bd = $this->conecta();
-            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $sql = "INSERT INTO facturas(id_solicitudes,numero_factura,descripcion,monto) VALUES (:solicitudes,:numero_factura,:descripcion,:monto)";
-
-            $stmt = $bd->prepare($sql);
-            
-            $stmt->execute(array(
-
-                ":solicitudes" => $this->codigo_registro,
-                ":numero_factura" => $this->numero_factura,
-                ":descripcion" => $this->descripcion,
-                ":monto" => $this->monto
-
-            ));
-
-            http_response_code(200);
-            return "Registro exitoso";
-            
-        } catch (PDOException $e) {
-            http_response_code(500);
-            return $e->getMessage();
-        }
-    }
-
-    public function listar_facturas(){
+        
+    public function listar_bitacora(){
 
         try{
             $bd = $this->conecta();
-            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);          
 
-            $sql = "SELECT a.id, b.id as id_solicitudes, a.numero_factura, a.descripcion, a.monto, b.nombre_solicitante, b.cedula_solicitante, b.codigo_registro  from facturas a INNER JOIN solicitudes b ON a.id_solicitudes = b.id";
+            $sql = "SELECT a.accion, DATE_FORMAT(a.fecha_registro, '%d/%m/%Y') as fecha_registro, TIME_FORMAT(a.hora_registro, '%r') as hora_registro, b.nombre as nombre_modulo, c.nombre as nombre_usuario, c.cedula from bitacora a INNER JOIN modulos b ON a.id_modulos = b.id INNER JOIN usuarios c ON a.cedula_usuario = c.cedula";
             
             $stmt = $bd->prepare($sql);
 
@@ -90,131 +26,42 @@
         } catch (PDOException $e) {
             http_response_code(500);
             return $e->getMessage();
-        }
+        }        
+    }
+
+    public function vaciar_bitacora($cedula_bitacora,$modulo){
         
-    }
-
-   public function modificar_factura(){
-        try {
-            /*if (
-                !$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula) ||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/", $this->nombre) ||
-                !$this->evaluar_caracteres("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", $this->correo)
-            ) {
-                http_response_code(400);
-                return "Caracteres inválidos";
-            }*/
-
-            $bd = $this->conecta();
-            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-           
-            $sql = "UPDATE facturas SET numero_factura = :numero_factura, descripcion = :descripcion, monto = :monto WHERE id = :id";
-
-            $stmt = $bd->prepare($sql);
-
-            $stmt->execute(array(
-                ":numero_factura" => $this->numero_factura,
-                ":descripcion" => $this->descripcion,
-                ":monto" => $this->monto,
-                ":id" => $this->id,
-            ));
-
-            http_response_code(200);
-            return "Modificación con exito";
-        } catch (PDOException $e) {
-            http_response_code(500);
-            return $e->getMessage();
-        }
-    }
-
-    public function eliminar_factura(){
-        try {
-            /*if(!$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula)){
-                http_response_code(400);
-                return "Caracteres inválidos";
-            }*/
-
-            /*if (!$this->existe_codigo($this->codigo_registro)){
-                http_response_code(400);
-                return "Este Registro No existe";
-            }*/
-
-            $bd = $this->conecta();
-            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $sql = "DELETE FROM facturas WHERE id = :id";
-
-            $stmt = $bd->prepare($sql);
-
-            $stmt->execute(array(
-                ":id" => $this->id
-            ));
-
-            http_response_code(200);
-            return "eliminacion con exito";
-            
-        } catch (PDOException $e) {
-            http_response_code(500);
-            return $e->getMessage();
-        }
-    }
-
-    private function existe_factura($numero_factura){
-        try {
-            $bd = $this->conecta();
-            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $sql = "SELECT * FROM facturas WHERE numero_factura = :numero_factura";
-
-            $stmt = $bd->prepare($sql);
-
-            $stmt->execute(array(
-                ":numero_factura" => $numero_factura
-            ));
-            
-            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($resultado) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (PDOException $e) {
-            return false;
-        }
-    }    
-
-    private function evaluar_caracteres($regex, $valor){
-        $valor = trim($valor);
-        $matches = preg_match_all($regex, $valor);
-
-        return $matches > 0;
-    }
-
-    public function consulta_solicitudes(){
-
         try{
+            $co = $this->conecta();
+            $co->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $bd = $this->conecta();
-            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
+           $stmt = $co->prepare("TRUNCATE TABLE bitacora;");
 
-            $sql = "SELECT id,codigo_registro, nombre_solicitante, tipo_solicitud from solicitudes where tipo_solicitud = 'reembolso'";
-
-            $stmt = $bd->prepare($sql);
             $stmt->execute();
-            
-            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
-            if($resultado){
-                http_response_code(200);
-                return $resultado;
-            }else{
-                http_response_code(200);
-                return null;
-            }
 
+            // Verificar si la tabla se vació correctamente
+            $rowCount = $stmt->rowCount();
+
+                
+            header('Content-Type: text/plain');
+                
+            if ($rowCount == 0) {
+                
+                $accion= "Ha vaciado la tabla de bitácoras";
+
+                parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);    
+                
+                http_response_code(200);
+                return 'Tabla vaciada correcctamente';
+            }else{
+                    
+                http_response_code(500);
+                return 'Error al vaciar la tabla';
+            }
 
         }catch(Exception $e) {
+            header('Content-Type: text/plain');
             http_response_code(500);
             return $e->getMessage();
         }

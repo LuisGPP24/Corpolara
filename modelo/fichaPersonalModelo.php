@@ -7,8 +7,8 @@ use PDO;
 use PDOException;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-class ReportesModelo extends conexion
-{
+
+    class ReportesModelo extends conexion{
 
     private $trabajador;
     private $solicitante;
@@ -21,13 +21,14 @@ class ReportesModelo extends conexion
     {
         $this->solicitante = $valor;
     }
-    public function generarReporte()
-    {
+    public function generarReporte(){
+
         try {
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             $solicitudes = $this->listarSolicitudes();
+
             if (!$solicitudes) {
                 echo json_encode(["error" => "No hay solicitudes"]);
                 return;
@@ -45,6 +46,7 @@ class ReportesModelo extends conexion
             $base64Pdf = base64_encode($pdfOutput);
 
             echo json_encode(["pdf" => $base64Pdf]);
+
         } catch (PDOException $e) {
             echo json_encode(["error" => $e->getMessage()]);
         }

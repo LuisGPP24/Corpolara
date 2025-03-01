@@ -10,6 +10,25 @@ use modelo\EstudiosModelo;
 if (is_file("vista/" . $pagina . "Vista.php")) {
 
     $objeto = new EstudiosModelo();
+    
+    if(empty($_SESSION)){
+        session_start();
+    }
+        
+    if(isset($_SESSION['cedula'])){
+        $cedula_bitacora = $_SESSION['cedula'];
+    }
+    else{
+        $cedula_bitacora = "";
+    }
+ 
+    if(isset($_SESSION['rol'])){
+        $rol_usuario = $_SESSION['rol'];
+    }else{
+        $rol_usuario = "";
+    }
+
+    $modulo = 7;
 
     if (isset($_POST['accion'])) {
 
@@ -29,7 +48,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_descripcion_solicitud($descripcion_solicitud);
             $objeto->set_patologia($patologia);
             
-            echo $objeto->registrar_estudios();
+            echo $objeto->registrar_estudios($cedula_bitacora,$modulo);
             exit;
         }
 
@@ -47,7 +66,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_descripcion_solicitud($descripcion_solicitud);
             $objeto->set_patologia($patologia);
             
-            echo $objeto->modificar_estudios();
+            echo $objeto->modificar_estudios($cedula_bitacora,$modulo);
             exit;
         }
 
@@ -55,7 +74,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $id = $_POST['id'];
 
             $objeto->set_id($id);
-            echo $objeto->eliminar_registro();
+            echo $objeto->eliminar_registro($cedula_bitacora,$modulo);
             exit;
         }
     }

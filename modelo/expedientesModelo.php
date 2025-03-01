@@ -26,7 +26,7 @@
         $this->expediente = $valor;
     }
     
-    public function registrar_expediente() {
+    public function registrar_expediente($cedula_bitacora,$modulo) {
     try {
 
         if (!$this->evaluar_caracteres("/^[A-Za-z0-9áéíóúÁÉÍÓÚñÑs]{1,100}$/", $this->trabajador)) {
@@ -75,6 +75,10 @@
             return "No se ha seleccionado ningún archivo";
         }
 
+        $accion= "Ha registrado un nuevo expediente";
+
+        parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+
         http_response_code(200);
         return "Registro exitoso";
 
@@ -106,7 +110,7 @@
         
     }
 
-    public function eliminar_registro(){
+    public function eliminar_registro($cedula_bitacora,$modulo){
         try {
 
             $bd = $this->conecta();
@@ -120,28 +124,9 @@
                 ":id" => $this->id
             ));
 
-            /*$archivo = 'assets/expedientes/' . $this->expediente['name'];
+            $accion= "Ha eliminado un expediente";
 
-            if(file_exists($archivo)){
-
-                if(unlink($archivo){
-
-                http_response_code(200);
-                return "El archivo ha sido eliminado exitosamente";
-
-                }else{
-                http_response_code(400);
-                return "Error al intentar eliminar el archivo"
-                }
-
-            }else{
-
-                http_response_code(400);
-                return "El archivo no existe";
-            }
-
-            http_response_code(200);
-            return "eliminacion con exito";*/
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
             
         } catch (PDOException $e) {
             http_response_code(500);

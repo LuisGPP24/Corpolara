@@ -11,6 +11,25 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
 
     $objeto = new inventarioModelo();
 
+    if(empty($_SESSION)){
+        session_start();
+    }
+        
+    if(isset($_SESSION['cedula'])){
+        $cedula_bitacora = $_SESSION['cedula'];
+    }
+    else{
+        $cedula_bitacora = "";
+    }
+ 
+    if(isset($_SESSION['rol'])){
+        $rol_usuario = $_SESSION['rol'];
+    }else{
+        $rol_usuario = "";
+    }
+
+    $modulo = 16;
+
     if (isset($_POST['accion'])) {
 
         $accion = $_POST['accion'];
@@ -27,7 +46,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_cantidad($cantidad);
             $objeto->set_fecha($fecha);
 
-            echo $objeto->registrar_insumo();
+            echo $objeto->registrar_insumo($cedula_bitacora,$modulo);
             exit;
         }
 
@@ -45,7 +64,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_fecha($fecha);
             $objeto->set_id($id);
 
-            echo $objeto->modificar_insumo();
+            echo $objeto->modificar_insumo($cedula_bitacora,$modulo);
             exit;
         }
 
@@ -53,7 +72,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $id = $_POST['id'];
 
             $objeto->set_id($id);
-            echo $objeto->eliminar_insumo();
+            echo $objeto->eliminar_insumo($cedula_bitacora,$modulo);
             exit;
         }
     }

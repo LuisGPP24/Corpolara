@@ -88,14 +88,14 @@
 
             <div class="collapse" id="collapseReportes" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                 <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="?pagina=reportes">Ficha de Personal</a>
+                    <a class="nav-link" href="?pagina=reportes">Planilla de atención</a>
 
                 </nav>
             </div>
 
             <div class="collapse" id="collapseReportes" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                 <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="?pagina=fichaPersonal">Planillas de Solicitudes</a>
+                    <a class="nav-link" href="?pagina=fichaPersonal">Ficha de Personal</a>
 
                 </nav>
             </div>

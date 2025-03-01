@@ -34,7 +34,7 @@
         $this->entregado = $valor;
     }
     
-    public function registrar_salida(){
+    public function registrar_salida($cedula_bitacora,$modulo){
         try {
 
             if(
@@ -67,6 +67,10 @@
 
             $resultado_descuento = $this->descontar_insumo($this->insumo, $this->cantidad);
 
+            $accion= "Ha registrado una salida de insumo";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
+
             http_response_code(200);
             return "registro exitoso";
             
@@ -97,54 +101,8 @@
         
     }
 
-   public function modificar_farmacia(){
+    public function eliminar_registro($cedula_bitacora,$modulo){
         try {
-            /*if (
-                !$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula) ||
-                !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/", $this->nombre) ||
-                !$this->evaluar_caracteres("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", $this->correo)
-            ) {
-                http_response_code(400);
-                return "Caracteres inválidos";
-            }*/
-            
-            
-            $bd = $this->conecta();
-            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-           
-            $sql = "UPDATE farmacia SET ente = :ente, descripcion_solicitud = :descripcion_solicitud, fecha_nacimiento = :fecha_nacimiento, parentesco = :parentesco, patologia = :patologia, proveedor = :proveedor WHERE id = :id";
-
-            $stmt = $bd->prepare($sql);
-
-            $stmt->execute(array(
-                ":ente" => $this->ente,
-                ":descripcion_solicitud" => $this->descripcion_solicitud,
-                ":fecha_nacimiento" => $this->fecha_nacimiento,
-                ":parentesco" => $this->parentesco,
-                ":patologia" => $this->patologia,
-                ":proveedor" => $this->proveedor,
-                ":id" => $this->id,
-            ));
-
-            http_response_code(200);
-            return "Modificación con exito";
-        } catch (PDOException $e) {
-            http_response_code(500);
-            return $e->getMessage();
-        }
-    }
-
-    public function eliminar_registro(){
-        try {
-            /*if(!$this->evaluar_caracteres("/^[0-9]{7,8}$/", $this->cedula)){
-                http_response_code(400);
-                return "Caracteres inválidos";
-            }*/
-
-            /*if (!$this->existe_codigo($this->codigo_registro)){
-                http_response_code(400);
-                return "Este Registro No existe";
-            }*/
 
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -156,6 +114,10 @@
             $stmt->execute(array(
                 ":id" => $this->id
             ));
+
+            $accion= "Ha eliminado una salida de insumo";
+
+            parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
 
             http_response_code(200);
             return "eliminacion con exito";
@@ -245,16 +207,14 @@
 
                 ":inventario" => $this->insumo,
                 ":cantidad" => $this->cantidad
-
-            ));
+            ));           
 
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         } catch (PDOException $e) {
             http_response_code(500);
             return $e->getMessage();
-        }
-        
+        }        
     }
 
 }
