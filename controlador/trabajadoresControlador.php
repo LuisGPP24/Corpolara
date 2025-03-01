@@ -1,5 +1,21 @@
 <?php
 
+$id_modulo = 1;
+
+$index_modulo = array_search($id_modulo, array_column($_SESSION["permisos"], "id_modulos"));
+
+if ($index_modulo !== false) {
+    $permiso = $_SESSION["permisos"][$index_modulo];
+
+    if ($permiso["acceso"] == 0) {
+
+        echo "No tienes permisos para acceder a este módulo";
+        exit;
+        
+    }
+}
+
+
 if (!is_file("modelo/" . $pagina . "Modelo.php")) {
     echo "modelo no existe";
     exit;

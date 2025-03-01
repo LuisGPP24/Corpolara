@@ -51,6 +51,8 @@
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+            $bd->beginTransaction();
+
             $sql = "INSERT INTO salida_insumos (id_trabajadores, id_inventario, fecha, cantidad, entregado_por) VALUES (:trabajadores,:inventario,:fecha,:cantidad,:entregado)";
 
             $stmt = $bd->prepare($sql);
@@ -65,16 +67,25 @@
 
             ));
 
-            $resultado_descuento = $this->descontar_insumo($this->insumo, $this->cantidad);
+            if (!$this->descontar_insumo()) {
+                $bd->rollBack();
+                http_response_code(400);
+                return "No hay suficiente insumo";
+            }
 
             $accion= "Ha registrado una salida de insumo";
 
             parent::registrar_bitacora($cedula_bitacora, $accion, $modulo);
-
+            $bd->commit();
+            
             http_response_code(200);
             return "registro exitoso";
             
         } catch (PDOException $e) {
+            if ($bd->inTransaction()) {
+                $bd->rollBack();
+            }
+
             http_response_code(500);
             return $e->getMessage();
         }
@@ -158,7 +169,7 @@
             }
 
 
-        }catch(Exception $e) {
+        }catch(PDOException $e) {
             http_response_code(500);
             return $e->getMessage();
         }
@@ -187,29 +198,53 @@
             }
 
 
-        }catch(Exception $e) {
+        }catch(PDOException $e) {
             http_response_code(500);
             return $e->getMessage();
         }
     }
 
-    public function descontar_insumo($insumo,$cantidad){
+    public function descontar_insumo(){
 
         try{
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "UPDATE inventario SET cantidad = cantidad - :cantidad where id = :inventario";
+            $sql = "UPDATE inventario SET cantidad = (cantidad - :cantidad) where id = :inventario";
 
             $stmt = $bd->prepare($sql);          
 
             $stmt->execute(array(
-
                 ":inventario" => $this->insumo,
                 ":cantidad" => $this->cantidad
             ));           
 
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return true;
+
+        } catch (PDOException $e) {
+            http_response_code(500);
+            return false;
+        }        
+    }
+
+    public function cantidad_insumo_disponible($insumo){
+
+        try{
+            $bd = $this->conecta();
+            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $sql = "SELECT cantidad from inventario where id = :insumo";
+
+            $stmt = $bd->prepare($sql);          
+
+            $stmt->execute(array(
+                ":insumo" => $insumo
+            ));           
+
+            $cantidad = $stmt->fetch(PDO::FETCH_ASSOC);
+            http_response_code(200);
+
+            return $cantidad ? $cantidad["cantidad"] : 0;
 
         } catch (PDOException $e) {
             http_response_code(500);

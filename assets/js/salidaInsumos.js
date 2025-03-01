@@ -64,6 +64,34 @@ $(document).ready(function () {
             },
         });
     });
+
+    $("#insumo").change(function (e) {
+        e.preventDefault();
+        
+        const data = new FormData();
+        data.append("accion", "cantidad");
+        data.append("insumo", $("#insumo").val());
+        $.ajax({
+            async: true,
+            url: " ",
+            type: "POST",
+            contentType: false,
+            data: data,
+            processData: false,
+            cache: false,
+
+            success: function (response) {
+                console.log(response);
+                $("#cantidad_insumo").val(response);
+            },
+            error: function ({ responseText }, status, error) {
+                Toast.fire({
+                    icon: "error al cargar la cantidad disponible",
+                    title: `${responseText}`,
+                });
+            },
+        });
+    });
 });
 
 function borrarForm() {

@@ -79,17 +79,41 @@
                     ":cedula" => $this->cedula
                 ));
 
-                $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+                $info_usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+                $sql = "SELECT * FROM usuarios WHERE cedula = :cedula LIMIT 1";
 
-                if($resultado){
-                    return $resultado;
-                }else{
+                $stmt = $bd->prepare($sql);
+
+                $stmt->execute(array(
+                    ":cedula" => $this->cedula
+                ));
+
+                $info_usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+                
+                if(!$info_usuario){
                     http_response_code(400);
                     return false;
                 }
 
-               
+                $sql = "SELECT p.id,p.id_modulos,p.acceso from usuarios u INNER Join permisos p on u.id_rol = p.id_rol WHERE u.cedula = :cedula";
 
+                $stmt = $bd->prepare($sql);
+
+                $stmt->execute(array(
+                    ":cedula" => $this->cedula
+                ));
+
+                $permisos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                $resultado = array(
+                    "cedula" => $info_usuario["cedula"],
+                    "nombre" => $info_usuario["nombre"],
+                    "correo" => $info_usuario["correo"],
+                    "id_rol" => $info_usuario["id_rol"],
+                    "permisos" => $permisos
+                );
+
+                return $resultado;
             } catch (PDOException $e){
                 echo $e->getMessage();
             }

@@ -24,12 +24,12 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                 if($resultado == "ok"){
 
                     $info_usuario = $objeto->info_usuario();
-
                     session_start();
 
                     $_SESSION["cedula"] = $info_usuario['cedula'];
                     $_SESSION["nombre"] = $info_usuario['nombre'];
-                    
+                    $_SESSION["permisos"] = $info_usuario["permisos"];
+
                     http_response_code(200);
                     echo "Inicio con exito";
                 }else{

@@ -1,3 +1,24 @@
+<?php
+$accesos = array_column($_SESSION["permisos"], "acceso", "id_modulos");
+
+$modulos_registro = [1, 2, 3, 4];
+$modulos_solicitudes = [5, 6, 7, 8];
+$modulos_seguridad = [17, 18, 19];
+
+$acceso_registros = array_reduce($modulos_registro, function ($acumulador, $id) use ($accesos) {
+    return $acumulador && !empty($accesos[$id]) && $accesos[$id] == 1;
+}, true);
+
+$acceso_solicitudes = array_reduce($modulos_solicitudes, function ($acumulador, $id) use ($accesos) {
+    return $acumulador && !empty($accesos[$id]) && $accesos[$id] == 1;
+}, true);
+
+$acceso_seguridad = array_reduce($modulos_seguridad, function ($acumulador, $id) use ($accesos) {
+    return $acumulador && !empty($accesos[$id]) && $accesos[$id] == 1;
+}, true);
+?>
+
+
 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
     <div class="sb-sidenav-menu">
         <div class="nav">
@@ -8,75 +29,86 @@
             </a>
 
             <!--  -->
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseRegistro" aria-expanded="false" aria-controls="collapseRegistro">
+            <?php if ($acceso_registros): ?>
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseRegistro" aria-expanded="false" aria-controls="collapseRegistro">
 
-                Registros
-                <div class="sb-sidenav-collapse-arrow">
-                    <i class="bi bi-chevron-down"></i>
-                </div>
-            </a>
-            <div class="collapse" id="collapseRegistro" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="?pagina=trabajadores">Trabajadores</a>
-                </nav>
-            </div>
+                    Registros
+                    <div class="sb-sidenav-collapse-arrow">
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                </a>
 
-            <div class="collapse" id="collapseRegistro" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="?pagina=antecedentes">Antecedentes</a>
-                </nav>
-            </div>
+                <?php if (!empty($accesos[1]) && $accesos[1] == 1): ?>
+                    <div class="collapse" id="collapseRegistro" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="?pagina=trabajadores">Trabajadores</a>
+                        </nav>
+                    </div>
+                <?php endif; ?>
+                <?php if (!empty($accesos[2]) && $accesos[2] == 1): ?>
+                    <div class="collapse" id="collapseRegistro" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="?pagina=antecedentes">Antecedentes</a>
+                        </nav>
+                    </div>
+                <?php endif; ?>
+                <?php if (!empty($accesos[3]) && $accesos[3] == 1): ?>
+                    <div class="collapse" id="collapseRegistro" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="?pagina=cargaFamiliar">Carga familiar</a>
+                        </nav>
+                    </div>
+                <?php endif; ?>
+                <?php if (!empty($accesos[4]) && $accesos[4] == 1): ?>
+                    <div class="collapse" id="collapseRegistro" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="?pagina=expedientes">Expedientes</a>
+                        </nav>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
 
-            <div class="collapse" id="collapseRegistro" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="?pagina=cargaFamiliar">Carga familiar</a>
-                </nav>
-            </div>
-
-            <div class="collapse" id="collapseRegistro" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="?pagina=expedientes">Expedientes</a>
-                </nav>
-            </div>
-            
 
             <!--  -->
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSolicitudes" aria-expanded="false" aria-controls="collapseSolicitudes">
+            <?php if ($acceso_solicitudes): ?>
 
-                Solicitudes
-                <div class="sb-sidenav-collapse-arrow">
-                    <i class="bi bi-chevron-down"></i>
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSolicitudes" aria-expanded="false" aria-controls="collapseSolicitudes">
+
+                    Solicitudes
+                    <div class="sb-sidenav-collapse-arrow">
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                </a>
+
+                <div class="collapse" id="collapseSolicitudes" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="?pagina=solicitudes">Registro de solicitudes</a>
+
+                    </nav>
                 </div>
-            </a>
 
-            <div class="collapse" id="collapseSolicitudes" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="?pagina=solicitudes">Registro de solicitudes</a>
+                <div class="collapse" id="collapseSolicitudes" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="?pagina=farmacia">Farmacia</a>
 
-                </nav>
-            </div>
+                    </nav>
+                </div>
 
-            <div class="collapse" id="collapseSolicitudes" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="?pagina=farmacia">Farmacia</a>
+                <div class="collapse" id="collapseSolicitudes" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="?pagina=estudios">Estudios médicos</a>
 
-                </nav>
-            </div>
+                    </nav>
+                </div>
 
-            <div class="collapse" id="collapseSolicitudes" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="?pagina=estudios">Estudios médicos</a>
+                <div class="collapse" id="collapseSolicitudes" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="?pagina=funeraria">Funeraria</a>
 
-                </nav>
-            </div>
-            
-            <div class="collapse" id="collapseSolicitudes" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="?pagina=funeraria">Funeraria</a>
+                    </nav>
+                </div>
+            <?php endif; ?>
 
-                </nav>
-            </div>
-          
             <!--  -->
             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseReportes" aria-expanded="false" aria-controls="collapseReportes">
 
@@ -157,21 +189,26 @@
             </div>
 
 
-            <div class="sb-sidenav-menu-heading">Seguridad</div>
-            <a class="nav-link" href="?pagina=usuarios">
+            <?php if ($acceso_seguridad): ?>
+                <div class="sb-sidenav-menu-heading">Seguridad</div>
+                <?php if (!empty($accesos[17]) && $accesos[17] == 1): ?>
+                    <a class="nav-link" href="?pagina=usuarios">
 
-                Usuarios
-            </a>
+                        Usuarios
+                    </a>
+                <?php endif; ?>
+                <?php if (!empty($accesos[18]) && $accesos[18] == 1): ?>
+                    <a class="nav-link" href="?pagina=permisos">
 
-            <a class="nav-link" href="?pagina=permisos">
-
-                Permisos
-            </a>
-
-            <a class="nav-link" href="?pagina=bitacora">
-
-                Bitacora
-            </a>
+                        Permisos
+                    </a>
+                <?php endif; ?>
+                
+                <a class="nav-link" href="?pagina=bitacora">
+                    
+                    Bitacora
+                </a>
+            <?php endif; ?>
 
             <!--  -->
             <div class="sb-sidenav-menu-heading">Info</div>
@@ -184,6 +221,6 @@
         </div>
     </div>
     <div class="sb-sidenav-footer">
-        
+
     </div>
 </nav>

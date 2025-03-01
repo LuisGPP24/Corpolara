@@ -34,6 +34,14 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
 
         $accion = $_POST['accion'];
 
+        if ($accion == "cantidad") {
+
+
+            $insumo = $_POST['insumo'];
+            echo $objeto->cantidad_insumo_disponible($insumo);
+            exit;
+        }
+
         if($accion == "registrar"){
           
             $id = $_POST["id"];
@@ -54,6 +62,8 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             exit;
         }
 
+        
+
        if($accion == "eliminar"){
             $id = $_POST['id'];
 
@@ -61,6 +71,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             echo $objeto->eliminar_registro($cedula_bitacora,$modulo);
             exit;
         }
+        exit;
     }
 
     $consultas = $objeto->listar_inventario();

@@ -49,7 +49,7 @@
                                             <th>ID</th>
                                             <th>Fecha</th>
                                             <th>Nombre y apellido</th>
-                                            <th>Cédula</th>                               
+                                            <th>Cédula</th>
                                             <th>Unidad Organizativa</th>
                                             <th>Insumo Utilizado</th>
                                             <th>Cantidad suministrada</th>
@@ -57,28 +57,28 @@
                                             <th>Opciones</th>
                                         </tr>
                                     </thead>
-                                   
-                                        <?php foreach ($consultas as $consulta) : ?>
-                                            <tr>
-                                                <td class="d-none"><?= $consulta["id_trabajadores"] ?></td>
-                                                <td class="d-none"><?= $consulta["id_inventario"] ?></td>
-                                                <td><?= $consulta["id"] ?></td>
-                                                <td><?= $consulta["fecha"] ?></td>
-                                                <td><?= $consulta["nombre"] ?></td>
-                                                <td><?= $consulta["cedula"] ?></td>                                                
-                                                <td><?= $consulta["unidad_organizativa"] ?></td>
-                                                <td><?= $consulta["nombre_insumo"] ?></td>                                                 
-                                                <td><?= $consulta["cantidad"] ?></td>
-                                                <td><?= $consulta["entregado_por"] ?></td>
-                                                <td>
-                                                    <div class='btn-group' role='group' aria-label='optiones buttons'>
-                                                        <button onclick="eliminar(this)" id="btn_eliminar" class="btn btn-danger">
-                                                            <i class="bi bi-trash-fill"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
+
+                                    <?php foreach ($consultas as $consulta) : ?>
+                                        <tr>
+                                            <td class="d-none"><?= $consulta["id_trabajadores"] ?></td>
+                                            <td class="d-none"><?= $consulta["id_inventario"] ?></td>
+                                            <td><?= $consulta["id"] ?></td>
+                                            <td><?= $consulta["fecha"] ?></td>
+                                            <td><?= $consulta["nombre"] ?></td>
+                                            <td><?= $consulta["cedula"] ?></td>
+                                            <td><?= $consulta["unidad_organizativa"] ?></td>
+                                            <td><?= $consulta["nombre_insumo"] ?></td>
+                                            <td><?= $consulta["cantidad"] ?></td>
+                                            <td><?= $consulta["entregado_por"] ?></td>
+                                            <td>
+                                                <div class='btn-group' role='group' aria-label='optiones buttons'>
+                                                    <button onclick="eliminar(this)" id="btn_eliminar" class="btn btn-danger">
+                                                        <i class="bi bi-trash-fill"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -106,7 +106,7 @@
                         <input type="text" class="d-none" id="id" placeholder="id">
 
                         <div class="row mb-3">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-floating">
                                     <div class="form-floating">
                                         <input type="date" class="form-control" id="fecha" placeholder="fecha">
@@ -114,17 +114,27 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-8">
                                 <div class="form-floating">
                                     <select class="form-control" name="insumo" id="insumo">
                                         <option value=""></option>
                                         <?php foreach ($consulta_inventario as $inventario) : ?>
-                                            <option value="<?= $inventario['id'] ?>"> 
+                                            <option value="<?= $inventario['id'] ?>">
                                                 <?= $inventario['codigo_insumo'] ?> -- <?= $inventario['nombre_insumo'] ?>
                                             </option>
                                         <?php endforeach ?>
                                     </select>
                                     <label for="insumo">Insumo</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="cantidad_insumo" placeholder="Cantidad Disponible" disabled>
+                                    <label for="cantidad_insumo">Cantidad</label>
                                 </div>
                             </div>
                         </div>
@@ -135,7 +145,7 @@
                                     <select class="selectpicker form-control" name="trabajador" id="trabajador" data-live-search="true" data-show-subtext="true">
                                         <option value=""></option>
                                         <?php foreach ($consulta_trabajadores as $trabajadores) : ?>
-                                            <option value="<?= $trabajadores['id'] ?>"> 
+                                            <option value="<?= $trabajadores['id'] ?>">
                                                 <?= $trabajadores['cedula'] ?> -- <?= $trabajadores['nombre'] ?>
                                             </option>
                                         <?php endforeach ?>
@@ -143,7 +153,7 @@
                                     <label for="trabajador">Trabajador</label>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
@@ -162,7 +172,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>  
+                        </div>
                     </form>
 
                 </div>
