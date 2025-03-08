@@ -43,6 +43,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
         if($accion=='eliminar'){
 
                 $objeto->set_id($_POST['id']);
+                $objeto->set_cedula($_POST['cedula']);
                 echo $objeto->eliminar_registro($cedula_bitacora,$id_modulo);
 
             }else{

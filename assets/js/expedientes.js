@@ -85,10 +85,12 @@ function eliminar(fila) {
 
             const linea = $(fila).closest("tr");
             const id = $(linea).find("td:eq(1)");
+            const cedula = $(linea).find("td:eq(3)");
 
             const data = new FormData();
             data.append("accion", "eliminar");
             data.append("id", id.text());
+            data.append("cedula", cedula.text());
             
             $.ajax({
                 async: true,
@@ -102,7 +104,7 @@ function eliminar(fila) {
                 success: function (response) {
                     Swal.fire({
                        title: "Eliminacion exitosa",
-                       text: "La solicitud fue eliminada con éxito!",
+                       text: response,
                        icon: "success",
                     });
                 },

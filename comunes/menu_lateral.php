@@ -1,4 +1,7 @@
 <?php
+
+require_once ("./utils/array_some.php");
+
 $accesos = array_column($_SESSION["permisos"], "acceso", "id_modulos");
 
 $modulos_registro = [1, 2, 3, 4];
@@ -9,35 +12,34 @@ $modulos_servicios_medicos = [13, 14, 15, 16];
 $modulos_seguridad = [17, 18, 19];
 $modulos_manual_usuario = [20];
 
-$acceso_registros = array_reduce($modulos_registro, function ($acumulador, $id) use ($accesos) {
-    return $acumulador && !empty($accesos[$id]) && $accesos[$id] == 1;
-}, true);
+$acceso_registros = array_some($modulos_registro, function ($id) use ($accesos) {
+    return !empty($accesos[$id]) && $accesos[$id] == 1;
+});
 
-$acceso_solicitudes = array_reduce($modulos_solicitudes, function ($acumulador, $id) use ($accesos) {
-    return $acumulador && !empty($accesos[$id]) && $accesos[$id] == 1;
-}, true);
+$acceso_solicitudes = array_some($modulos_solicitudes, function ($id) use ($accesos) {
+    return !empty($accesos[$id]) && $accesos[$id] == 1;
+});
 
-$acceso_reportes = array_reduce($modulos_reportes, function ($acumulador, $id) use ($accesos) {
-    return $acumulador && !empty($accesos[$id]) && $accesos[$id] == 1;
-}, true);
+$acceso_reportes = array_some($modulos_reportes, function ($id) use ($accesos) {
+    return !empty($accesos[$id]) && $accesos[$id] == 1;
+});
 
-$acceso_facturas = array_reduce($modulos_facturas, function ($acumulador, $id) use ($accesos) {
-    return $acumulador && !empty($accesos[$id]) && $accesos[$id] == 1;
-}, true);
+$acceso_facturas = array_some($modulos_facturas, function ($id) use ($accesos) {
+    return !empty($accesos[$id]) && $accesos[$id] == 1;
+});
 
-$acceso_servicios_medicos = array_reduce($modulos_servicios_medicos, function ($acumulador, $id) use ($accesos) {
-    return $acumulador && !empty($accesos[$id]) && $accesos[$id] == 1;
-}, true);
+$acceso_servicios_medicos = array_some($modulos_servicios_medicos, function ($id) use ($accesos) {
+    return !empty($accesos[$id]) && $accesos[$id] == 1;
+});
 
-$acceso_seguridad = array_reduce($modulos_seguridad, function ($acumulador, $id) use ($accesos) {
-    return $acumulador && !empty($accesos[$id]) && $accesos[$id] == 1;
-}, true);
+$acceso_seguridad = array_some($modulos_seguridad, function ($id) use ($accesos) {
+    return !empty($accesos[$id]) && $accesos[$id] == 1;
+});
 
-$acceso_manual_usuario = array_reduce($modulos_manual_usuario, function ($acumulador, $id) use ($accesos) {
-    return $acumulador && !empty($accesos[$id]) && $accesos[$id] == 1;
-}, true);
+$acceso_manual_usuario = array_some($modulos_manual_usuario, function ($id) use ($accesos) {
+    return !empty($accesos[$id]) && $accesos[$id] == 1;
+});
 ?>
-
 
 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
     <div class="sb-sidenav-menu">

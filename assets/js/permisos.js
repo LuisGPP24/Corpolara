@@ -131,10 +131,13 @@ function modalPermisos(fila) {
   
   $("#rol-titulo").text(`${id.text()} - ${nombreRol.text()}`);
 
-  if ($(".x-permiso").is(":checked")) {
-    $(".x-permiso").prop("checked", false);
-  };
+  const permisos = document.querySelectorAll(".x-permiso");
 
+  permisos.forEach((permiso) => {
+    if (permiso.checked) {
+      permiso.checked = false;
+    }
+  });
 
   const data = new FormData();
 

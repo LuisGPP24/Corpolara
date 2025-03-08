@@ -9,12 +9,16 @@
     class ExpedientesModelo extends conexion{
 
     private $id;
+    private $cedula;
     private $trabajador;
     private $fecha_registro;
     private $expediente;
     
     public function set_id($valor){
         $this->id = $valor;
+    }
+    public function set_cedula($valor){
+        $this->cedula = $valor;
     }
     public function set_trabajador($valor){
         $this->trabajador = $valor;
@@ -127,6 +131,16 @@
             $accion= "Ha eliminado un expediente";
 
             parent::registrar_bitacora($cedula_bitacora, $accion, $id_modulo);
+
+            $cedula = $this->cedula;
+
+            if (!unlink("assets/expedientes/expediente-$cedula.pdf")) {
+                http_response_code(400);
+                return "Fallo en eliminar";
+            }
+            
+            http_response_code(200);
+            return "La solicitud fue eliminada con éxito";
             
         } catch (PDOException $e) {
             http_response_code(500);
