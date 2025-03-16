@@ -34,14 +34,22 @@
                                 </div>
                                 <div class="col-auto">
 
-                                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#" id=''>
-                                        Exportar
-                                    </button>
+                                    <body>  
+                                        <form action="exportar.php" method="post">      
+                                            <button type="submit" class="btn btn-warning" id='exportar_excel'>Exportar a Excel</button>
+                                        </form>
+                                    </body>
 
+                                    <!--<button onclick="exportarExcel()" id="exportar_excel" class="btn btn-warning">
+                                        Exportar a excel                                 
+                                    </button>-->
+
+                                </div>
+
+                                <div class="col-auto">                                    
                                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalSolicitudes" id='btn_registrar'>
                                         Registrar
                                     </button>
-
                                 </div>
                             </div>
 
@@ -65,6 +73,7 @@
                                             <th>Remitido a:</th>
                                             <th>Monto Solicitado</th>
                                             <th>Monto Aprobado</th>
+                                            <th>Monto en Divisas</th>
                                             <th>Fecha de Registro</th>
                                             <th>Condición</th>
                                             <th>Estatus</th>
@@ -91,6 +100,7 @@
                                                 <td><?= $consulta["remitido"] ?></td>
                                                 <td><?= $consulta["monto"] ?></td>
                                                 <td><?= $consulta["monto_aprobado"] ?></td>
+                                                <td><?= $consulta["monto_divisas"] ?></td>
                                                 <td><?= $consulta["fecha_registro"] ?></td>
                                                 <td><?= $consulta["condicion"] ?></td>
                                                 <td><?= $consulta["estatus"] ?></td>
@@ -263,13 +273,19 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="date" class="form-control" id="fecha_registro" placeholder="fecha_registro">
-                                    <label for="fecha_registro">Fecha de registro</label>
+                                    <input type="text" class="form-control" id="monto_divisas" placeholder="monto_divisas">
+                                    <label for="monto_divisas">Monto en divisas</label>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="date" class="form-control" id="fecha_registro" placeholder="fecha_registro">
+                                    <label for="fecha_registro">Fecha de registro</label>
+                                </div>
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <select class="form-control" name="condicion" id="condicion">
@@ -280,7 +296,11 @@
                                     </select>
                                     <label for="condicion">Condición</label>
                                 </div>
-                            </div>
+                            </div>                            
+                        </div>
+
+                        <div class="row mb-3">
+
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <select class="form-control" name="estatus" id="estatus">
@@ -301,10 +321,8 @@
                                     <label for="estatus">Estatus</label>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="observacion" placeholder="observacion">
                                     <label for="observacion">Observación</label>

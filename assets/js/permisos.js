@@ -157,7 +157,7 @@ function modalPermisos(fila) {
       result.forEach((item) => {
         let checkbox = $(`#fila-modulo-${item.id_modulos} .x-permiso`);
         if (checkbox.length) {
-          checkbox.prop("checked", item.acceso === 1);
+          checkbox.prop("checked", item.acceso == 1);
         }
       });
     },

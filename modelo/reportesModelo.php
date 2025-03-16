@@ -21,20 +21,24 @@ class ReportesModelo extends conexion
     {
         $this->solicitante = $valor;
     }
-    public function generarReporte()
-    {
+    public function generarReporte(){
         try {
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $solicitudes = $this->listarSolicitudes();
+            /*$solicitudes = $this->listarSolicitudes();
             if (!$solicitudes) {
                 echo json_encode(["error" => "No hay solicitudes"]);
                 return;
-            }
+            }*/
 
             $dompdf = new Dompdf();
-            $html = '<h1>Reporte de Solicitudes</h1><p>Contenido del reporte aquí...</p>';
+
+            $html = '<html>
+
+            
+
+            ';
             
             $dompdf->loadHtml(utf8_decode($html));
             $dompdf->setPaper('letter', 'portrait');
@@ -77,5 +81,33 @@ class ReportesModelo extends conexion
             return null;
         }
     }
+
+    /*public function generarReporte(){
+        try {
+            $bd = $this->conecta();
+            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $solicitudes = $this->listarSolicitudes();
+            if (!$solicitudes) {
+                echo json_encode(["error" => "No hay solicitudes"]);
+                return;
+            }
+
+            $dompdf = new Dompdf();
+            $html = '<h1>Reporte de Solicitudes</h1><p>Contenido del reporte aquí...</p>';
+            
+            $dompdf->loadHtml(utf8_decode($html));
+            $dompdf->setPaper('letter', 'portrait');
+            $dompdf->render();
+
+            // Obtener contenido en base64
+            $pdfOutput = $dompdf->output();
+            $base64Pdf = base64_encode($pdfOutput);
+
+            echo json_encode(["pdf" => $base64Pdf]);
+        } catch (PDOException $e) {
+            echo json_encode(["error" => $e->getMessage()]);
+        }
+    }*/
    
 }

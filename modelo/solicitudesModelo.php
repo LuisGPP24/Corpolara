@@ -22,6 +22,7 @@
     private $remitido;
     private $monto_solicitado;
     private $monto_aprobado;
+    private $monto_divisas;
     private $fecha_registro;
     private $condicion;
     private $estatus;
@@ -72,6 +73,9 @@
     public function set_monto_aprobado($valor){
         $this->monto_aprobado = $valor;
     }
+    public function set_monto_divisas($valor){
+        $this->monto_divisas = $valor;
+    }
     public function set_fecha_registro($valor){
         $this->fecha_registro = $valor;
     }
@@ -114,7 +118,7 @@
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "INSERT INTO solicitudes(codigo_registro,numero_registro,id_trabajadores,cedula_solicitante,nombre_solicitante,telefono_solicitante,tipo_solicitud,sub_tipo_solicitud,estado_solicitud,descripcion_solicitud,financiado,remitido,monto,monto_aprobado,fecha_registro,condicion,estatus,observacion) VALUES (:codigo,:numero_registro,:trabajador,:cedula,:nombre,:telefono,:tipo_solicitud,:sub_tipo_solicitud,:estado_solicitud,:descripcion,:financiado,:remitido,:monto_solicitado,:monto_aprobado,:fecha_registro,:condicion,:estatus,:observacion)";
+            $sql = "INSERT INTO solicitudes(codigo_registro,numero_registro,id_trabajadores,cedula_solicitante,nombre_solicitante,telefono_solicitante,tipo_solicitud,sub_tipo_solicitud,estado_solicitud,descripcion_solicitud,financiado,remitido,monto,monto_aprobado,monto_divisas,fecha_registro,condicion,estatus,observacion) VALUES (:codigo,:numero_registro,:trabajador,:cedula,:nombre,:telefono,:tipo_solicitud,:sub_tipo_solicitud,:estado_solicitud,:descripcion,:financiado,:remitido,:monto_solicitado,:monto_aprobado,:monto_divisas,:fecha_registro,:condicion,:estatus,:observacion)";
 
             $stmt = $bd->prepare($sql);
             
@@ -134,6 +138,7 @@
                 ":remitido" => $this->remitido,
                 ":monto_solicitado" => $this->monto_solicitado,
                 ":monto_aprobado" => $this->monto_aprobado,
+                ":monto_divisas" => $this->monto_divisas,
                 ":fecha_registro" => $this->fecha_registro,
                 ":condicion" => $this->condicion,
                 ":estatus" => $this->estatus,
@@ -163,7 +168,7 @@
             $sql = "SELECT a.id,
                 b.id as id_trabajadores,
                 a.codigo_registro, a.numero_registro, a.cedula_solicitante, a.nombre_solicitante,
-                a.telefono_solicitante, a.tipo_solicitud ,a.sub_tipo_solicitud,a.estado_solicitud,a.descripcion_solicitud,a.financiado,a.remitido,a.monto,a.monto_aprobado,a.fecha_registro,a.condicion,a.estatus,a.observacion,b.nombre from solicitudes a INNER JOIN trabajadores b ON a.id_trabajadores = b.id";
+                a.telefono_solicitante, a.tipo_solicitud ,a.sub_tipo_solicitud,a.estado_solicitud,a.descripcion_solicitud,a.financiado,a.remitido,a.monto,a.monto_aprobado,a.monto_divisas,a.fecha_registro,a.condicion,a.estatus,a.observacion,b.nombre from solicitudes a INNER JOIN trabajadores b ON a.id_trabajadores = b.id";
             
 
             $stmt = $bd->prepare($sql);
@@ -185,7 +190,7 @@
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
            
-            $sql = "UPDATE solicitudes SET cedula_solicitante = :cedula, nombre_solicitante = :nombre, telefono_solicitante = :telefono, tipo_solicitud = :tipo_solicitud, sub_tipo_solicitud = :sub_tipo_solicitud, estado_solicitud = :estado_solicitud, descripcion_solicitud = :descripcion, financiado = :financiado, remitido = :remitido, monto = :monto_solicitado, monto_aprobado = :monto_aprobado, fecha_registro = :fecha_registro, condicion = :condicion, estatus = :estatus, observacion = :observacion WHERE id = :id";
+            $sql = "UPDATE solicitudes SET cedula_solicitante = :cedula, nombre_solicitante = :nombre, telefono_solicitante = :telefono, tipo_solicitud = :tipo_solicitud, sub_tipo_solicitud = :sub_tipo_solicitud, estado_solicitud = :estado_solicitud, descripcion_solicitud = :descripcion, financiado = :financiado, remitido = :remitido, monto = :monto_solicitado, monto_aprobado = :monto_aprobado, monto_divisas = :monto_divisas, fecha_registro = :fecha_registro, condicion = :condicion, estatus = :estatus, observacion = :observacion WHERE id = :id";
 
             $stmt = $bd->prepare($sql);
 
@@ -201,6 +206,7 @@
                 ":remitido" => $this->remitido,
                 ":monto_solicitado" => $this->monto_solicitado,
                 ":monto_aprobado" => $this->monto_aprobado,
+                ":monto_divisas" => $this->monto_divisas,
                 ":fecha_registro" => $this->fecha_registro,
                 ":condicion" => $this->condicion,
                 ":estatus" => $this->estatus,
@@ -341,5 +347,45 @@
             return $e->getMessage();
         }
     }
+
+    /*public function exportar_excel(){
+
+        try{
+
+            $bd = $this->conecta();
+            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $sql = "SELECT `codigo_registro`,`numero_registro`,`cedula_solicitante`,`nombre_solicitante`,`telefono_solicitante`,`tipo_solicitud`,`sub_tipo_solicitud`,`estado_solicitud`,`descripcion_solicitud`,`financiado`,`remitido`,`monto`,`monto_aprobado`,`fecha_registro`,`condicion`,`estatus`,`observacion` FROM `solicitudes`";
+            
+            $result = $conn->query($sql);
+
+
+            if ($result->num_rows > 0) {
+    
+                header('Content-Type: application/vnd.ms-excel');
+                header('Content-Disposition: attachment; filename="solicitudes.xls"');
+                header('Cache-Control: max-age=0');
+
+    
+                $columnNames = [];
+                while ($fieldInfo = $result->fetch_field()) {
+                $columnNames[] = $fieldInfo->name;
+                }
+                echo implode("\t", $columnNames) . "\n";
+
+    
+                while ($row = $result->fetch_assoc()) {
+                    echo implode("\t", $row) . "\n";
+                }
+            } else {
+                echo "0 resultados";
+            }
+
+
+        }catch(PDOException $e) {
+            http_response_code(500);
+            return $e->getMessage();
+        }
+    }*/
 }
 ?>

@@ -140,7 +140,7 @@
             }
             
             http_response_code(200);
-            return "La solicitud fue eliminada con éxito";
+            return "El expediente fue eliminado con éxito";
             
         } catch (PDOException $e) {
             http_response_code(500);

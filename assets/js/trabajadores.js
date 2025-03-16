@@ -43,6 +43,7 @@ $(document).ready(function () {
         data.append("cuenta", $("#cuenta").val());
         data.append("profesion", $("#profesion").val());
         data.append("genero", $("#genero").val());
+        data.append("estado_civil", $("#estado_civil").val());
         data.append("talla_camisa", $("#camisa").val());
         data.append("talla_calzado", $("#calzado").val());
         data.append("talla_pantalon", $("#pantalon").val());
@@ -97,6 +98,7 @@ function borrarForm() {
     $("#cuenta").val('');
     $("#profesion").val('');
     $("#genero").val('');
+    $("#estado_civil").val('');
     $("#camisa").val('');
     $("#calzado").val('');
     $("#pantalon").val('');
@@ -130,12 +132,14 @@ function modalModificar(fila) {
    const cuenta = $(linea).find("td:eq(13)");
    const profesion = $(linea).find("td:eq(14)");
    const genero = $(linea).find("td:eq(15)");
-   const camisa = $(linea).find("td:eq(16)");
-   const calzado = $(linea).find("td:eq(17)");
-   const pantalon = $(linea).find("td:eq(18)");
-   const sangre = $(linea).find("td:eq(19)");
-   const vacuna = $(linea).find("td:eq(20)");
-   const covid = $(linea).find("td:eq(21)");
+   const estado_civil = $(linea).find("td:eq(16)");
+   const camisa = $(linea).find("td:eq(17)");
+   const calzado = $(linea).find("td:eq(18)");
+   const pantalon = $(linea).find("td:eq(19)");
+   const sangre = $(linea).find("td:eq(20)");
+   const vacuna = $(linea).find("td:eq(21)");
+   const covid = $(linea).find("td:eq(22)");
+
    $("#cedula").attr('disabled','disabled');
    $("#cedula").val(cedula.text());
    $("#nombre").val(nombre.text());
@@ -152,6 +156,7 @@ function modalModificar(fila) {
    $("#cuenta").val(cuenta.text());
    $("#profesion").val(profesion.text());
    $("#genero").val(genero.text());
+   $("#estado_civil").val(estado_civil.text());
    $("#camisa").val(camisa.text());
    $("#calzado").val(calzado.text());
    $("#pantalon").val(pantalon.text());

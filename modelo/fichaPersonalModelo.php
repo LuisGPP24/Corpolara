@@ -35,6 +35,8 @@ use Dompdf\Options;
             }
 
             $dompdf = new Dompdf();
+
+            $html = '<img src="assets/img/imagen.jpg" style="width:225px">';
             $html = '<h1>Reporte de Solicitudes</h1><p>Contenido del reporte aquí...</p>';
             
             $dompdf->loadHtml(utf8_decode($html));

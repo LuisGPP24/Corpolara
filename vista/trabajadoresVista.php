@@ -61,6 +61,7 @@
                                            <th>Cuenta bancaria</th>
                                            <th>Profesión</th>
                                            <th>Genero</th>
+                                           <th>Estado civil</th>
                                            <th>Talla de camisa</th>
                                            <th>Talla de calzado</th>
                                            <th>Talla de pantalón</th>
@@ -89,6 +90,7 @@
                                                 <td><?= $consulta["cuenta"] ?></td>
                                                 <td><?= $consulta["profesion"] ?></td>
                                                 <td><?= $consulta["genero"] ?></td>
+                                                <td><?= $consulta["estado_civil"] ?></td>
                                                 <td><?= $consulta["talla_camisa"] ?></td>
                                                 <td><?= $consulta["talla_calzado"] ?></td>
                                                 <td><?= $consulta["talla_pantalon"] ?></td>
@@ -174,6 +176,7 @@
                                 </div>
                             </div>                           
                         </div>
+
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
@@ -251,6 +254,20 @@
 							            <label for="genero">Genero</label>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <div class="form-floating">
+	                                    <select class=" form-control" name="estado_civil" id="estado_civil">
+								            <option value="" hidden="" selected="hidden">Seleccionar Opcion</option>
+								            <option value=""></option>
+								            <option value="Casado">Casado(a)</option>
+								            <option value="Soltero">Soltero(a)</option>
+							            </select> 
+							            <label for="estado_civil">Estado Civil</label>
+                                </div>
+                            </div>                           
                         </div>
 
                         <div class="row mb-3">

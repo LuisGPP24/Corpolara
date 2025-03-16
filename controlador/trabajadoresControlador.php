@@ -59,6 +59,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $cuenta = $_POST["cuenta"];
             $profesion = $_POST["profesion"];
             $genero = $_POST["genero"];
+            $estado_civil = $_POST["estado_civil"];
             $talla_camisa = $_POST["talla_camisa"];
             $talla_calzado = $_POST["talla_calzado"];
             $talla_pantalon = $_POST["talla_pantalon"];
@@ -81,6 +82,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_cuenta($cuenta);
             $objeto->set_profesion($profesion);
             $objeto->set_genero($genero);
+            $objeto->set_estado_civil($estado_civil);
             $objeto->set_talla_camisa($talla_camisa);
             $objeto->set_talla_calzado($talla_calzado);
             $objeto->set_talla_pantalon($talla_pantalon);
@@ -109,6 +111,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $cuenta = $_POST["cuenta"];
             $profesion = $_POST["profesion"];
             $genero = $_POST["genero"];
+            $estado_civil = $_POST["estado_civil"];
             $talla_camisa = $_POST["talla_camisa"];
             $talla_calzado = $_POST["talla_calzado"];
             $talla_pantalon = $_POST["talla_pantalon"];
@@ -131,6 +134,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_cuenta($cuenta);
             $objeto->set_profesion($profesion);
             $objeto->set_genero($genero);
+            $objeto->set_estado_civil($estado_civil);
             $objeto->set_talla_camisa($talla_camisa);
             $objeto->set_talla_calzado($talla_calzado);
             $objeto->set_talla_pantalon($talla_pantalon);

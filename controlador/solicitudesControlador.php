@@ -56,6 +56,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $remitido = $_POST["remitido"];
             $monto_solicitado = $_POST["monto_solicitado"];
             $monto_aprobado = $_POST["monto_aprobado"];
+            $monto_divisas = $_POST["monto_divisas"];
             $fecha_registro = $_POST["fecha_registro"];
             $condicion = $_POST["condicion"];
             $estatus = $_POST["estatus"];
@@ -75,6 +76,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_remitido($remitido);
             $objeto->set_monto_solicitado($monto_solicitado);
             $objeto->set_monto_aprobado($monto_aprobado);
+            $objeto->set_monto_divisas($monto_divisas);
             $objeto->set_fecha_registro($fecha_registro);
             $objeto->set_condicion($condicion);
             $objeto->set_estatus($estatus);
@@ -101,6 +103,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $remitido = $_POST["remitido"];
             $monto_solicitado = $_POST["monto_solicitado"];
             $monto_aprobado = $_POST["monto_aprobado"];
+            $monto_divisas = $_POST["monto_divisas"];
             $fecha_registro = $_POST["fecha_registro"];
             $condicion = $_POST["condicion"];
             $estatus = $_POST["estatus"];
@@ -121,6 +124,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $objeto->set_remitido($remitido);
             $objeto->set_monto_solicitado($monto_solicitado);
             $objeto->set_monto_aprobado($monto_aprobado);
+            $objeto->set_monto_divisas($monto_divisas);
             $objeto->set_fecha_registro($fecha_registro);
             $objeto->set_condicion($condicion);
             $objeto->set_estatus($estatus);
@@ -137,6 +141,12 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             echo $objeto->eliminar_solicitud($cedula_bitacora,$id_modulo);
             exit;
         }
+
+        /*if($accion == "exportarExcel"){
+
+            echo $objeto->exportar_excel();
+            exit;
+        }*/
     }
 
     $consultas = $objeto->listar_solicitudes();

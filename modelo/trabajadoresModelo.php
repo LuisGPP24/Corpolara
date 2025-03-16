@@ -24,6 +24,7 @@
     private $cuenta;
     private $profesion;
     private $genero;
+    private $estado_civil;
     private $talla_camisa;
     private $talla_calzado;
     private $talla_pantalon;
@@ -78,6 +79,9 @@
     }
     public function set_genero($valor){
         $this->genero = $valor;
+    }
+    public function set_estado_civil($valor){
+        $this->estado_civil = $valor;
     }
     public function set_talla_camisa($valor){
         $this->talla_camisa = $valor;
@@ -135,7 +139,7 @@
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "INSERT INTO trabajadores (fecha_registro,personal_contratado,cedula,nombre,unidad_organizativa,fecha,pais,estado,municipio,telefono,correo,direccion,cuenta,profesion,genero,talla_camisa,talla_calzado,talla_pantalon,tipo_sangre,vacunas,covid) VALUES (:fecha_registro, :personal_contratado,:cedula,:nombre,:unidad_organizativa,:fecha,:pais,:estado,:municipio,:telefono,:correo,:direccion,:cuenta,:profesion,:genero,:talla_camisa,:talla_calzado,:talla_pantalon,:tipo_sangre,:vacunas,:covid)";
+            $sql = "INSERT INTO trabajadores (fecha_registro,personal_contratado,cedula,nombre,unidad_organizativa,fecha,pais,estado,municipio,telefono,correo,direccion,cuenta,profesion,genero,estado_civil,talla_camisa,talla_calzado,talla_pantalon,tipo_sangre,vacunas,covid) VALUES (:fecha_registro, :personal_contratado,:cedula,:nombre,:unidad_organizativa,:fecha,:pais,:estado,:municipio,:telefono,:correo,:direccion,:cuenta,:profesion,:genero,:estado_civil,:talla_camisa,:talla_calzado,:talla_pantalon,:tipo_sangre,:vacunas,:covid)";
 
             $stmt = $bd->prepare($sql);
             
@@ -155,6 +159,7 @@
                 ":cuenta" => $this->cuenta,
                 ":profesion" => $this->profesion,
                 ":genero" => $this->genero,
+                ":estado_civil" => $this->estado_civil,
                 ":talla_camisa" => $this->talla_camisa,
                 ":talla_calzado" => $this->talla_calzado,
                 ":talla_pantalon" => $this->talla_pantalon,
@@ -207,7 +212,7 @@
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "UPDATE trabajadores SET fecha_registro = :fecha_registro, personal_contratado = :personal_contratado, nombre = :nombre,  unidad_organizativa = :unidad_organizativa, fecha = :fecha, pais = :pais, estado = :estado, municipio = :municipio, telefono = :telefono, correo = :correo, direccion = :direccion, cuenta = :cuenta, profesion = :profesion, genero = :genero, talla_camisa = :talla_camisa, talla_calzado = :talla_calzado, talla_pantalon = :talla_pantalon, tipo_sangre = :tipo_sangre, vacunas = :vacunas, covid = :covid WHERE cedula = :cedula";
+            $sql = "UPDATE trabajadores SET fecha_registro = :fecha_registro, personal_contratado = :personal_contratado, nombre = :nombre,  unidad_organizativa = :unidad_organizativa, fecha = :fecha, pais = :pais, estado = :estado, municipio = :municipio, telefono = :telefono, correo = :correo, direccion = :direccion, cuenta = :cuenta, profesion = :profesion, genero = :genero, estado_civil = :estado_civil, talla_camisa = :talla_camisa, talla_calzado = :talla_calzado, talla_pantalon = :talla_pantalon, tipo_sangre = :tipo_sangre, vacunas = :vacunas, covid = :covid WHERE cedula = :cedula";
 
             $stmt = $bd->prepare($sql);
 
@@ -226,6 +231,7 @@
                 ":cuenta" => $this->cuenta,
                 ":profesion" => $this->profesion,
                 ":genero" => $this->genero,
+                ":estado_civil" => $this->estado_civil,
                 ":talla_camisa" => $this->talla_camisa,
                 ":talla_calzado" => $this->talla_calzado,
                 ":talla_pantalon" => $this->talla_pantalon,
