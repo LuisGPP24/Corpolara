@@ -34,11 +34,23 @@ class ReportesModelo extends conexion
 
             $dompdf = new Dompdf();
 
-            $html = '<html>
+            $html = '<!DOCTYPE html>
 
+            <html>
+
+                <head>
+
+                </head>
+                <body>
+                 
+                 <img src"%s" alt="%s" style="width: 100px"><br>
+
+                 <center><h1>Poliza por Seguro Mirandas</h1></center>
+
+                </body>
             
 
-            ';
+            </html>';
             
             $dompdf->loadHtml(utf8_decode($html));
             $dompdf->setPaper('letter', 'portrait');
