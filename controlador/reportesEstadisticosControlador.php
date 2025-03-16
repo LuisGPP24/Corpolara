@@ -25,9 +25,9 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
 
     $objeto = new reportesEstadisticosModelo();
 
-    
-
-    
+    $solicitudes = $objeto->obtener_solicitudes();
+    $monto_aprobado = $objeto->obtener_bolivares_solicitudes();
+    $trabajadores = $objeto->obtener_trabadores();
 
     require_once("vista/" . $pagina . "Vista.php");
     exit;
