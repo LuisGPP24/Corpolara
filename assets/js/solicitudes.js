@@ -11,6 +11,70 @@ var Toast = Swal.mixin({
 });
 
 $(document).ready(function () {   
+
+    
+
+    $("#exportar_excel").click(function (e) {
+      e.preventDefault();
+
+      const data = new FormData();
+      data.append("accion", "exportarExcel");
+
+      $.ajax({
+        url: " ", 
+        type: "POST",
+        contentType: false,
+        data: data,
+        processData: false,
+        cache: false,
+        dataType: "json", 
+        success: function (response) {
+          
+          if (!response.success) {
+            Toast.fire({
+              icon: "error",
+              title: `${response.message}`,
+            });
+          }
+
+          const datos = response.data;
+
+          // Crear contenido para Excel separado por tabulaciones
+          let contenido = "";
+
+          // Agregar encabezados (columnas)
+          contenido += Object.keys(datos[0]).join("\t") + "\n";
+
+          // Agregar filas de datos
+          datos.forEach(row => {
+            contenido += Object.values(row).join("\t") + "\n";
+          });
+
+          // Convertir el contenido a Blob
+          const blob = new Blob([contenido], { type: "application/vnd.ms-excel" });
+
+          // Crear enlace de descarga
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "solicitudes.xls";
+          document.body.appendChild(a);
+          a.click();
+
+          // Limpiar recursos
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+        },
+        error: function ({ responseText }, status, error) {
+          Toast.fire({
+          icon: "error",
+          title: `${responseText}`,
+        });
+        },
+      });
+
+  });
+    
       
   $("#btn_registrar").click(function (e) {       
   $("#modalSolicitudesLabel").text('Registro de Solicitudes');       
@@ -235,21 +299,3 @@ function eliminar(fila) {
         } 
     })
 }
-
-/*function exportarExcel() {
-
-const data = new FormData();
-    
-data.append("accion", "exportarExcel");
-data.append("id", "exportar_excel");
-            
- $.ajax({
-  async: true,
-  url: " ",
-  type: "POST",
-  contentType: false,
-  data: data,
-  processData: false,
-  cache: false, 
-  });
-}*/

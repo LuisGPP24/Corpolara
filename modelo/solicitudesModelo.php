@@ -348,7 +348,7 @@
         }
     }
 
-    /*public function exportar_excel(){
+    public function exportar_excel(){
 
         try{
 
@@ -356,36 +356,22 @@
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             $sql = "SELECT `codigo_registro`,`numero_registro`,`cedula_solicitante`,`nombre_solicitante`,`telefono_solicitante`,`tipo_solicitud`,`sub_tipo_solicitud`,`estado_solicitud`,`descripcion_solicitud`,`financiado`,`remitido`,`monto`,`monto_aprobado`,`fecha_registro`,`condicion`,`estatus`,`observacion` FROM `solicitudes`";
-            
-            $result = $conn->query($sql);
 
+            $stmt = $bd->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            if ($result->num_rows > 0) {
-    
-                header('Content-Type: application/vnd.ms-excel');
-                header('Content-Disposition: attachment; filename="solicitudes.xls"');
-                header('Cache-Control: max-age=0');
-
-    
-                $columnNames = [];
-                while ($fieldInfo = $result->fetch_field()) {
-                $columnNames[] = $fieldInfo->name;
-                }
-                echo implode("\t", $columnNames) . "\n";
-
-    
-                while ($row = $result->fetch_assoc()) {
-                    echo implode("\t", $row) . "\n";
-                }
+            if ($result) {
+                http_response_code(200);
+                echo json_encode(["success" => true, "data" => $result]);
             } else {
-                echo "0 resultados";
+                http_response_code(400);
+                echo json_encode(["success" => false, "message" => "No hay datos disponibles"]);
             }
-
-
-        }catch(PDOException $e) {
+        } catch (PDOException $e) {
             http_response_code(500);
-            return $e->getMessage();
+            echo json_encode(["success" => false, "message" => "Error: " . $e->getMessage()]);
         }
-    }*/
+    }
 }
 ?>

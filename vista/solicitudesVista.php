@@ -34,15 +34,9 @@
                                 </div>
                                 <div class="col-auto">
 
-                                    <body>  
-                                        <form action="exportar.php" method="post">      
-                                            <button type="submit" class="btn btn-warning" id='exportar_excel'>Exportar a Excel</button>
-                                        </form>
-                                    </body>
-
-                                    <!--<button onclick="exportarExcel()" id="exportar_excel" class="btn btn-warning">
+                                    <button id="exportar_excel" class="btn btn-warning">
                                         Exportar a excel                                 
-                                    </button>-->
+                                    </button> 
 
                                 </div>
 

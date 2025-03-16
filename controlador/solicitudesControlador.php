@@ -142,11 +142,13 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             exit;
         }
 
-        /*if($accion == "exportarExcel"){
+        if($accion == "exportarExcel"){
 
             echo $objeto->exportar_excel();
             exit;
-        }*/
+        }
+        
+        exit;
     }
 
     $consultas = $objeto->listar_solicitudes();
