@@ -19,11 +19,11 @@ if (!is_file("modelo/" . $pagina . "Modelo.php")) {
     exit;
 }
 
-use modelo\ReportesModelo;    
+use modelo\FichaPersonalModelo;    
 
 if (is_file("vista/" . $pagina . "Vista.php")) {
 
-    $objeto = new ReportesModelo();
+    $objeto = new FichaPersonalModelo();
 
     if (isset($_POST['accion'])) {
 
@@ -39,10 +39,23 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
 
             exit;           
         }
+
+        if($accion == "getSolicitantes"){
+
+            $trabajador = $_POST['trabajador'];
+            $objeto->setTrabajador($trabajador);
+
+            $solicitantes = $objeto->lista_solicitantes();
+
+            echo $solicitantes;
+            exit;
+
+        }
         exit;
     }
 
-   
+
+    $consulta_trabajadores = $objeto->consulta_trabajadores();
 
     require_once("vista/" . $pagina . "Vista.php");
     exit;
