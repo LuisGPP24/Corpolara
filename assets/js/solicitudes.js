@@ -10,9 +10,7 @@ var Toast = Swal.mixin({
   },
 });
 
-$(document).ready(function () {   
-
-    
+$(document).ready(function (){    
 
     $("#exportar_excel").click(function (e) {
       e.preventDefault();
@@ -87,7 +85,7 @@ $(document).ready(function () {   
 });     
   
 $("#modalSolicitudes").submit(function (e) {        
-  e.preventDefault();
+    e.preventDefault();
 
         
     const montoSolicitado = $("#monto_solicitado").val();        

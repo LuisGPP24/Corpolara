@@ -32,12 +32,11 @@
                                 <div class="col-auto me-auto mb-2">
                                     <h2 class="card-title">Gestión de Solicitudes</h2>
                                 </div>
-                                <div class="col-auto">
 
+                                <div class="col-auto">
                                     <button id="exportar_excel" class="btn btn-warning">
                                         Exportar a excel                                 
-                                    </button> 
-
+                                    </button>
                                 </div>
 
                                 <div class="col-auto">                                    
