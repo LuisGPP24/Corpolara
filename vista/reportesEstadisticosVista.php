@@ -118,10 +118,13 @@
                                     <div class="col-lg-6">
                                         <div class="card shadow mb-4">
                                             <div class="card-header text-xs text-danger text-uppercase mb-1">
-                                                ACÁ VA LA GRÁFICA DE LOS TIPOS DE ESTADOS DE SOLICITUDES
+                                                TIPOS DE ESTADOS DE SOLICITUDES
                                             </div>
                                             <div class="card-body">
-                                                GRÁFICA
+                                                <div with="100%" height="100%" class="text-center">
+                                                    <span id="info_solicitudes"></span>
+                                                    <canvas id="solicitudes"></canvas>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -146,6 +149,58 @@
 
     <script src="assets/js/reportesEstadisticos.js"></script>
     <script src="assets/js/scripts.js"></script>
+    <script src="assets/js/librerias/chart.js"></script>
+
+    <script>
+        $(document).ready(function() {
+
+
+            const estatus = <?= $solicitudes_por_status ?>;
+            
+            if (estatus.length !== 0) {
+                const label = 'Solicitudes por Estatus';
+                crearGraficaPastel('solicitudes', label, estatus);
+            } else {
+                document.getElementById('info_solicitudes').innerHTML = '<p class="text-center">No hay datos para mostrar</p>';
+            }
+
+        });
+
+        function crearGraficaPastel(etiqueta, label, info) {
+            const colors = [
+                "#FF6384",
+                "#36A2EB",
+                "#FFCE56",
+                "#4BC0C0",
+                "#9966FF",
+                "#FF9F40",
+                "#E7E9ED",
+                "#8E44AD",
+                "#3498DB",
+                "#1ABC9C",
+                "#F39C12",
+                "#D35400",
+            ];
+            const data = {
+                labels: info.map(item => item.estatus),
+                datasets: [{
+                    label: label,
+                    data: info.map(item => item.cantidad),
+                    backgroundColor: colors.map(color => color),
+                    hoverOffset: 20
+                }]
+            };
+            const config = {
+                type: 'pie',
+                data: data,
+            };
+
+
+            new Chart(document.getElementById(etiqueta), config);
+
+        }
+    </script>
+
 
 </body>
 

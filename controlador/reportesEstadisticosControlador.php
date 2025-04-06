@@ -29,6 +29,8 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
     $monto_aprobado = $objeto->obtener_bolivares_solicitudes();
     $trabajadores = $objeto->obtener_trabadores();
 
+    $solicitudes_por_status = $objeto->obtener_solicitudes_por_status();
+    
     require_once("vista/" . $pagina . "Vista.php");
     exit;
 } else {

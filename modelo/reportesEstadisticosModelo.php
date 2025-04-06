@@ -77,7 +77,27 @@
             }
         }
         
+        public function obtener_solicitudes_por_status(){
 
+            try {
+
+                $bd = $this->conecta();
+                $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $sql = "SELECT estatus, COUNT(estatus) as cantidad FROM `solicitudes` GROUP by estatus;";
+
+                $stmt = $bd->prepare($sql);
+
+                $stmt->execute();
+
+                $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                return json_encode($resultado);
+            } catch (PDOException $e) {
+                http_response_code(500);
+                return 0;
+            }
+        }
 
 
     	// public function obtenerNumeroSolicitudes(){
