@@ -9,6 +9,7 @@ const Toast = Swal.mixin({
     toast.onmouseleave = Swal.resumeTimer;
   },
 });
+
 $(function () {
 
   $("#trabajador").change(function (e) {

@@ -8,7 +8,7 @@ use PDOException;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-    class FichaPersonalModelo extends conexion{
+class FichaPersonalModelo extends conexion{
 
     private $trabajador;
     private $solicitante;
@@ -22,8 +22,7 @@ use Dompdf\Options;
         $this->solicitante = $valor;
     }
 
-    public function lista_solicitantes()
-    {
+    public function lista_solicitantes(){
         try {
 
             $bd = $this->conecta();
@@ -72,8 +71,7 @@ use Dompdf\Options;
         }
     }
 
-    private function getInfoTrabajador()
-    {
+    private function getInfoTrabajador(){
         try {
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -94,8 +92,8 @@ use Dompdf\Options;
             return null;
         }
     }
-    private function getInfoSolicitante()
-    {
+
+    private function getInfoSolicitante(){
         try {
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

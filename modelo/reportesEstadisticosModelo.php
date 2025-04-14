@@ -100,29 +100,27 @@
         }
 
 
-    	// public function obtenerNumeroSolicitudes(){
+        public function obtener_solicitudes_por_tipo(){
 
-    	// 	$sentencia = "SELECT COUNT(*) AS total FROM solicitudes";
-        //     return select($sentencia)[0]->total;
-        // }
+            try {
 
-        // public function obtenerNumeroTrabajadoresActivos(){
+                $bd = $this->conecta();
+                $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    	// 	$sentencia = "SELECT COUNT(*) AS total FROM trabajadores WHERE personal_contratado ='activo'";
-        //     return select($sentencia)[0]->total;
-        // }
+                $sql = "SELECT tipo_solicitud, COUNT(tipo_solicitud) as cantidad FROM `solicitudes` GROUP by tipo_solicitud;";
 
-        // public function obtenerNumeroTrabajadoresJubilados(){
+                $stmt = $bd->prepare($sql);
 
-    	// 	$sentencia = "SELECT COUNT(*) AS total FROM trabajadores WHERE personal_contratado ='jubilado'";
-        //     return select($sentencia)[0]->total;
-        // }
+                $stmt->execute();
 
-        // public function obtenerDineroAprobado(){
+                $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    	// 	$sentencia = "SELECT SUM(monto_aprobado) as total_monto FROM solicitudes";
-        //     return select($sentencia)[0]->total;
-        // }
+                return json_encode($resultado);
+            } catch (PDOException $e) {
+                http_response_code(500);
+                return 0;
+            }
+        }   	
     
     }
 ?>

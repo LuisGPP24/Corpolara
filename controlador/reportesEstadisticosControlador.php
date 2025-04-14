@@ -30,6 +30,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
     $trabajadores = $objeto->obtener_trabadores();
 
     $solicitudes_por_status = $objeto->obtener_solicitudes_por_status();
+    $solicitudes_por_tipo = $objeto->obtener_solicitudes_por_tipo();
     
     require_once("vista/" . $pagina . "Vista.php");
     exit;

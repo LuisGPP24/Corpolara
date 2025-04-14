@@ -42,30 +42,46 @@
 
                                     <div class="row mb-3">
 
-                                    <div class="row mb-2 justify-content-center">
+                                    <div class="row mb-6 justify-content-center">
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-floating">
                                                 <select class="selectpicker form-control" name="trabajador" id="trabajador" name="trabajador">
-                                                    <option value=""></option>
-                                                    <option value="1">diego</option>
-                                                    <option value="2">jose</option>
-                                                    <option value="3">jose</option>
-                                                    <option value="4">jose</option>
-                                                    <option value="5">jose</option>
+                                                    <option selected disabled value="">Seleccione un trabajador</option>
+                                                    <?php foreach ($consulta_trabajadores as $trabajador) : ?>
+                                                    <option value="<?= $trabajador['id'] ?>"> 
+                                                    <?= $trabajador['cedula'] ?> -- <?= $trabajador['nombre'] ?>
+                                                    </option>
+                                                    <?php endforeach ?>
                                                 </select>
-                                                <label for="trabajador">trabajador</label>
+                                                <label for="trabajador">Trabajador</label>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-floating">
                                                 <div class="form-floating">
-                                                    <input type="text" name="solicitante" id="solicitante" class="form-control">
-                                                    <label for="solicitante">solicitante</label>
+                                                    <select class="selectpicker form-control" name="solicitante" id="solicitante">
+                                                    <option selected disabled value="">Seleccione un solicitante</option>
+                                                    
+                                                </select>
+                                                <label for="solicitante">Solicitante</label>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                                <div class="form-floating">
+                                                    <select class="selectpicker form-control" name="categoria" id="categoria">
+                                                    <option selected disabled value="">Seleccione una categoria</option>
+
+                                                </select>
+                                                <label for="categoria">Categoria</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
 
                                     <div class="row">
