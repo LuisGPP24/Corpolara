@@ -42,65 +42,104 @@
 
                                     <div class="row mb-3">
 
-                                    <div class="row mb-6 justify-content-center">
+                                        <div class="row mb-6 justify-content-center">
 
-                                        <div class="col-md-4">
-                                            <div class="form-floating">
-                                                <select class="selectpicker form-control" name="trabajador" id="trabajador" name="trabajador">
-                                                    <option selected disabled value="">Seleccione un trabajador</option>
-                                                    <?php foreach ($consulta_trabajadores as $trabajador) : ?>
-                                                    <option value="<?= $trabajador['id'] ?>"> 
-                                                    <?= $trabajador['cedula'] ?> -- <?= $trabajador['nombre'] ?>
-                                                    </option>
-                                                    <?php endforeach ?>
-                                                </select>
-                                                <label for="trabajador">Trabajador</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-floating">
+                                            <div class="col-md-4">
                                                 <div class="form-floating">
-                                                    <select class="selectpicker form-control" name="solicitante" id="solicitante">
-                                                    <option selected disabled value="">Seleccione un solicitante</option>
-                                                    
-                                                </select>
-                                                <label for="solicitante">Solicitante</label>
+                                                    <div class="form-floating">
+                                                        <select class="selectpicker form-control" name="categoria" id="categoria">
+                                                            <option selected disabled value="">Seleccione una categoria</option>
+                                                            <option value="farmacia">Farmacia</option>
+                                                            <option value="estudios">Estudios Medicos</option>
+                                                            <option value="funeraria">Funeraria</option>
+                                                        </select>
+                                                        <label for="categoria">Categoria</label>
+                                                    </div>
                                                 </div>
                                             </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-floating">
+                                                    <select class="selectpicker form-control" name="trabajador" id="trabajador" name="trabajador">
+                                                        <option selected disabled value="">Seleccione un trabajador</option>
+
+                                                    </select>
+                                                    <label for="trabajador">Trabajador</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-floating">
+                                                    <div class="form-floating">
+                                                        <select class="selectpicker form-control" name="solicitante" id="solicitante">
+                                                            <option selected disabled value="">Seleccione un solicitante</option>
+
+                                                        </select>
+                                                        <label for="solicitante">Solicitante</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
                                         </div>
 
-                                        <div class="col-md-4">
-                                            <div class="form-floating">
-                                                <div class="form-floating">
-                                                    <select class="selectpicker form-control" name="categoria" id="categoria">
-                                                    <option selected disabled value="">Seleccione una categoria</option>
+                                        <div class="row">
+                                            <div class="col-md-12 text-center mb-3">
 
-                                                </select>
-                                                <label for="categoria">Categoria</label>
-                                                </div>
                                             </div>
                                         </div>
 
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12 text-center mb-3">
-                                
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-2 justify-content-center">
+                                        <!-- <div class="row mb-2 justify-content-center">
+                                            <div class="row mb-2 justify-content-center">
+                                                <button type="button" id="generarReporte" class="btn btn-danger w-50">generar</button>
+                                            </div>
+                                        </div> -->
                                         <div class="row mb-2 justify-content-center">
-                                            <button type="button" id="generarReporte" class="btn btn-danger w-50">generar</button>
-                                        </div>                                        
-                                    </div>
+                                            <div class="row mb-2 justify-content-center">
+                                                <button type="button" id="consultar" class="btn btn-danger w-50">Consultar</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
+
+
+                            <div class="container-fluid" id="resultado">
+                                <div class="row mb-2 justify-content-center">
+                                    <div class="col-md-12 text-center mb-3">
+                                        <h4>Resultados</h4>
+                                    </div>
+                                </div>
+                                <div class="row mb-2 justify-content-center">
+                                    <div class="col-md-12 text-center mb-3">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-striped table-hover" id="tablaResultadosSolicitudes">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th>Opciones</th>
+                                                        <th>ID</th>
+                                                        <th>Codigo del registro</th>
+                                                        <th>N° del registro</th>
+                                                        <th>nombre del trabajador</th>
+                                                        <th>cedula trabajador</th>
+                                                        <th>nombre del solicitante</th>
+                                                        <th>cedula del solicitante</th>
+                                                        <th>Descripción de la Solicitud</th>
+                                                        <th>Fecha de Registro</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tbodyResultadosSolicitudes">
+                                                    <!-- Aquí se llenarán los resultados de las solicitudes -->
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
-                    </div>                 
-                </div>
             </main>
         </div>
     </div>

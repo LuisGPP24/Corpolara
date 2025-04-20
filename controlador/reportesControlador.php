@@ -33,10 +33,12 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $trabajador = $_POST['trabajador'];
             $solicitante = $_POST['solicitante'];
             $categoria = $_POST['categoria'];
+            $id_solicitud = $_POST['id_solicitud'];
             
             $objeto->setTrabajador($trabajador);
             $objeto->setSolicitante($solicitante);
             $objeto->setCategoria($categoria);
+            $objeto->setIdSolicitud($id_solicitud);
             $objeto->generarReporte();
             exit;
            
@@ -45,6 +47,8 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
         if($accion == "getSolicitantes"){
 
             $trabajador = $_POST['trabajador'];
+            $categoria = $_POST['categoria'];
+            $objeto->setCategoria($categoria);
             $objeto->setTrabajador($trabajador);
 
             $solicitantes = $objeto->lista_solicitantes();
@@ -54,14 +58,26 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
 
         }
 
-        if($accion == "getCategorias"){
-
+        if($accion == "getSolicitudes"){
+            $trabajdor = $_POST['trabajador'];
             $solicitante = $_POST['solicitante'];
+            $categoria = $_POST['categoria'];
+            
+            $objeto->setTrabajador($trabajdor);
             $objeto->setSolicitante($solicitante);
+            $objeto->setCategoria($categoria);
 
-            $categoria = $objeto->lista_categorias();
+            echo $objeto->getSolicitudes();
+            exit;
+        }
 
-            echo $categoria;
+        if($accion == "getTrabajadores"){
+
+            $categoria = $_POST['categoria'];
+            $objeto->setCategoria($categoria);
+            $trabajadores = $objeto->lista_trabajadores();
+
+            echo $trabajadores;
             exit;
 
         }

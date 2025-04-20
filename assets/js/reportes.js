@@ -19,6 +19,7 @@ $(function () {
     const data = new FormData();
     
     data.append("accion", "getSolicitantes");
+    data.append("categoria", $("#categoria").val());
     data.append("trabajador", $("#trabajador").val());
     
     $.ajax({
@@ -54,13 +55,13 @@ $(function () {
     });
   });
 
-  $("#solicitante").change(function (e) {
+  $("#categoria").change(function (e) {
     e.preventDefault();
 
     const data = new FormData();
     
-    data.append("accion", "getCategorias");
-    data.append("solicitante", $("#solicitante").val());
+    data.append("accion", "getTrabajadores");
+    data.append("categoria", $("#categoria").val());
     
     $.ajax({
       async: true,
@@ -76,13 +77,18 @@ $(function () {
           return;
         }
 
-        $("#categoria").empty();
-        $("#categoria").append(
-          `<option selected disabled value="">Seleccione una categoria</option>`
+        $("#trabajador").empty();
+        $("#solicitante").empty();
+
+        $("#trabajador").append(
+          `<option selected disabled value="">Seleccione un trabajador</option>`
         );
-        response.forEach((categoria) => {
-          $("#categoria").append(
-            `<option value="${categoria.id}">${categoria.solicitud}</option>`
+        $("#solicitante").append(
+          `<option selected disabled value="">Seleccione un trabajador</option>`
+        );
+        response.forEach((trabajador) => {
+          $("#trabajador").append(
+            `<option value="${trabajador.id}">${trabajador.nombre}</option>`
           );
         });
       },
@@ -95,50 +101,102 @@ $(function () {
     });
   });
 
+  $("#consultar").click(function (e) {
+    e.preventDefault();
 
-  $("#generarReporte").click(function (e) {
-        
     const data = new FormData();
         
-    data.append("accion", "generarReporte");
+    data.append("accion", "getSolicitudes");
     data.append("trabajador", $("#trabajador").val());
     data.append("solicitante", $("#solicitante").val());
     data.append("categoria", $("#categoria").val());
-    console.log($("#trabajador").val());
-    console.log($("#solicitante").val());
-    console.log($("#categoria").val());
 
     $.ajax({
-        type: "POST",
-        data: data,
-        processData: false,
-        contentType: false,
-        dataType: "json",
-        success: function (response) {
-          if (response.error) {
-            console.log("Error: " + response.error);
-            return;
-          }
+      async: true,
+      url: " ",
+      type: "POST",
+      data: data,
+      processData: false,
+      contentType: false,
+      dataType: "json",
+      success: function (response) {
+        if (response.error) {
+          console.log("Error: " + response.error);
+          return;
+        }
 
-          // Convertir base64 a Blob y abrir el PDF en una nueva pestaña
-          let byteCharacters = atob(response.pdf);
-          let byteNumbers = new Array(byteCharacters.length);
-          for (let i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
-          }
-          let byteArray = new Uint8Array(byteNumbers);
-          let file = new Blob([byteArray], { type: "application/pdf" });
+        // Aquí puedes manejar la respuesta y mostrar los datos en la tabla
+        console.log(response);
 
-          let fileURL = URL.createObjectURL(file);
-          window.open(fileURL); // Abre el PDF en una nueva pestaña
-        },
-        error: function (xhr, status, error) {
-          Toast.fire({
-          icon: "error",
-          title: `Error al generar el reporte: "${xhr.responseText}"`,
+        $("#tbodyResultadosSolicitudes").empty(); // Limpiar la tabla antes de agregar nuevos datos
+        response.forEach((solicitud) => {
+          $("#tbodyResultadosSolicitudes").append(
+            `<tr>
+              <td><button class="btn btn-danger" onclick="generarReporte(${solicitud.id})" >Generar <i class="bi bi-filetype-pdf"></i></button></td>
+              <td>${solicitud.id}</td>
+              <td>${solicitud.codigo}</td>
+              <td>${solicitud.numero}</td>
+              <td>${solicitud.nombre_trabajador}</td>
+              <td>${solicitud.cedula_trabajador}</td>
+              <td>${solicitud.cedula_solicitante}</td>
+              <td>${solicitud.nombre_solicitante}</td>
+              <td>${solicitud.descripcion}</td>
+              <td>${solicitud.fecha}</td>
+            </tr>`
+          );
         });
-        },
+      },
+      error: function (xhr, status, error) {
+        Toast.fire({
+          icon: "error",
+          title: `${xhr.responseText}`,
+        });
+      },
     });
   });
+
+ 
+  
 });
 
+ function generarReporte(id_solicitud) {
+   const data = new FormData();
+
+   data.append("accion", "generarReporte");
+   data.append("trabajador", $("#trabajador").val());
+   data.append("solicitante", $("#solicitante").val());
+   data.append("categoria", $("#categoria").val());
+   data.append("id_solicitud", id_solicitud);
+
+   $.ajax({
+     type: "POST",
+     data: data,
+     processData: false,
+     contentType: false,
+     dataType: "json",
+     success: function (response) {
+       if (response.error) {
+         console.log("Error: " + response.error);
+         return;
+       }
+
+       // Convertir base64 a Blob y abrir el PDF en una nueva pestaña
+       let byteCharacters = atob(response.pdf);
+       let byteNumbers = new Array(byteCharacters.length);
+       for (let i = 0; i < byteCharacters.length; i++) {
+         byteNumbers[i] = byteCharacters.charCodeAt(i);
+       }
+       let byteArray = new Uint8Array(byteNumbers);
+       let file = new Blob([byteArray], { type: "application/pdf" });
+
+       let fileURL = URL.createObjectURL(file);
+       window.open(fileURL); // Abre el PDF en una nueva pestaña
+     },
+     error: function (xhr, status, error) {
+       Toast.fire({
+         icon: "error",
+         title: `Error al generar el reporte: "${xhr.responseText}"`,
+       });
+     },
+   });
+ }
