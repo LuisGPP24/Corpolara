@@ -230,8 +230,7 @@ class ReportesModelo extends conexion {
         }
     }
 
-    public function infoSolicitud()
-    {
+    public function infoSolicitud(){
         try {
 
             if ($this->categoria == null || $this->categoria == '') {
@@ -334,7 +333,26 @@ class ReportesModelo extends conexion {
 
             $defuncion_paciente = $infoSolicitud['defuncion_paciente'] ?? '';
 
+            $descripcion_solicitud = $infoSolicitud['descripcion_solicitud'] ?? '';
+
             $rowsFarmacia = "
+
+            <tr>
+                <td style='width:101.4pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
+                    <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
+                        <span style='font-family:Arial;'>
+                            Solicitud:
+                        </span>
+                    </p>
+                </td>
+                <td style='width:101.4pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
+                    <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
+                        <span style='font-family:Arial;'>
+                            $descripcion_solicitud
+                        </span>
+                    </p>
+                </td>
+            </tr>
             <tr>
                 <td style='width:101.4pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
                     <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
@@ -400,7 +418,25 @@ class ReportesModelo extends conexion {
                 </td>
             </tr>";
 
-            $rowsEstudios ="<tr>
+            $rowsEstudios ="
+
+            <tr>
+                <td style='width:101.4pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
+                    <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
+                        <span style='font-family:Arial;'>
+                            Solicitud:
+                        </span>
+                    </p>
+                </td>
+                <td style='width:101.4pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
+                    <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
+                        <span style='font-family:Arial;'>
+                            $descripcion_solicitud
+                        </span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
                 <td style='width:101.4pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
                     <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
                         <span style='font-family:Arial;'>
@@ -501,7 +537,7 @@ class ReportesModelo extends conexion {
                         <td style='width:101.4pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
                             <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
                                 <span style='font-family:Arial;'>
-                                    Cedula de indentidad:
+                                    Cedula de indentidad trabajador:
                                 </span>
                             </p>
                         </td>
@@ -533,7 +569,7 @@ class ReportesModelo extends conexion {
                         <td style='width:101.4pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
                             <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
                                 <span style='font-family:Arial;'>
-                                    Cedula de identidad:
+                                    Cedula de identidad beneficiario:
                                 </span>
                             </p>
                         </td>
@@ -541,22 +577,6 @@ class ReportesModelo extends conexion {
                             <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
                                 <span style='font-family:Arial;'>
                                     V-$cedula_solicitante
-                                </span>
-                            </p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style='width:101.4pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
-                            <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
-                                <span style='font-family:Arial;'>
-                                    Solicitud:
-                                </span>
-                            </p>
-                        </td>
-                        <td style='width:101.4pt; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top;'>
-                            <p style='margin-top:0pt; margin-bottom:0pt; font-size:12pt;'>
-                                <span style='font-family:Arial;'>
-                                    $nombre_tabla
                                 </span>
                             </p>
                         </td>
@@ -576,7 +596,8 @@ class ReportesModelo extends conexion {
                                 </span>
                             </p>
                         </td>
-                    </tr>
+                    </tr>                    
+                    
                     $rowsTable           
                 </tbody>
             </table>

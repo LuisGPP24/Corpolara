@@ -51,7 +51,9 @@ class FichaPersonalModelo extends conexion{
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "SELECT id,cedula, nombre from trabajadores";
+            //$sql = "SELECT id,cedula, nombre from trabajadores ORDER BY `Cedula` ASC";
+
+            $sql = "SELECT * FROM `trabajadores` ORDER BY CAST(cedula AS UNSIGNED) ASC";
 
             $stmt = $bd->prepare($sql);
             $stmt->execute();

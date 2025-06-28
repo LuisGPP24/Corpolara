@@ -105,7 +105,7 @@
     public function registrar_trabajador($cedula_bitacora,$id_modulo){
         try {
 
-            if(
+            /*if(
                 !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->personal_contratado)||
                 !$this->evaluar_caracteres("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/",$this->unidad_organizativa)||
                 !$this->evaluar_caracteres("/^[0-9]{7,8}$/",$this->cedula)||
@@ -128,7 +128,7 @@
             ){
             	http_response_code(400);
                 return "Caracteres inválidos";
-            }
+            }*/
 
             if($this->existe_trabajador($this->cedula)){
                 http_response_code(400);

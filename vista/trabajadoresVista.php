@@ -145,7 +145,9 @@
                                 	<select class="form-control" name="personal" id="personal">
                                         <option value="" hidden="" selected="hidden">Seleccionar Opcion</option>
                                         <option value=""></option>
-                                        <option value="activo">Activo</option> 
+                                        <option value="activo">Activo</option>
+                                        <option value="egresado">Egresado</option>
+                                        <option value="fallecido">Fallecido</option>
                                         <option value="jubilado">Jubilado</option>
                                     </select>
                                     <label for="personal">Tipo de personal</label>

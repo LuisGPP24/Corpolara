@@ -176,7 +176,7 @@ $("#modalSolicitudes").submit(function (e) {       
     });
 });
 
-function borrarForm() {
+function borrarForm(){
 
    $('#id').val('');
    $('#codigo').val('');
@@ -201,11 +201,11 @@ function borrarForm() {
    
 }
 
-function modalModificar(fila) {
+function modalModificar(fila){
    $("#modalSolicitudesLabel").text("Modificar Solicitud");
 
-  $("#registrar").hide();
-  $("#modificar").show();
+   $("#registrar").hide();
+   $("#modificar").show();
    
 
    $("#modalSolicitudes").modal("show");
@@ -258,7 +258,7 @@ function modalModificar(fila) {
    $("#observacion").val(observacion.text());  
 }
 
-function eliminar(fila) {
+function eliminar(fila){
     Swal.fire({
         title: "¿Estas seguro que quieres realizar esta acción?",
         text: "¡No podrás revertir esto!",

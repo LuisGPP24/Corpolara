@@ -103,6 +103,9 @@
                                                         <button onclick="modalModificar(this)" id="btn-modificar" class="btn btn-primary">
                                                             <i class="bi bi-pencil-square"></i>
                                                         </button>
+                                                        <button onclick="" id="btn-reporte" class="btn btn-info">
+                                                            <i class="bi bi-arrow-down-square"></i>
+                                                        </button>
                                                         <button onclick="eliminar(this)" id="btn_eliminar" class="btn btn-danger">
                                                             <i class="bi bi-trash-fill"></i>
                                                         </button>
@@ -196,10 +199,8 @@
                                     <select class="form-control" name="tipo_solicitud" id="tipo_solicitud">
                                         <option value="" hidden="" selected="hidden">Seleccionar Opcion</option>
                                         <option value=""></option>
-                                        <option value="consultas">Consultas</option> 
-                                        <option value="ecografias">Ecografías</option> 
+                                        <option value="consultas">Consultas</option>
                                         <option value="estudios">Estudios</option>
-                                        <option value="examenes">Examenes</option> 
                                         <option value="farmacia">Farmacia</option> 
                                         <option value="funeraria">Funeraria</option> 
                                         <option value="reembolso">Reembolso</option> 
@@ -306,8 +307,11 @@
                                         <option value="cerrado">Cerrado</option>
                                         <option value="devuelto">Devuelto</option>
                                         <option value="diferido">Diferido</option>
+                                        <option value="enviado">Enviado</option>
                                         <option value="en_estudio">En estudio</option>
                                         <option value="en_proceso">En proceso</option>
+                                        <option value="pendiente">Pendiente</option>
+                                        <option value="por_enviar">Por enviar</option>
                                         <option value="procesado">Procesado</option>
                                         <option value="negado">Negado</option>
                                     </select>

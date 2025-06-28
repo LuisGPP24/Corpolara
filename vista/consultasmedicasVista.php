@@ -229,8 +229,8 @@
                                         <option value="" hidden="" selected="hidden">Seleccionar Opcion</option>
                                         <option value=""></option>
                                         <option value="Psicologia">Dr. Naudy Peña -- Psicologia</option> 
-                                        <option value="Ginecologia">Dra. Freinfa Yustiz -- Ginecologia</option>
-                                        <option value="Medicina General">Dra. Teresa Briceño -- Medicina General</option>
+                                        <option value="Medicina_general">Dra. Freinfa Yustiz -- Medicina General</option>
+                                        <option value="Medicina_general">Dra. Teresa Briceño -- Medicina General</option>
                                     </select>
                                     <label for="doctor">Doctor(a) que lo atendió</label>
                                 </div>

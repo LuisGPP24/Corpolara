@@ -168,7 +168,7 @@
             $sql = "SELECT a.id,
                 b.id as id_trabajadores,
                 a.codigo_registro, a.numero_registro, a.cedula_solicitante, a.nombre_solicitante,
-                a.telefono_solicitante, a.tipo_solicitud ,a.sub_tipo_solicitud,a.estado_solicitud,a.descripcion_solicitud,a.financiado,a.remitido,a.monto,a.monto_aprobado,a.monto_divisas,a.fecha_registro,a.condicion,a.estatus,a.observacion,b.nombre from solicitudes a INNER JOIN trabajadores b ON a.id_trabajadores = b.id";
+                a.telefono_solicitante, a.tipo_solicitud ,a.sub_tipo_solicitud,a.estado_solicitud,a.descripcion_solicitud,a.financiado,a.remitido,a.monto,a.monto_aprobado,a.monto_divisas,a.fecha_registro,a.condicion,a.estatus,a.observacion,b.nombre from solicitudes a INNER JOIN trabajadores b ON a.id_trabajadores = b.id ORDER BY `id` DESC";
             
 
             $stmt = $bd->prepare($sql);
@@ -326,7 +326,7 @@
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "SELECT id,cedula, nombre from trabajadores";
+            $sql = "SELECT * FROM `trabajadores` ORDER BY CAST(cedula AS UNSIGNED) ASC";
 
             $stmt = $bd->prepare($sql);
             $stmt->execute();
@@ -355,7 +355,7 @@
             $bd = $this->conecta();
             $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "SELECT `codigo_registro`,`numero_registro`,`cedula_solicitante`,`nombre_solicitante`,`telefono_solicitante`,`tipo_solicitud`,`sub_tipo_solicitud`,`estado_solicitud`,`descripcion_solicitud`,`financiado`,`remitido`,`monto`,`monto_aprobado`,`fecha_registro`,`condicion`,`estatus`,`observacion` FROM `solicitudes`";
+            $sql = "SELECT `codigo_registro`,`numero_registro`,`cedula_solicitante`,`nombre_solicitante`,`telefono_solicitante`,`tipo_solicitud`,`sub_tipo_solicitud`,`estado_solicitud`,`descripcion_solicitud`,`financiado`,`remitido`,`monto`,`monto_aprobado`,`monto_divisas`,`fecha_registro`,`condicion`,`estatus`,`observacion` FROM `solicitudes`";
 
             $stmt = $bd->prepare($sql);
             $stmt->execute();
