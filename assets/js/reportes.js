@@ -160,6 +160,7 @@ $(function () {
 });
 
  function generarReporte(id_solicitud) {
+  
    const data = new FormData();
 
    data.append("accion", "generarReporte");
@@ -169,34 +170,25 @@ $(function () {
    data.append("id_solicitud", id_solicitud);
 
    $.ajax({
-     type: "POST",
-     data: data,
-     processData: false,
-     contentType: false,
-     dataType: "json",
-     success: function (response) {
-       if (response.error) {
-         console.log("Error: " + response.error);
-         return;
-       }
+    type: "POST",
+    data: data,
+    processData: false,
+    contentType: false,
+    dataType: "json",
+    success: function (response) {
+      if (response.error) {
+        console.log("Error: " + response.error);
+        return;
+      }
 
-       // Convertir base64 a Blob y abrir el PDF en una nueva pestaña
-       let byteCharacters = atob(response.pdf);
-       let byteNumbers = new Array(byteCharacters.length);
-       for (let i = 0; i < byteCharacters.length; i++) {
-         byteNumbers[i] = byteCharacters.charCodeAt(i);
-       }
-       let byteArray = new Uint8Array(byteNumbers);
-       let file = new Blob([byteArray], { type: "application/pdf" });
-
-       let fileURL = URL.createObjectURL(file);
-       window.open(fileURL); // Abre el PDF en una nueva pestaña
-     },
-     error: function (xhr, status, error) {
-       Toast.fire({
-         icon: "error",
-         title: `Error al generar el reporte: "${xhr.responseText}"`,
-       });
-     },
-   });
+      window.location.href = "?pagina=reportes&file=" + encodeURIComponent(response.file);
+    },
+    error: function (xhr, status, error) {
+      Toast.fire({
+        icon: "error",
+        title: `Error al generar el reporte: "${xhr.responseText}"`,
+      });
+    },
+  });
+  
  }

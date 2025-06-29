@@ -85,6 +85,13 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
         exit;
     }
 
+    if(isset($_GET['file'])) {
+        $file = $_GET['file'] ?? "";
+
+        $objeto->descargarReporte($file);
+        exit;
+    }
+
    $consulta_trabajadores = $objeto->consulta_trabajadores();
 
     require_once("vista/" . $pagina . "Vista.php");

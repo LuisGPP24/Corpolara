@@ -6,7 +6,10 @@ use modelo\conexion as conexion;
 use PDO;
 use PDOException;
 use Dompdf\Dompdf;
-use Dompdf\Options;
+
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\IOFactory;
+
 
 class ReportesModelo extends conexion {
 
@@ -311,12 +314,16 @@ class ReportesModelo extends conexion {
                 echo json_encode(["error" => "No se encontro la solicitud"]);
                 return;
             }
+            // 1. Crear instancia
+            $phpWord = new PhpWord();
+            $section = $phpWord->addSection();
 
             $dompdf = new Dompdf();
 
             $path_img_aps = "assets/img/logo-aps.jpg";
 
-            $img_logo = $this->image_to_base64($path_img_aps);
+            // $img_logo = $this->image_to_base64($path_img_aps);
+            $img_logo = $path_img_aps;
 
             $ente = $infoSolicitud['ente'] ?? '';
             $nombre_trabajador = $infoTrabajador['nombre'] ?? '';
@@ -606,18 +613,41 @@ class ReportesModelo extends conexion {
             
 
             </html>";
-            
-            $dompdf->loadHtml(utf8_decode($html));
-            $dompdf->setPaper('letter', 'portrait');
-            $dompdf->render();
+            // 3. Insertar HTML
+            \PhpOffice\PhpWord\Shared\Html::addHtml($section, $html, false, false);
+            // 4. Guardar archivo .docx
+            $pathToSave = "file_temp";
+            $filename = "planilla_atencion_" . time() . ".docx";
+            $path = $pathToSave . "/" . $filename;
+            $writer = IOFactory::createWriter($phpWord, 'Word2007');
+            $writer->save($path);
 
-            // Obtener contenido en base64
-            $pdfOutput = $dompdf->output();
-            $base64Pdf = base64_encode($pdfOutput);
+            http_response_code(200);
+            echo json_encode(['file' => $path]);
 
-            echo json_encode(["pdf" => $base64Pdf]);
         } catch (PDOException $e) {
+            http_response_code(500);
             echo json_encode(["error" => $e->getMessage()]);
+        }
+    }
+
+    public function descargarReporte($filename) {
+        $filepath = basename($filename); 
+        $path = "file_temp/" . $filepath;
+
+        if (file_exists($path)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+            header("Content-Disposition: attachment; filename=\"$filename\"");
+            header('Content-Transfer-Encoding: binary');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($path));
+            readfile($path);
+        } else {
+            http_response_code(404);
+            echo json_encode(["error" => "Archivo no encontrado"]);
         }
     }
 
