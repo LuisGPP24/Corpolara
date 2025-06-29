@@ -4,6 +4,7 @@
 
     use modelo\conexion as conexion;
     use PDO;
+    use Dompdf\Dompdf;
     use PDOException;
     class SolicitudesModelo extends conexion{
 
@@ -372,6 +373,251 @@
             http_response_code(500);
             echo json_encode(["success" => false, "message" => "Error: " . $e->getMessage()]);
         }
+    }
+
+    public function exportar_pdf(){
+
+        try{
+            if (!$this->id) {
+                http_response_code(400);
+                return json_encode(["error" => "ID de solicitud no proporcionado"]);
+            }
+
+            //!validar ID
+            if (!is_numeric($this->id)) {
+                http_response_code(400);
+                return json_encode(["error" => "ID de solicitud inválido"]);
+            }
+
+            $bd = $this->conecta();
+            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $sql = "SELECT s.codigo_registro, s.numero_registro, s.fecha_registro ,t.nombre as nombre_trabajador,t.cedula as cedula_trabajador, s.nombre_solicitante,s.cedula_solicitante, s.telefono_solicitante FROM solicitudes s INNER JOIN trabajadores t ON s.id_trabajadores = t.id WHERE s.id = :id";
+
+            $stmt = $bd->prepare($sql);
+            $stmt->execute(array(
+                ":id" => $this->id,
+            ));
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$result) {
+                http_response_code(400);
+                return json_encode(["error" => "No hay datos disponibles"]);
+            }
+
+            $codigo_registro = $result['codigo_registro'];
+            $numero_registro = $result['numero_registro'];
+            $fecha_registro = $result['fecha_registro'];
+            $nombre_trabajador = $result['nombre_trabajador'];
+            $cedula_trabajador = $result['cedula_trabajador'];
+            $nombre_solicitante = $result['nombre_solicitante'];
+            $cedula_solicitante = $result['cedula_solicitante'];
+            $telefono_solicitante = $result['telefono_solicitante'];
+
+            if (!$codigo_registro || !$numero_registro || !$fecha_registro || !$nombre_trabajador || !$cedula_trabajador || !$nombre_solicitante || !$cedula_solicitante || !$telefono_solicitante) {
+                http_response_code(400);
+                return json_encode(["error" => "Faltan datos para generar el PDF"]);
+            }
+
+            $dompdf = new Dompdf();
+            
+            $path_img_aps = "assets/img/logo-aps.jpg";
+            $path_img_institucional = "assets/img/institucional.jpg";
+
+            $img_logo = $this->image_to_base64($path_img_aps);
+            $img_institucional = $this->image_to_base64($path_img_institucional);
+            
+
+            $html = "
+                <!DOCTYPE html>
+                    <html lang='es'>
+
+                    <head>
+                        <meta charset='UTF-8'>
+                        <title>Planilla de Atención</title>
+                        <style>
+                            body {
+                                font-family: Arial, sans-serif;
+                                margin: 15px;
+                                font-size: 12pt;
+                            }
+
+                            table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                table-layout: fixed;
+                            }
+
+                            td,
+                            th {
+                                border: 0.75pt solid #000;
+                                padding: 5pt;
+                                vertical-align: middle;
+                                word-wrap: break-word;
+                            }
+
+                            p {
+                                margin: 0;
+                            }
+
+                            .checkbox {
+                                display: inline-block;
+                                width: 17px;
+                                height: 17px;
+                                border: 0.75pt solid #000;
+                                margin-right: 5px;
+                                vertical-align: middle;
+                            }
+
+                            .title {
+                                background-color: #dbe5f1;
+                                text-align: center;
+                            }
+
+                            @media screen and (max-width: 768px) {
+                                body {
+                                    font-size: 10pt;
+                                }
+                            }
+                        </style>
+                    </head>
+
+                    <body>
+
+                        <header>
+                            <img src='$img_logo' alt='Logo' style='width:200px;'>
+                        </header>
+
+                        <table>
+                            <tr>
+                                <td colspan='3'><strong>PLANILLA DE ATENCION:$codigo_registro</strong></td>
+                                <td colspan='3'><strong>NRO:$numero_registro</strong></td>
+                                <td colspan='2'><strong>FECHA:&nbsp;$fecha_registro</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan='8'><strong>Datos del Titular: $nombre_trabajador</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan='8'><strong>C.I.: V-$cedula_trabajador</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan='8'><strong>Datos del Beneficiario: $nombre_solicitante</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan='8'><strong>C.I.: V-$cedula_solicitante</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan='8'><strong>Telefono: $telefono_solicitante</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan='8'><strong>Correo Electronico:</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan='8'><strong>Ente:&nbsp;</strong>CORPORACION DE DESARROLLO JACINTO LARA</td>
+                            </tr>
+
+                            <tr>
+                                <td colspan='8'><strong>Patologia:</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan='2'><strong>Solicitud de:</strong></td>
+                                <td>
+                                    <span class='checkbox'></span><strong>Consulta M&eacute;dica</strong>
+                                </td>
+                                <td colspan='2'>
+                                    <span class='checkbox'></span><strong>Estudios M&eacute;dicos</strong>
+                                </td>
+                                <td colspan='2'>
+                                    <span class='checkbox'></span><strong>Medicamentos</strong>
+                                </td>
+                                <td>
+                                    <span class='checkbox'></span><strong>Otros: __________________</strong>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan='8' style='height:91.25pt; vertical-align:top;'>
+                                    <p><strong>Especifique:</strong></p>
+                                    <p><strong>________________________________________________________________________________________________________________________________________________________________________</strong>
+                                    </p>
+                                    <p><strong>Documentos Consignados:</strong></p>
+                                    <p>
+                                        ___Copia de C.I. y Carnet del titular, ___ Copia de C.I. beneficiario, ___Copia de P.N. Titular,
+                                        ___Copia de P.N. Beneficiario, ___Orden Medica, ___Indicaciones, ___Informe Medico, _____ Informe
+                                        medico Actualizado, ___Factura Original, ___ Informe o Resultado de estudios realizados
+                                    </p>
+                                    <br>
+                                    <p style='text-align:right;'><strong>PROCESADO POR: ___________________________</strong></p>
+                                </td>
+                            </tr>
+
+                            <tr class='title'>
+                                <td colspan='8'><strong>PARA SER LLENADO UNA VEZ FINALIZADO EL PROCESO DE SOLICITUD</strong></td>
+                            </tr>
+
+                            <tr style='height:101.5pt;'>
+                                <td colspan='4'>
+                                    <p><strong>Estatus: ______________________________</strong></p>
+                                    <p><strong>Monto Consumido: Bs. _________________</strong></p>
+                                    <p><strong>Fecha Aprobacion: ____________________</strong></p>
+                                </td>
+                                <td colspan='4'>
+                                    <p><strong>En caso de ser Devuelto o Rechazado indique el motivo:</strong></p>
+                                    <p><strong>____________________________________</strong></p>
+                                    <p><strong>____________________________________</strong></p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <br>
+                        <p><strong>CENTRO REMITIDO: ______________________________________________________________</strong></p>
+                        <br>
+                        <p><strong>Observaciones:</strong></p>
+                        <p>___________________________________________________________________________________</p>
+                        <p>___________________________________________
+                        </p>
+
+
+                    </body>
+
+                    </html>
+            ";
+
+            // <footer>
+            // <img src='$img_institucional' alt='INSTITUCIONAL.png' style='width:100%; max-width:686px;'>
+            // </footer>
+
+            $dompdf->loadHtml($html);
+
+            $dompdf->setPaper('letter', 'portrait');
+            $dompdf->render();
+
+            // Obtener contenido en base64
+            $pdfOutput = $dompdf->output();
+            $base64Pdf = base64_encode($pdfOutput);
+            ob_end_clean();
+            http_response_code(200);
+
+            echo json_encode(["pdf" => $base64Pdf]);
+        } catch (PDOException $e) {
+            http_response_code(500);
+            return json_encode(["error" => "Error: " . $e->getMessage()]);
+        }
+    }
+    private function image_to_base64($image_path)
+    {
+        $imagenData = base64_encode(file_get_contents($image_path));
+        $imagenTipo = mime_content_type($image_path);
+        $imagen_logo = "data:$imagenTipo;base64,$imagenData";
+        return $imagen_logo;
     }
 }
 ?>

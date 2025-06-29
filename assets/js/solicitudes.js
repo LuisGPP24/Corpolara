@@ -73,107 +73,149 @@ $(document).ready(function (){
 
   });
     
-      
-  $("#btn_registrar").click(function (e) {       
-  $("#modalSolicitudesLabel").text('Registro de Solicitudes');       
+    
+  $("#btn_registrar").click(function (e) {    
+  $("#modalSolicitudesLabel").text('Registro de Solicitudes');   
   $("#registrar").show();
-  $("#modificar").hide();        
-  $("#codigo").removeAttr("disabled");        
-  $("#numero_registro").removeAttr("disabled");        
-  $("#trabajador").removeAttr("disabled");        
-  borrarForm();    
-});     
-  
-$("#modalSolicitudes").submit(function (e) {        
+  $("#modificar").hide();    
+  $("#codigo").removeAttr("disabled");    
+  $("#numero_registro").removeAttr("disabled");    
+  $("#trabajador").removeAttr("disabled");    
+  borrarForm();  
+});  
+ 
+$("#modalSolicitudes").submit(function (e) {    
     e.preventDefault();
 
-        
-    const montoSolicitado = $("#monto_solicitado").val();        
+      
+  const montoSolicitado = $("#monto_solicitado").val();    
     const montoAprobado = $("#monto_aprobado").val();
-    const montoDivisas = $("#monto_divisas").val();  
-        
-    const regex = /^[0-9]{1,12}[.]{0,1}[0-9]{2}$/; 
-      
-    if (!regex.test(montoSolicitado)) {            
-                                 
-        Toast.fire({                
-            icon: "error",                
-            title: "Escriba bien el monto solicitado, Por favor.",              
+    const montoDivisas = $("#monto_divisas").val(); 
+    
+    const regex = /^[0-9]{1,12}[.]{0,1}[0-9]{2}$/;
+   
+    if (!regex.test(montoSolicitado)) {      
+                    
+        Toast.fire({        
+            icon: "error",        
+            title: "Escriba bien el monto solicitado, Por favor.",       
         });
 
-        return;        
+        return;    
     }
 
-    if (!regex.test(montoAprobado)) {            
+  if (!regex.test(montoAprobado)) {      
         
-        Toast.fire({                
-            icon: "error",                
-            title: "Escriba bien el monto aprobado, Por favor.",              
+        Toast.fire({        
+            icon: "error",        
+            title: "Escriba bien el monto aprobado, Por favor.",       
         });
 
         return;
-    }
+   }
 
-    if (!regex.test(montoDivisas)) {            
+    if (!regex.test(montoDivisas)) {      
         
-        Toast.fire({                
-            icon: "error",                
-            title: "Escriba bien el monto en divisas, Por favor.",              
+        Toast.fire({        
+            icon: "error",        
+            title: "Escriba bien el monto en divisas, Por favor.",       
         });
 
         return;
-    }
-        const data = new FormData();
-        const btn_clicked = e.originalEvent.submitter.id;
-        data.append("accion", btn_clicked);
-        data.append("id", $("#id").val());        
-        data.append("codigo", $("#codigo").val());        
-        data.append("numero_registro", $("#numero_registro").val());        
-        data.append("trabajador", $("#trabajador").val());        
-        data.append("cedula", $("#cedula").val());        
-        data.append("nombre", $("#nombre").val());        
-        data.append("telefono", $("#telefono").val());        
-        data.append("tipo_solicitud", $("#tipo_solicitud").val());        
-        data.append("sub_tipo_solicitud", $("#sub_tipo_solicitud").val());        
-        data.append("estado_solicitud", $("#estado_solicitud").val());        
-        data.append("descripcion", $("#descripcion").val());        
-        data.append("financiado", $("#financiado").val());        
-        data.append("remitido", $("#remitido").val());        
-        data.append("monto_solicitado", montoSolicitado);        
-        data.append("monto_aprobado", montoAprobado);   
-        data.append("monto_divisas", montoDivisas);     
-        data.append("fecha_registro", $("#fecha_registro").val());        
-        data.append("condicion", $("#condicion").val());        
-        data.append("estatus", $("#estatus").val());        
-        data.append("observacion", $("#observacion").val());   
-                    
-        $.ajax({          
-          async: true,          
-          url: " ",          
-          type: "POST",          
-          contentType: false,          
-          data: data,          
-          processData: false,          
-          cache: false,          
-          success: function (response) {                           
-            Toast.fire({                
-              icon: "success",                
-              text: response,                
-              title: "Muy Bien!!",              
-            });          
-          },          
-          error: function ({ responseText }, status, error) {            
-            Toast.fire({              
-              icon: "error",              
-              title: responseText,            
-            });          
-          },          
-          complete: function () {                
-            $("#modalSolicitudes").modal("hide");                
-            borrarForm();            
-          },        
-        });    
+   }
+    const data = new FormData();
+    const btn_clicked = e.originalEvent.submitter.id;
+    data.append("accion", btn_clicked);
+        data.append("id", $("#id").val());    
+        data.append("codigo", $("#codigo").val());    
+        data.append("numero_registro", $("#numero_registro").val());    
+        data.append("trabajador", $("#trabajador").val());    
+        data.append("cedula", $("#cedula").val());    
+        data.append("nombre", $("#nombre").val());    
+        data.append("telefono", $("#telefono").val());    
+        data.append("tipo_solicitud", $("#tipo_solicitud").val());    
+        data.append("sub_tipo_solicitud", $("#sub_tipo_solicitud").val());    
+        data.append("estado_solicitud", $("#estado_solicitud").val());    
+        data.append("descripcion", $("#descripcion").val());    
+        data.append("financiado", $("#financiado").val());    
+        data.append("remitido", $("#remitido").val());    
+        data.append("monto_solicitado", montoSolicitado);    
+        data.append("monto_aprobado", montoAprobado); 
+        data.append("monto_divisas", montoDivisas);   
+        data.append("fecha_registro", $("#fecha_registro").val());    
+        data.append("condicion", $("#condicion").val());    
+        data.append("estatus", $("#estatus").val());    
+        data.append("observacion", $("#observacion").val()); 
+              
+        $.ajax({     
+          async: true,     
+          url: " ",     
+          type: "POST",     
+          contentType: false,     
+          data: data,     
+          processData: false,     
+          cache: false,     
+          success: function (response) {             
+            Toast.fire({        
+              icon: "success",        
+              text: response,        
+              title: "Muy Bien!!",       
+            });     
+          },     
+          error: function ({ responseText }, status, error) {      
+            Toast.fire({       
+              icon: "error",       
+              title: responseText,      
+            });     
+          },     
+          complete: function () {        
+            $("#modalSolicitudes").modal("hide");        
+            borrarForm();      
+          },    
+        });  
     });
+    
+  $(".btn-reporte").click(function (e) {
+    const data = new FormData();
+    const fila = $(this).closest("tr");
+    const id = $(fila).find("td:eq(1)").text().trim();
+
+    data.append("accion", "exportarPdf");
+    data.append("id", id);
+    
+    $.ajax({
+      type: "POST",
+      data: data,
+      processData: false,
+      contentType: false,
+      dataType: "json",
+      success: function (response) {
+        if (response.error) {
+          console.log("Error: " + response.error);
+          return;
+        }
+
+        // Convertir base64 a Blob y abrir el PDF en una nueva pestaña
+        let byteCharacters = atob(response.pdf);
+        let byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        let byteArray = new Uint8Array(byteNumbers);
+        let file = new Blob([byteArray], { type: "application/pdf" });
+
+        let fileURL = URL.createObjectURL(file);
+        window.open(fileURL); // Abre el PDF en una nueva pestaña
+      },
+      error: function (xhr, status, error) {
+        // const respuesta = JSON.parse(xhr.responseText);
+        Toast.fire({
+          icon: "error",
+          title: `Error al generar el reporte: "${xhr.responseText}"`,
+        });
+      },
+    });
+  });
 });
 
 function borrarForm(){

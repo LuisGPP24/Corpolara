@@ -35,11 +35,11 @@
 
                                 <div class="col-auto">
                                     <button id="exportar_excel" class="btn btn-warning">
-                                        Exportar a excel                                 
+                                        Exportar a excel
                                     </button>
                                 </div>
 
-                                <div class="col-auto">                                    
+                                <div class="col-auto">
                                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalSolicitudes" id='btn_registrar'>
                                         Registrar
                                     </button>
@@ -74,45 +74,45 @@
                                             <th>Opciones</th>
                                         </tr>
                                     </thead>
-                                   
-                                        <?php foreach ($consultas as $consulta) : ?>
-                                            <tr>
-                                                <td class="d-none"><?= $consulta["id_trabajadores"] ?></td>
-                                                <td><?= $consulta["id"] ?></td>
-                                                <td><?= $consulta["codigo_registro"] ?></td>
-                                                <td><?= $consulta["numero_registro"] ?></td>
-                                                <td><?= $consulta["nombre"] ?></td>
-                                                <td><?= $consulta["cedula_solicitante"] ?></td>
-                                                <td><?= $consulta["nombre_solicitante"] ?></td>
-                                                <td><?= $consulta["telefono_solicitante"] ?></td>
-                                                <td><?= $consulta["tipo_solicitud"] ?></td>
-                                                <td><?= $consulta["sub_tipo_solicitud"] ?></td>
-                                                <td><?= $consulta["estado_solicitud"] ?></td>
-                                                <td><?= $consulta["descripcion_solicitud"] ?></td>
-                                                <td><?= $consulta["financiado"] ?></td>
-                                                <td><?= $consulta["remitido"] ?></td>
-                                                <td><?= $consulta["monto"] ?></td>
-                                                <td><?= $consulta["monto_aprobado"] ?></td>
-                                                <td><?= $consulta["monto_divisas"] ?></td>
-                                                <td><?= $consulta["fecha_registro"] ?></td>
-                                                <td><?= $consulta["condicion"] ?></td>
-                                                <td><?= $consulta["estatus"] ?></td>
-                                                <td><?= $consulta["observacion"] ?></td>
-                                                <td>
-                                                    <div class='btn-group' role='group' aria-label='optiones buttons'>
-                                                        <button onclick="modalModificar(this)" id="btn-modificar" class="btn btn-primary">
-                                                            <i class="bi bi-pencil-square"></i>
-                                                        </button>
-                                                        <button onclick="" id="btn-reporte" class="btn btn-info">
-                                                            <i class="bi bi-arrow-down-square"></i>
-                                                        </button>
-                                                        <button onclick="eliminar(this)" id="btn_eliminar" class="btn btn-danger">
-                                                            <i class="bi bi-trash-fill"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
+
+                                    <?php foreach ($consultas as $consulta) : ?>
+                                        <tr>
+                                            <td class="d-none"><?= $consulta["id_trabajadores"] ?></td>
+                                            <td><?= $consulta["id"] ?></td>
+                                            <td><?= $consulta["codigo_registro"] ?></td>
+                                            <td><?= $consulta["numero_registro"] ?></td>
+                                            <td><?= $consulta["nombre"] ?></td>
+                                            <td><?= $consulta["cedula_solicitante"] ?></td>
+                                            <td><?= $consulta["nombre_solicitante"] ?></td>
+                                            <td><?= $consulta["telefono_solicitante"] ?></td>
+                                            <td><?= $consulta["tipo_solicitud"] ?></td>
+                                            <td><?= $consulta["sub_tipo_solicitud"] ?></td>
+                                            <td><?= $consulta["estado_solicitud"] ?></td>
+                                            <td><?= $consulta["descripcion_solicitud"] ?></td>
+                                            <td><?= $consulta["financiado"] ?></td>
+                                            <td><?= $consulta["remitido"] ?></td>
+                                            <td><?= $consulta["monto"] ?></td>
+                                            <td><?= $consulta["monto_aprobado"] ?></td>
+                                            <td><?= $consulta["monto_divisas"] ?></td>
+                                            <td><?= $consulta["fecha_registro"] ?></td>
+                                            <td><?= $consulta["condicion"] ?></td>
+                                            <td><?= $consulta["estatus"] ?></td>
+                                            <td><?= $consulta["observacion"] ?></td>
+                                            <td>
+                                                <div class='btn-group' role='group' aria-label='optiones buttons'>
+                                                    <button onclick="modalModificar(this)" id="btn-modificar" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalSolicitudes">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </button>
+                                                    <button class="btn btn-primary btn-reporte">
+                                                        <i class="bi bi-filetype-pdf text-white"></i>
+                                                    </button>
+                                                    <button onclick="eliminar(this)" id="btn_eliminar" class="btn btn-danger">
+                                                        <i class="bi bi-trash-fill"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -146,7 +146,7 @@
                                     <label for="codigo">Codigo del Registro</label>
                                 </div>
                             </div>
-                            <div class="col-md-6"> 
+                            <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="numero_registro" placeholder="numero_registro">
                                     <label for="numero_registro">N° del Registro</label>
@@ -160,7 +160,7 @@
                                     <select class="selectpicker form-control" name="trabajador" id="trabajador" data-live-search="true" data-show-subtext="true">
                                         <option value=""></option>
                                         <?php foreach ($consulta_trabajadores as $trabajador) : ?>
-                                            <option value="<?= $trabajador['id'] ?>"> 
+                                            <option value="<?= $trabajador['id'] ?>">
                                                 <?= $trabajador['cedula'] ?> -- <?= $trabajador['nombre'] ?>
                                             </option>
                                         <?php endforeach ?>
@@ -168,7 +168,7 @@
                                     <label for="trabajador">Trabajador</label>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
@@ -201,9 +201,9 @@
                                         <option value=""></option>
                                         <option value="consultas">Consultas</option>
                                         <option value="estudios">Estudios</option>
-                                        <option value="farmacia">Farmacia</option> 
-                                        <option value="funeraria">Funeraria</option> 
-                                        <option value="reembolso">Reembolso</option> 
+                                        <option value="farmacia">Farmacia</option>
+                                        <option value="funeraria">Funeraria</option>
+                                        <option value="reembolso">Reembolso</option>
                                     </select>
                                     <label for="tipo_solicitud">Tipo de Solicitud</label>
                                 </div>
@@ -222,7 +222,7 @@
                                     <select class="form-control" name="estado_solicitud" id="estado_solicitud">
                                         <option value="" hidden="" selected="hidden">Seleccionar Opcion</option>
                                         <option value=""></option>
-                                        <option value="activo">Activo</option> 
+                                        <option value="activo">Activo</option>
                                         <option value="jubilado">Jubilado</option>
                                     </select>
                                     <label for="estado_solicitud">Estado</label>
@@ -285,12 +285,12 @@
                                     <select class="form-control" name="condicion" id="condicion">
                                         <option value="" hidden="" selected="hidden">Seleccionar Opcion</option>
                                         <option value=""></option>
-                                        <option value="titular">Titular</option> 
+                                        <option value="titular">Titular</option>
                                         <option value="beneficiario">Beneficiario</option>
                                     </select>
                                     <label for="condicion">Condición</label>
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
 
                         <div class="row mb-3">
@@ -301,7 +301,7 @@
                                         <option value="" hidden="" selected="hidden">Seleccionar Opcion</option>
                                         <option value=""></option>
                                         <option value="anulado">Anulado</option>
-                                        <option value="aprobado">Aprobado</option> 
+                                        <option value="aprobado">Aprobado</option>
                                         <option value="atendido">Atendido</option>
                                         <option value="autorizado">Autorizado</option>
                                         <option value="cerrado">Cerrado</option>
@@ -324,9 +324,9 @@
                                     <input type="text" class="form-control" id="observacion" placeholder="observacion">
                                     <label for="observacion">Observación</label>
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
-                        
+
                     </form>
 
                 </div>

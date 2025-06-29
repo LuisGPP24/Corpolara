@@ -147,6 +147,15 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             echo $objeto->exportar_excel();
             exit;
         }
+
+        if($accion == "exportarPdf"){
+
+            $id = $_POST['id'];
+            $objeto->set_id($id);
+
+            echo $objeto->exportar_pdf();
+            exit;
+        }
         
         exit;
     }
